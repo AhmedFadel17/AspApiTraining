@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using ExamsApi.DTOs.Exam;
-using ExamsApi.DTOs.ExamModel;
-using ExamsApi.DTOs.HeadingQuestion;
-using ExamsApi.DTOs.MainQuestion;
-using ExamsApi.DTOs.Question.Paragraph;
-using ExamsApi.DTOs.Question.SingleChoice;
+using ExamsApi.DTOs.Exams;
+using ExamsApi.DTOs.ExamModels;
+using ExamsApi.DTOs.HeadingQuestions;
+using ExamsApi.DTOs.MainQuestions;
+using ExamsApi.DTOs.Questions.Paragraph;
+using ExamsApi.DTOs.Questions.SingleChoice;
 using ExamsApi.Models;
 using ExamsApi.Models.Questions;
 

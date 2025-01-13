@@ -1,5 +1,5 @@
 ﻿using ExamsApi.Data;
-using ExamsApi.DTOs.HeadingQuestion;
+using ExamsApi.DTOs.HeadingQuestions;
 using ExamsApi.Services.HeadingQuestion;
 using Microsoft.AspNetCore.Mvc;
 

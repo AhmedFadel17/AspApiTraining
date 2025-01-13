@@ -8,5 +8,6 @@
         public required string Choice3 { get; set; }
         public required string Choice4 { get; set; }
         public required string Answer { get; set; }
+        public override string GetQuestionType() => "SingleChoice";
     }
 }

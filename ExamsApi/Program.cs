@@ -1,4 +1,5 @@
 using ExamsApi.Data;
+using ExamsApi.Factories.Questions;
 using ExamsApi.Filters;
 using ExamsApi.Middlewares;
 using ExamsApi.Services.Exam;
@@ -7,6 +8,7 @@ using ExamsApi.Services.HeadingQuestion;
 using ExamsApi.Services.MainQuestion;
 using ExamsApi.Services.Question.Paragraph;
 using ExamsApi.Services.Question.SingleChoice;
+using ExamsApi.Services.Questions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,8 +24,9 @@ builder.Services.AddScoped<IExamService, ExamService>();
 builder.Services.AddScoped<IExamModelService, ExamModelService>();
 builder.Services.AddScoped<IHeadingQuestionService, HeadingQuestionService>();
 builder.Services.AddScoped<IMainQuestionService, MainQuestionService>();
-builder.Services.AddScoped<ISingleChoiceService, SingleChoiceService>();
-builder.Services.AddScoped<IParagraphService, ParagraphService>();
+builder.Services.AddScoped<IQuestionService, SingleChoiceService>();
+builder.Services.AddScoped<IQuestionService, ParagraphService>();
+builder.Services.AddScoped<IQuestionServiceFactory, QuestionServiceFactory>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {

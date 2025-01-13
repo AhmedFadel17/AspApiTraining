@@ -1,5 +1,5 @@
-﻿using ExamsApi.DTOs.Exam;
-using ExamsApi.DTOs.HeadingQuestion;
+﻿using ExamsApi.DTOs.Exams;
+using ExamsApi.DTOs.HeadingQuestions;
 
 namespace ExamsApi.Services.HeadingQuestion
 {

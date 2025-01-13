@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using ExamsApi.Data;
-using ExamsApi.DTOs.Exam;
-using ExamsApi.DTOs.ExamModel;
+using ExamsApi.DTOs.Exams;
+using ExamsApi.DTOs.ExamModels;
 using ExamsApi.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;

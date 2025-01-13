@@ -1,4 +1,4 @@
-﻿using ExamsApi.DTOs.Exam;
+﻿using ExamsApi.DTOs.Exams;
 using Microsoft.AspNetCore.Mvc;
 using ExamsApi.Services.Exam;
 

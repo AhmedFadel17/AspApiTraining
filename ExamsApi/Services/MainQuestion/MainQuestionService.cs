@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using ExamsApi.Data;
-using ExamsApi.DTOs.MainQuestion;
+using ExamsApi.DTOs.MainQuestions;
 
 namespace ExamsApi.Services.MainQuestion
 {

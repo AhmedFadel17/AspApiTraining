@@ -1,4 +1,4 @@
-﻿using ExamsApi.DTOs.Question.SingleChoice;
+﻿using ExamsApi.DTOs.Questions.SingleChoice;
 using ExamsApi.Services.Question.SingleChoice;
 using Microsoft.AspNetCore.Mvc;
 

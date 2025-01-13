@@ -1,4 +1,4 @@
-﻿using ExamsApi.DTOs.ExamModel;
+﻿using ExamsApi.DTOs.ExamModels;
 
 namespace ExamsApi.Services.ExamModel
 {

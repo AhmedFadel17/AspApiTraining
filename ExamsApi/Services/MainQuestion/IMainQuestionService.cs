@@ -1,4 +1,4 @@
-﻿using ExamsApi.DTOs.MainQuestion;
+﻿using ExamsApi.DTOs.MainQuestions;
 
 namespace ExamsApi.Services.MainQuestion
 {

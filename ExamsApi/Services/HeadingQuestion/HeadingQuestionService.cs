@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using ExamsApi.Data;
-using ExamsApi.DTOs.HeadingQuestion;
+using ExamsApi.DTOs.HeadingQuestions;
 namespace ExamsApi.Services.HeadingQuestion
 {
     public class HeadingQuestionService : IHeadingQuestionService

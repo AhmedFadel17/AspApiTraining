@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ExamsApi.DTOs.Question.Paragraph;
+using ExamsApi.DTOs.Questions.Paragraph;
 using ExamsApi.Services.Question.Paragraph;
 
 namespace ExamsApi.Controllers.Questions

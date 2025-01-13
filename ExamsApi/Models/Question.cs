@@ -2,7 +2,7 @@
 
 namespace ExamsApi.Models
 {
-    public class Question
+    public abstract class Question
     {
         public int Id { get; set; }
         public int MainQuestionId { get; set; }
@@ -10,5 +10,6 @@ namespace ExamsApi.Models
         public int DisplayOrder { get; set; }
         [JsonIgnore]
         public MainQuestion? MainQuestion { get; set; }
+        public abstract string GetQuestionType();
     }
 }
