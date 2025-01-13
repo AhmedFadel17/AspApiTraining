@@ -1,4 +1,7 @@
-﻿namespace ExamsApi.Middlewares
+﻿using ExamsApi.DTOs.Errors;
+using System.ComponentModel.DataAnnotations;
+
+namespace ExamsApi.Middlewares
 {
     public class ExceptionHandlingMiddleware
     {
@@ -31,10 +34,13 @@
                 _ => StatusCodes.Status500InternalServerError,
             };
 
-            var response = new
+            var response = new ErrorResponseDto
             {
-                error = exception.Message,
-                statusCode = context.Response.StatusCode
+                Error = exception.Message,
+                StatusCode = context.Response.StatusCode,
+                Details = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development"
+                  ? exception.StackTrace
+                  : null
             };
 
             return context.Response.WriteAsJsonAsync(response);
