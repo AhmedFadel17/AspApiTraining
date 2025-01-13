@@ -12,71 +12,30 @@ namespace ExamsApi.Controllers.Questions
 
         public SingleChoicesController(ISingleChoiceService singleChoiceService)
         {
-            _singleChoiceService=singleChoiceService;
+            _singleChoiceService = singleChoiceService;
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CreateSingleChoiceDto singleChoiceDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                var question = await _singleChoiceService.CreateSingleChoiceAsync(singleChoiceDto);
-                return Ok(question);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "An unexpected error occurred.");
-            }
+            var question = await _singleChoiceService.CreateSingleChoiceAsync(singleChoiceDto);
+            return Ok(question);
         }
 
         [HttpPut]
         [Route("{id:int}")]
         public async Task<IActionResult> UpdateAsync(int id, UpdateSingleChoiceDto singleChoiceDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                var question = await _singleChoiceService.UpdateSingleChoiceAsync(id,singleChoiceDto);
-                return Ok(question);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "An unexpected error occurred.");
-            }
+            var question = await _singleChoiceService.UpdateSingleChoiceAsync(id, singleChoiceDto);
+            return Ok(question);
         }
 
         [HttpDelete]
         [Route("{id:int}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            try
-            {
-                var isDeleted = await _singleChoiceService.DeleteSingleChoiceAsync(id);
-                return Ok(new { message = "Question deleted" });
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "An unexpected error occurred.");
-            }
+            var isDeleted = await _singleChoiceService.DeleteSingleChoiceAsync(id);
+            return Ok(new { message = "Question deleted" });
         }
     }
 }

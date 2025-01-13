@@ -1,4 +1,5 @@
 using ExamsApi.Data;
+using ExamsApi.Middlewares;
 using ExamsApi.Services.Exam;
 using ExamsApi.Services.ExamModel;
 using ExamsApi.Services.HeadingQuestion;
@@ -36,7 +37,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();
 
 app.Run();
