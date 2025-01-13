@@ -1,9 +1,5 @@
-﻿using ExamsApi.Data;
-using ExamsApi.DTOs.MainQuestion;
-using ExamsApi.DTOs.Question.SingleChoice;
-using ExamsApi.Models;
-using ExamsApi.Models.Questions;
-using Microsoft.AspNetCore.Http;
+﻿using ExamsApi.DTOs.Question.SingleChoice;
+using ExamsApi.Services.Question.SingleChoice;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExamsApi.Controllers.Questions
@@ -12,82 +8,75 @@ namespace ExamsApi.Controllers.Questions
     [ApiController]
     public class SingleChoicesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ISingleChoiceService _singleChoiceService;
 
-        public SingleChoicesController(ApplicationDbContext context)
+        public SingleChoicesController(ISingleChoiceService singleChoiceService)
         {
-            _context = context;
+            _singleChoiceService=singleChoiceService;
         }
 
         [HttpPost]
-        public IActionResult Create(CreateSingleChoiceDto singleChoiceDto)
+        public async Task<IActionResult> CreateAsync(CreateSingleChoiceDto singleChoiceDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            MainQuestion? mainQuestion = _context.MainQuestions.Find(singleChoiceDto.MainQuestionId);
-            if (mainQuestion == null)
+            try
             {
-                return BadRequest("Main Question Not Found");
+                var question = await _singleChoiceService.CreateSingleChoiceAsync(singleChoiceDto);
+                return Ok(question);
             }
-            SingleChoice question = new SingleChoice
+            catch (KeyNotFoundException ex)
             {
-                MainQuestionId = mainQuestion.Id,
-                Marks = singleChoiceDto.Marks,
-                QuestionText = singleChoiceDto.QuestionText,
-                Choice1 = singleChoiceDto.Choice1,
-                Choice2 = singleChoiceDto.Choice2,
-                Choice3 = singleChoiceDto.Choice3,
-                Choice4 = singleChoiceDto.Choice4,
-                Answer= singleChoiceDto.Answer,
-            };
-
-            _context.SingleChoiceQuestions.Add(question);
-            _context.SaveChanges();
-            return Ok(question);
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         [HttpPut]
         [Route("{id:int}")]
-        public IActionResult Update(int id, UpdateSingleChoiceDto singleChoiceDto)
+        public async Task<IActionResult> UpdateAsync(int id, UpdateSingleChoiceDto singleChoiceDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            SingleChoice? question = _context.SingleChoiceQuestions.Find(id);
-            if (question == null)
+            try
             {
-                return BadRequest("Question Not Found");
+                var question = await _singleChoiceService.UpdateSingleChoiceAsync(id,singleChoiceDto);
+                return Ok(question);
             }
-
-            if (singleChoiceDto.Marks.HasValue) question.Marks = singleChoiceDto.Marks.Value;
-            if (singleChoiceDto.QuestionText != null) question.QuestionText = singleChoiceDto.QuestionText;
-            if (singleChoiceDto.Choice1 != null) question.Choice1 = singleChoiceDto.Choice1;
-            if (singleChoiceDto.Choice2 != null) question.Choice2 = singleChoiceDto.Choice2;
-            if (singleChoiceDto.Choice3 != null) question.Choice3 = singleChoiceDto.Choice3;
-            if (singleChoiceDto.Choice4 != null) question.Choice4 = singleChoiceDto.Choice4;
-            if (singleChoiceDto.Answer != null) question.Answer = singleChoiceDto.Answer;
-
-            _context.SaveChanges();
-            return Ok(question);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         [HttpDelete]
         [Route("{id:int}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-            SingleChoice? question = _context.SingleChoiceQuestions.Find(id);
-            if (question == null)
+            try
             {
-                return BadRequest("Question Not Found");
+                var isDeleted = await _singleChoiceService.DeleteSingleChoiceAsync(id);
+                return Ok(new { message = "Question deleted" });
             }
-            _context.SingleChoiceQuestions.Remove(question);
-            _context.SaveChanges();
-            return Ok(new { message = "Question deleted" });
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
     }
 }

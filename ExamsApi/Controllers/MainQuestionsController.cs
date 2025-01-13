@@ -1,8 +1,5 @@
-﻿using ExamsApi.Data;
-using ExamsApi.DTOs.HeadingQuestion;
-using ExamsApi.DTOs.MainQuestion;
-using ExamsApi.Models;
-using Microsoft.AspNetCore.Http;
+﻿using ExamsApi.DTOs.MainQuestion;
+using ExamsApi.Services.MainQuestion;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExamsApi.Controllers
@@ -11,76 +8,75 @@ namespace ExamsApi.Controllers
     [ApiController]
     public class MainQuestionsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IMainQuestionService _mainQuestionService;
 
-        public MainQuestionsController(ApplicationDbContext context)
+        public MainQuestionsController(IMainQuestionService mainQuestionService)
         {
-            _context = context;
+            _mainQuestionService = mainQuestionService;
         }
 
         [HttpPost]
-        public IActionResult Create(CreateMainQuestionDto mainQuestionDto)
+        public async Task<IActionResult> Create(CreateMainQuestionDto mainQuestionDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            HeadingQuestion? headingQuestion = _context.HeadingQuestions.Find(mainQuestionDto.HeadingQuestionId);
-            if (headingQuestion == null)
+            try
             {
-                return BadRequest("Heading Question Not Found");
+                var mainQuestion = await _mainQuestionService.CreateMainQuestionAsync(mainQuestionDto);
+                return Ok(mainQuestion);
             }
-            MainQuestion mainQuestion = new MainQuestion
+            catch (KeyNotFoundException ex)
             {
-                Title = mainQuestionDto.Title,
-                HeadingQuestionId = mainQuestionDto.HeadingQuestionId,
-                TotalMarks = mainQuestionDto.TotalMarks,
-                DisplayOrder = mainQuestionDto.DisplayOrder,
-                Description = mainQuestionDto.Description,
-            };
-
-            _context.MainQuestions.Add(mainQuestion);
-            _context.SaveChanges();
-            return Ok(mainQuestion);
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         [HttpPut]
         [Route("{id:int}")]
-        public IActionResult Update(int id, UpdateMainQuestionDto mainQuestionDto)
+        public async Task<IActionResult> Update(int id, UpdateMainQuestionDto mainQuestionDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            MainQuestion? mainQuestion = _context.MainQuestions.Find(id);
-            if (mainQuestion == null)
+            try
             {
-                return BadRequest("Main Question Not Found");
+                var mainQuestion = await _mainQuestionService.UpdateMainQuestionAsync(id, mainQuestionDto);
+                return Ok(mainQuestion);
             }
-
-            if(mainQuestionDto.Title != null) mainQuestion.Title = mainQuestionDto.Title;
-            if (mainQuestionDto.TotalMarks.HasValue) mainQuestion.TotalMarks = mainQuestionDto.TotalMarks.Value;
-            if (mainQuestionDto.DisplayOrder.HasValue) mainQuestion.DisplayOrder = mainQuestionDto.DisplayOrder.Value;
-            if (mainQuestionDto.Description != null) mainQuestion.Description = mainQuestionDto.Description;
-
-            _context.SaveChanges();
-            return Ok(mainQuestion);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         [HttpDelete]
         [Route("{id:int}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            MainQuestion? mainQuestion = _context.MainQuestions.Find(id);
-            if (mainQuestion == null)
+            try
             {
-                return BadRequest("Main Question Not Found");
+                var isDeleted = await _mainQuestionService.DeleteMainQuestionAsync(id);
+                return Ok(new { message = "Main Question deleted" });
             }
-            _context.MainQuestions.Remove(mainQuestion);
-            _context.SaveChanges();
-            return Ok(new { message = "Main Question deleted" });
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
     }
 }

@@ -2,7 +2,7 @@
 using ExamsApi.DTOs.ExamModel;
 using ExamsApi.DTOs.HeadingQuestion;
 using ExamsApi.Models;
-using Microsoft.AspNetCore.Http;
+using ExamsApi.Services.HeadingQuestion;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExamsApi.Controllers
@@ -11,74 +11,78 @@ namespace ExamsApi.Controllers
     [ApiController]
     public class HeadingQuestionsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IHeadingQuestionService _headingQuestionService;
 
-        public HeadingQuestionsController(ApplicationDbContext context)
+        public HeadingQuestionsController(IHeadingQuestionService headingQuestionService)
         {
-            _context = context;
+            _headingQuestionService = headingQuestionService;
         }
 
+
         [HttpPost]
-        public IActionResult Create(CreateHeadingQuestionDto headingQuestionDto)
+        public async Task<IActionResult> Create(CreateHeadingQuestionDto headingQuestionDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            ExamModel? examModel = _context.ExamModels.Find(headingQuestionDto.ExamModelId);
-            if (examModel == null)
+            try
             {
-                return BadRequest("Exam Model Not Found");
+                var headingQuestion = await _headingQuestionService.CreateHeadingQuestionAsync(headingQuestionDto);
+                return Ok(headingQuestion);
             }
-            HeadingQuestion headingQuestion = new HeadingQuestion
+            catch (KeyNotFoundException ex)
             {
-                Title = headingQuestionDto.Title,
-                ExamModelId = examModel.Id,
-                TotalMarks=headingQuestionDto.TotalMarks,
-                DisplayOrder=headingQuestionDto.DisplayOrder,
-            };
-   
-            _context.HeadingQuestions.Add(headingQuestion);
-            _context.SaveChanges();
-            return Ok(headingQuestion);
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         [HttpPut]
         [Route("{id:int}")]
-        public IActionResult Update(int id, UpdateHeadingQuestionDto headingQuestionDto)
+        public async Task<IActionResult> Update(int id, UpdateHeadingQuestionDto headingQuestionDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            HeadingQuestion? headingQuestion = _context.HeadingQuestions.Find(id);
-            if (headingQuestion == null)
+            try
             {
-                return BadRequest("Heading Question Not Found");
+                var headingQuestion = await _headingQuestionService.UpdateHeadingQuestionAsync(id,headingQuestionDto);
+                return Ok(headingQuestion);
             }
-
-            if(headingQuestionDto.Title != null) headingQuestion.Title = headingQuestionDto.Title;
-            if (headingQuestionDto.TotalMarks.HasValue) headingQuestion.TotalMarks = headingQuestionDto.TotalMarks.Value;
-            if (headingQuestionDto.DisplayOrder.HasValue) headingQuestion.DisplayOrder = headingQuestionDto.DisplayOrder.Value;
-
-            _context.SaveChanges();
-            return Ok(headingQuestion);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         [HttpDelete]
         [Route("{id:int}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            HeadingQuestion? headingQuestion = _context.HeadingQuestions.Find(id);
-            if (headingQuestion == null)
+            try
             {
-                return BadRequest("Heading Question Not Found");
+                var isDeleted = await _headingQuestionService.DeleteHeadingQuestionAsync(id);
+                return Ok(new { message = "Heading Question deleted" });
             }
-            _context.HeadingQuestions.Remove(headingQuestion);
-            _context.SaveChanges();
-            return Ok(new { message = "Heading Question deleted" });
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
     }
 }

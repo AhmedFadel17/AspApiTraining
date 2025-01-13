@@ -1,101 +1,105 @@
-﻿using ExamsApi.Data;
-using ExamsApi.DTOs.Exam;
-using ExamsApi.Models;
-using Microsoft.AspNetCore.Http;
+﻿using ExamsApi.DTOs.Exam;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
+using ExamsApi.Services.Exam;
 namespace ExamsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ExamsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IExamService _examService;
 
-        public ExamsController(ApplicationDbContext context)
+        public ExamsController(IExamService examService)
         {
-            _context = context;
+            _examService = examService;
         }
 
         [HttpGet]
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            List<Exam> exams= _context.Exams.ToList();
+            var exams= await _examService.GetAllExamAsync();
             return Ok(exams);
         }
 
         [HttpGet]
         [Route("{id:int}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            Exam? exam = _context.Exams.Find(id);
-            if (exam == null)
+            try
             {
-                return BadRequest("Exam Not Found");
+                var exam = await _examService.GetExamAsync(id);
+                return Ok(exam);
             }
-            return Ok(exam);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         [HttpPost]
-        public IActionResult Create(CreateExamDto examDto)
+        public async Task<IActionResult> Create(CreateExamDto examDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            Exam? exam = new Exam
+            try
             {
-                Name = examDto.Name,
-                Description = examDto.Description,
-                Time = examDto.Time,
-                Grade = examDto.Grade,
-                Subject = examDto.Subject,
-                TotalMarks = examDto.TotalMarks,
-            };
-            _context.Exams.Add(exam);
-            _context.SaveChanges();
-            return Ok(exam);
+                var exam = await _examService.CreateExamAsync(examDto);
+                return Ok(exam);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }            
         }
 
         [HttpPut]
         [Route("{id:int}")]
-        public IActionResult Update(int id,UpdateExamDto examDto)
+        public async Task<IActionResult> Update(int id,UpdateExamDto examDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            Exam? exam = _context.Exams.Find(id);
-            if (exam == null) {
-                return BadRequest("Exam Not Found");
+            try
+            {
+                var exam = await _examService.UpdateExamAsync(id, examDto);
+                return Ok(exam);
             }
-
-            if (examDto.Name != null) exam.Name = examDto.Name;
-            if (examDto.Description != null) exam.Description = examDto.Description;
-            if (examDto.Grade.HasValue) exam.Grade = examDto.Grade.Value;
-            if (examDto.Subject != null) exam.Subject = examDto.Subject;
-            if (examDto.Time.HasValue) exam.Time = examDto.Time.Value;
-            if (examDto.TotalMarks.HasValue) exam.TotalMarks = examDto.TotalMarks.Value;
-
-            _context.SaveChanges();
-            return Ok(exam);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+            
         }
 
         [HttpDelete]
         [Route("{id:int}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            Exam? exam = _context.Exams.Find(id);
-            if (exam == null)
+            try
             {
-                return BadRequest("Exam Not Found");
+                var isDeleted = await _examService.DeleteExamAsync(id);
+                return Ok(new { message = "Exam deleted" });
             }
-            _context.Exams.Remove(exam);
-            _context.SaveChanges();
-            return Ok(new {message="Exam deleted" });
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+            
         }
     }
 }

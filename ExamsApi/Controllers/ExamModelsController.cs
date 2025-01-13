@@ -1,9 +1,7 @@
-﻿using ExamsApi.DTOs.Exam;
-using ExamsApi.Models;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using ExamsApi.Data;
 using ExamsApi.DTOs.ExamModel;
+using ExamsApi.Services.ExamModel;
 
 namespace ExamsApi.Controllers
 {
@@ -11,88 +9,114 @@ namespace ExamsApi.Controllers
     [ApiController]
     public class ExamModelsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IExamModelService _examService;
 
-        public ExamModelsController(ApplicationDbContext context)
+        public ExamModelsController(IExamModelService examService)
         {
-            _context = context;
+            _examService = examService;
         }
+        
 
         [HttpGet]
-        public IActionResult All()
-        {
-            List<ExamModel> examModels = _context.ExamModels.ToList();
-            return Ok(examModels);
+        public async Task<IActionResult> All()
+        {           
+            try
+            {
+                var examModels = await _examService.GetAllExamModelAsync();
+                return Ok(examModels);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         [HttpGet]
         [Route("{id:int}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            ExamModel? examModel = _context.ExamModels.Find(id);
-            if (examModel == null)
+            try
             {
-                return BadRequest("Exam Model Not Found");
+                var exam = await _examService.GetExamModelAsync(id);
+                return Ok(exam);
             }
-            return Ok(examModel);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         [HttpPost]
-        public IActionResult Create(CreateExamModelDto examModelDto)
+        public async Task<IActionResult> Create(CreateExamModelDto examModelDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            Exam? exam = _context.Exams.Find(examModelDto.ExamId);
-            if (exam == null)
+            try
             {
-                return BadRequest("Exam Not Found");
+                var examModel = await _examService.CreateExamModelAsync(examModelDto);
+                return Ok(examModel);
             }
-            ExamModel? examModel = new ExamModel
+            catch (KeyNotFoundException ex)
             {
-                Name = examModelDto.Name,
-                ExamId = examModelDto.ExamId,
-            };
-            _context.ExamModels.Add(examModel);
-            _context.SaveChanges();
-            return Ok(examModel);
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         [HttpPut]
         [Route("{id:int}")]
-        public IActionResult Update(int id, UpdateExamModelDto examModelDto)
+        public async Task<IActionResult> Update(int id, UpdateExamModelDto examModelDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            ExamModel? examModel = _context.ExamModels.Find(id);
-            if (examModel == null)
+            try
             {
-                return BadRequest("Exam Model Not Found");
+                var examModel = await _examService.UpdateExamModelAsync(id,examModelDto);
+                return Ok(examModel);
             }
-
-            examModel.Name = examModelDto.Name;
-
-            _context.SaveChanges();
-            return Ok(examModel);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         [HttpDelete]
         [Route("{id:int}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            ExamModel? examModel = _context.ExamModels.Find(id);
-            if (examModel == null)
+            try
             {
-                return BadRequest("Exam Model Not Found");
+                var isDeleted = await _examService.DeleteExamModelAsync(id);
+                return Ok(new { message = "Exam Model deleted" });
             }
-            _context.ExamModels.Remove(examModel);
-            _context.SaveChanges();
-            return Ok(new { message = "Exam Model deleted" });
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
     }
 }
