@@ -5,7 +5,7 @@ using ExamsApi.DTOs.ExamModels;
 using ExamsApi.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
-namespace ExamsApi.Services.ExamModel
+namespace ExamsApi.Services.ExamModels
 {
     public class ExamModelService : IExamModelService
     {

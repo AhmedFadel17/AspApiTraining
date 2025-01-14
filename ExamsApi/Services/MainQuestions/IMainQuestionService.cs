@@ -1,6 +1,6 @@
 ﻿using ExamsApi.DTOs.MainQuestions;
 
-namespace ExamsApi.Services.MainQuestion
+namespace ExamsApi.Services.MainQuestions
 {
     public interface IMainQuestionService
     {

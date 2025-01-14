@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ExamsApi.DTOs.ExamModels;
-using ExamsApi.Services.ExamModel;
+using ExamsApi.Services.ExamModels;
 
 namespace ExamsApi.Controllers
 {

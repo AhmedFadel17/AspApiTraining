@@ -1,6 +1,6 @@
 ﻿using ExamsApi.Data;
 using ExamsApi.DTOs.HeadingQuestions;
-using ExamsApi.Services.HeadingQuestion;
+using ExamsApi.Services.HeadingQuestions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExamsApi.Controllers

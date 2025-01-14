@@ -2,7 +2,7 @@
 using ExamsApi.Data;
 using ExamsApi.DTOs.MainQuestions;
 
-namespace ExamsApi.Services.MainQuestion
+namespace ExamsApi.Services.MainQuestions
 {
     public class MainQuestionService : IMainQuestionService
     {

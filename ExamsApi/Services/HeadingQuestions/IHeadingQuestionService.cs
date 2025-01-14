@@ -1,7 +1,7 @@
 ﻿using ExamsApi.DTOs.Exams;
 using ExamsApi.DTOs.HeadingQuestions;
 
-namespace ExamsApi.Services.HeadingQuestion
+namespace ExamsApi.Services.HeadingQuestions
 {
     public interface IHeadingQuestionService
     {

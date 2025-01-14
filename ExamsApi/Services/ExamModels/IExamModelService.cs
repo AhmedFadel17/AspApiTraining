@@ -1,6 +1,6 @@
 ﻿using ExamsApi.DTOs.ExamModels;
 
-namespace ExamsApi.Services.ExamModel
+namespace ExamsApi.Services.ExamModels
 {
     public interface IExamModelService
     {

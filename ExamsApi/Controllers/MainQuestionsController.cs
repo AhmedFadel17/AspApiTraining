@@ -1,5 +1,5 @@
 ﻿using ExamsApi.DTOs.MainQuestions;
-using ExamsApi.Services.MainQuestion;
+using ExamsApi.Services.MainQuestions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExamsApi.Controllers
