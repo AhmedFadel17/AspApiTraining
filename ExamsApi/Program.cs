@@ -1,5 +1,4 @@
 using ExamsApi.Data;
-using ExamsApi.Factories.Questions;
 using ExamsApi.Filters;
 using ExamsApi.Middlewares;
 using ExamsApi.Services.Exams;
@@ -26,7 +25,6 @@ builder.Services.AddScoped<IHeadingQuestionService, HeadingQuestionService>();
 builder.Services.AddScoped<IMainQuestionService, MainQuestionService>();
 builder.Services.AddScoped<IQuestionService, SingleChoiceService>();
 builder.Services.AddScoped<IQuestionService, ParagraphService>();
-builder.Services.AddScoped<IQuestionServiceFactory, QuestionServiceFactory>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
