@@ -1,10 +1,12 @@
 ﻿using ExamsApi.Data;
 using ExamsApi.DTOs.HeadingQuestions;
 using ExamsApi.Services.HeadingQuestions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExamsApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class HeadingQuestionsController : ControllerBase

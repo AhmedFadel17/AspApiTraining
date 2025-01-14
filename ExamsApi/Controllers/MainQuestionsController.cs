@@ -1,9 +1,11 @@
 ﻿using ExamsApi.DTOs.MainQuestions;
 using ExamsApi.Services.MainQuestions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExamsApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MainQuestionsController : ControllerBase

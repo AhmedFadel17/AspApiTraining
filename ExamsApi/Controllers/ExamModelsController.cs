@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ExamsApi.DTOs.ExamModels;
 using ExamsApi.Services.ExamModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExamsApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ExamModelsController : ControllerBase

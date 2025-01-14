@@ -1,6 +1,5 @@
 ﻿using ExamsApi.DTOs.Questions;
 using ExamsApi.DTOs.Questions.SingleChoice;
-using ExamsApi.Factories.Questions;
 using ExamsApi.Services.Question.SingleChoice;
 using ExamsApi.Services.Questions;
 using Microsoft.AspNetCore.Http;

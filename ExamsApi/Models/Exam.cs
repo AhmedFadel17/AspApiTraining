@@ -6,6 +6,7 @@ namespace ExamsApi.Models
     {
         public int Id { get; set; }
         public required string Name { get; set; }
+        public int UserId { get; set; }
         public string? Description { get; set; }
         public int Grade { get; set; }
         public required string Subject { get; set; }
@@ -13,5 +14,6 @@ namespace ExamsApi.Models
         public double TotalMarks   { get; set; }
         [JsonIgnore]
         public ICollection<ExamModel>? ExamModels { get; set; }
+        public User User { get; set; }
     }
 }

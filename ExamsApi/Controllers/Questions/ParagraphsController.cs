@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ExamsApi.DTOs.Questions.Paragraph;
 using ExamsApi.Services.Question.Paragraph;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExamsApi.Controllers.Questions
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ParagraphsController : ControllerBase

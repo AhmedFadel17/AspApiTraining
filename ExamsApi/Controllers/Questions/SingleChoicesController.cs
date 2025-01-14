@@ -1,9 +1,11 @@
 ﻿using ExamsApi.DTOs.Questions.SingleChoice;
 using ExamsApi.Services.Question.SingleChoice;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExamsApi.Controllers.Questions
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SingleChoicesController : ControllerBase
