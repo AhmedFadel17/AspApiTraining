@@ -73,10 +73,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthentication(); // Add authentication middleware
-app.UseAuthorization();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseRouting();
+app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {

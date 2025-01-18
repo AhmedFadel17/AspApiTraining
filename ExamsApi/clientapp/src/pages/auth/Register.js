@@ -4,6 +4,7 @@ import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
 import { Button, TextField, Typography, Container } from '@mui/material';
+import Swal from 'sweetalert2'
 
 const Register = () => {
     const signIn = useSignIn();
@@ -43,7 +44,7 @@ const Register = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       // Make the registration request using Axios
-      const response = await axios.post('https://your-api-url.com/register', {
+      const response = await axios.post('/api/auth/register', {
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
@@ -52,17 +53,19 @@ const Register = () => {
       });
 
       // If registration is successful, sign in the user
-      if (response.data.token) {
-        // Sign in using React Auth Kit
-        signIn({
-          token: response.data.token,
-          expiresIn: 3600,  // Set expiration time (1 hour)
-          tokenType: 'Bearer',
-          authState: { email: values.email },
+      if (response) {
+        Swal.fire({
+          title: 'Registration Successful!',
+          text: 'You have successfully registered. Click the button below to login.',
+          icon: 'success',
+          confirmButtonText: 'Login Now',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/login'); // Navigate to the login page
+          }
         });
-
-        // Redirect to the dashboard after successful registration
-        navigate('/dashboard');
       }
     } catch (error) {
       setError('Registration failed. Please try again.');

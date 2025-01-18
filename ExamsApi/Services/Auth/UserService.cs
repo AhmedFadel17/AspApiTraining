@@ -58,11 +58,11 @@ namespace ExamsApi.Services.Auth
         public async Task<AuthResponseDto> LoginUserAsync(LoginDto loginDto)
         {
             var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.Username == loginDto.Username);
+                .FirstOrDefaultAsync(u => u.Email == loginDto.Email);
 
             if (user == null || !_passwordHasher.VerifyPassword(user.Password, loginDto.Password))
             {
-                throw new InvalidOperationException("Invalid username or password.");
+                throw new InvalidOperationException("Invalid email or password.");
             }
 
             var token = GenerateJwtToken(user);

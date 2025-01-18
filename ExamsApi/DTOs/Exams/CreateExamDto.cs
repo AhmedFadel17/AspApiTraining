@@ -17,5 +17,6 @@ namespace ExamsApi.DTOs.Exams
         public int Time { get; set; }
         [Required, Range(0,1000)]
         public double TotalMarks { get; set; }
+        public int UserId { get; set; }
     }
 }

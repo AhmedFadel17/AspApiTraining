@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Button, TextField, Typography, Container, Checkbox, FormControlLabel } from '@mui/material';
 
 const Login = () => {
-    const signIn = useSignIn();
+  const signIn = useSignIn();
   const navigate = useNavigate();  // Use useNavigate for navigation
 
   const [error, setError] = useState('');  // To display any login error
@@ -29,25 +29,22 @@ const Login = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       // Make the login request using Axios
-      const response = await axios.post('https://your-api-url.com/login', {
+      const response = await axios.post('/api/auth/login', {
         email: values.email,
         password: values.password,
       });
 
       // Check if login was successful
       if (response.data.token) {
-        // Check if "Remember Me" is selected
-        const expiresIn = values.rememberMe ? 86400 : 3600;  // 86400 seconds = 1 day, 3600 seconds = 1 hour
 
-        // Sign in using React Auth Kit
         signIn({
-          token: response.data.token,
-          expiresIn: expiresIn,  // Set expiration time based on "Remember Me"
-          tokenType: 'Bearer',
-          authState: { email: values.email },
+          auth: {
+            token: response.data.token,
+          },
+          // refresh:response.data.token,
+          userState: response.data.user,
         });
 
-        // Redirect to the dashboard after successful login
         navigate('/dashboard');  // Use navigate instead of history.push
       }
     } catch (error) {

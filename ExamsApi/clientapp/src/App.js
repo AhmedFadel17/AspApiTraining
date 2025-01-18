@@ -7,6 +7,7 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Dashboard from './pages/dashboard/Home'
 import MainLayout from './layouts/main';
+import AddExam from './pages/dashboard/AddExam';
 function App() {
     return (
 
@@ -19,6 +20,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/add-exam" element={<AddExam />} />
                 </Routes>
             </MainLayout>
         </div>

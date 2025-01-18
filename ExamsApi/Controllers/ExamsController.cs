@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using ExamsApi.Services.Exams;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace ExamsApi.Controllers
 {
@@ -11,10 +13,15 @@ namespace ExamsApi.Controllers
     public class ExamsController : ControllerBase
     {
         private readonly IExamService _examService;
-
-        public ExamsController(IExamService examService)
+        private readonly int _userId;
+        public ExamsController(IExamService examService, IHttpContextAccessor httpContextAccessor)
         {
             _examService = examService;
+            var userIdClaim = httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out _userId))
+            {
+                throw new UnauthorizedAccessException("User is not authenticated.");
+            }
         }
 
         [HttpGet]
@@ -35,6 +42,7 @@ namespace ExamsApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateExamDto examDto)
         {
+            examDto.UserId = _userId;
             var exam = await _examService.CreateExamAsync(examDto);
             return Ok(exam);
         }
