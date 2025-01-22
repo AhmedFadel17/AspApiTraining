@@ -12,7 +12,7 @@ namespace ExamsApi.WebUi.Controllers
     {
         private readonly IExamModelService _examService;
 
-        public ExamModelsController(IExamModelService examService)
+        public ExamModelsController([FromBody] IExamModelService examService)
         {
             _examService = examService;
         }
@@ -33,7 +33,7 @@ namespace ExamsApi.WebUi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateExamModelDto examModelDto)
+        public async Task<IActionResult> Create([FromBody] CreateExamModelDto examModelDto)
         {
             var examModel = await _examService.CreateAsync(examModelDto);
             return Ok(examModel);
@@ -41,7 +41,7 @@ namespace ExamsApi.WebUi.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> Update(int id, UpdateExamModelDto examModelDto)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateExamModelDto examModelDto)
         {
             var examModel = await _examService.UpdateAsync(id, examModelDto);
             return Ok(examModel);

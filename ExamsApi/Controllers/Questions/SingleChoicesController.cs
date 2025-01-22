@@ -19,7 +19,7 @@ namespace ExamsApi.WebUi.Controllers.Questions
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreateSingleChoiceDto singleChoiceDto)
+        public async Task<IActionResult> CreateAsync([FromBody] CreateSingleChoiceDto singleChoiceDto)
         {
             var question = await _singleChoiceService.CreateAsync(singleChoiceDto);
             return Ok(question);
@@ -27,7 +27,7 @@ namespace ExamsApi.WebUi.Controllers.Questions
 
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> UpdateAsync(int id, UpdateSingleChoiceDto singleChoiceDto)
+        public async Task<IActionResult> UpdateAsync(int id, [FromBody] UpdateSingleChoiceDto singleChoiceDto)
         {
             var question = await _singleChoiceService.UpdateAsync(id, singleChoiceDto);
             return Ok(question);

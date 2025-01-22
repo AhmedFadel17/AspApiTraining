@@ -19,7 +19,7 @@ namespace ExamsApi.WebUi.Controllers.Questions
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreateParagraphDto paragraphDto)
+        public async Task<IActionResult> CreateAsync([FromBody] CreateParagraphDto paragraphDto)
         {
             var question = await _paragraphService.CreateAsync(paragraphDto);
             return Ok(question);
@@ -27,7 +27,7 @@ namespace ExamsApi.WebUi.Controllers.Questions
 
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> UpdateAsync(int id, UpdateParagraphDto paragraphDto)
+        public async Task<IActionResult> UpdateAsync(int id, [FromBody] UpdateParagraphDto paragraphDto)
         {
             var question = await _paragraphService.UpdateAsync(id, paragraphDto);
             return Ok(question);

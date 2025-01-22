@@ -18,7 +18,7 @@ namespace ExamsApi.WebUi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateMainQuestionDto mainQuestionDto)
+        public async Task<IActionResult> Create([FromBody] CreateMainQuestionDto mainQuestionDto)
         {
             var mainQuestion = await _mainQuestionService.CreateAsync(mainQuestionDto);
             return Ok(mainQuestion);
@@ -26,7 +26,7 @@ namespace ExamsApi.WebUi.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> Update(int id, UpdateMainQuestionDto mainQuestionDto)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateMainQuestionDto mainQuestionDto)
         {
             var mainQuestion = await _mainQuestionService.UpdateAsync(id, mainQuestionDto);
             return Ok(mainQuestion);

@@ -40,7 +40,7 @@ namespace ExamsApi.WebUi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateExamDto examDto)
+        public async Task<IActionResult> Create([FromBody] CreateExamDto examDto)
         {
             examDto.UserId = _userId;
             var exam = await _examService.CreateAsync(examDto);
@@ -49,7 +49,7 @@ namespace ExamsApi.WebUi.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> Update(int id, UpdateExamDto examDto)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateExamDto examDto)
         {
             var exam = await _examService.UpdateAsync(id, examDto);
             return Ok(exam);

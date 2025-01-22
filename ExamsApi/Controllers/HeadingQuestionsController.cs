@@ -18,7 +18,7 @@ namespace ExamsApi.WebUi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateHeadingQuestionDto headingQuestionDto)
+        public async Task<IActionResult> Create([FromBody] CreateHeadingQuestionDto headingQuestionDto)
         {
             var headingQuestion = await _headingQuestionService.CreateAsync(headingQuestionDto);
             return Ok(headingQuestion);
@@ -26,7 +26,7 @@ namespace ExamsApi.WebUi.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> Update(int id, UpdateHeadingQuestionDto headingQuestionDto)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateHeadingQuestionDto headingQuestionDto)
         {
             var headingQuestion = await _headingQuestionService.UpdateAsync(id, headingQuestionDto);
             return Ok(headingQuestion);
