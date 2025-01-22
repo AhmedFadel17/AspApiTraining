@@ -16,7 +16,7 @@ namespace ExamsApi.Application.Services.HeadingQuestions
         }
 
 
-        public async Task<HeadingQuestionResponseDto> CreateHeadingQuestionAsync(CreateHeadingQuestionDto dto)
+        public async Task<HeadingQuestionResponseDto> CreateAsync(CreateHeadingQuestionDto dto)
         {
             var examModel = await _context.HeadingQuestions.FindAsync(dto.ExamModelId);
             if (examModel == null) throw new KeyNotFoundException("Exam Model is not found");
@@ -25,7 +25,7 @@ namespace ExamsApi.Application.Services.HeadingQuestions
             await _context.SaveChangesAsync();
             return _mapper.Map<HeadingQuestionResponseDto>(headingQuestion);
         }
-        public async Task<HeadingQuestionResponseDto> UpdateHeadingQuestionAsync(int id, UpdateHeadingQuestionDto dto)
+        public async Task<HeadingQuestionResponseDto> UpdateAsync(int id, UpdateHeadingQuestionDto dto)
         {
             var headingQuestion = await _context.HeadingQuestions.FindAsync(id);
             if (headingQuestion == null) throw new KeyNotFoundException("Heading Question is not found");
@@ -35,7 +35,7 @@ namespace ExamsApi.Application.Services.HeadingQuestions
             await _context.SaveChangesAsync();
             return _mapper.Map<HeadingQuestionResponseDto>(headingQuestion);
         }
-        public async Task<bool> DeleteHeadingQuestionAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var headingQuestion = await _context.HeadingQuestions.FindAsync(id);
             if (headingQuestion == null) throw new KeyNotFoundException("Heading Question is not found");

@@ -4,10 +4,10 @@ namespace ExamsApi.Application.Interfaces.Exams
 {
     public interface IExamService
     {
-        Task<ExamResponseDto> GetExamAsync(int id);
-        Task<IEnumerable<ExamResponseDto>> GetAllExamAsync();
-        Task<ExamResponseDto> CreateExamAsync(CreateExamDto dto);
-        Task<ExamResponseDto> UpdateExamAsync(int id, UpdateExamDto dto);
-        Task<bool> DeleteExamAsync(int id);
+        Task<ExamResponseDto> GetAsync(int id);
+        Task<IEnumerable<ExamResponseDto>> GetAllAsync();
+        Task<ExamResponseDto> CreateAsync(CreateExamDto dto);
+        Task<ExamResponseDto> UpdateAsync(int id, UpdateExamDto dto);
+        Task<bool> DeleteAsync(int id);
     }
 }

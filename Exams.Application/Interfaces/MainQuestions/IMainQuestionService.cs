@@ -4,8 +4,8 @@ namespace ExamsApi.Application.Interfaces.MainQuestions
 {
     public interface IMainQuestionService
     {
-        Task<MainQuestionResponseDto> CreateMainQuestionAsync(CreateMainQuestionDto dto);
-        Task<MainQuestionResponseDto> UpdateMainQuestionAsync(int id, UpdateMainQuestionDto dto);
-        Task<bool> DeleteMainQuestionAsync(int id);
+        Task<MainQuestionResponseDto> CreateAsync(CreateMainQuestionDto dto);
+        Task<MainQuestionResponseDto> UpdateAsync(int id, UpdateMainQuestionDto dto);
+        Task<bool> DeleteAsync(int id);
     }
 }

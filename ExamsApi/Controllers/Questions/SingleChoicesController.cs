@@ -21,7 +21,7 @@ namespace ExamsApi.WebUi.Controllers.Questions
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CreateSingleChoiceDto singleChoiceDto)
         {
-            var question = await _singleChoiceService.CreateQuestionAsync(singleChoiceDto);
+            var question = await _singleChoiceService.CreateAsync(singleChoiceDto);
             return Ok(question);
         }
 
@@ -29,7 +29,7 @@ namespace ExamsApi.WebUi.Controllers.Questions
         [Route("{id:int}")]
         public async Task<IActionResult> UpdateAsync(int id, UpdateSingleChoiceDto singleChoiceDto)
         {
-            var question = await _singleChoiceService.UpdateQuestionAsync(id, singleChoiceDto);
+            var question = await _singleChoiceService.UpdateAsync(id, singleChoiceDto);
             return Ok(question);
         }
 
@@ -37,7 +37,7 @@ namespace ExamsApi.WebUi.Controllers.Questions
         [Route("{id:int}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            var isDeleted = await _singleChoiceService.DeleteQuestionAsync(id);
+            var isDeleted = await _singleChoiceService.DeleteAsync(id);
             return Ok(new { message = "Question deleted" });
         }
     }

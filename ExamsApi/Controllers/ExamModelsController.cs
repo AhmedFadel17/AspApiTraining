@@ -20,7 +20,7 @@ namespace ExamsApi.WebUi.Controllers
         [HttpGet]
         public async Task<IActionResult> All()
         {
-            var examModels = await _examService.GetAllExamModelAsync();
+            var examModels = await _examService.GetAllAsync();
             return Ok(examModels);
         }
 
@@ -28,14 +28,14 @@ namespace ExamsApi.WebUi.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            var exam = await _examService.GetExamModelAsync(id);
+            var exam = await _examService.GetAsync(id);
             return Ok(exam);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateExamModelDto examModelDto)
         {
-            var examModel = await _examService.CreateExamModelAsync(examModelDto);
+            var examModel = await _examService.CreateAsync(examModelDto);
             return Ok(examModel);
         }
 
@@ -43,7 +43,7 @@ namespace ExamsApi.WebUi.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Update(int id, UpdateExamModelDto examModelDto)
         {
-            var examModel = await _examService.UpdateExamModelAsync(id, examModelDto);
+            var examModel = await _examService.UpdateAsync(id, examModelDto);
             return Ok(examModel);
         }
 
@@ -51,7 +51,7 @@ namespace ExamsApi.WebUi.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var isDeleted = await _examService.DeleteExamModelAsync(id);
+            var isDeleted = await _examService.DeleteAsync(id);
             return Ok(new { message = "Exam Model deleted" });
         }
     }

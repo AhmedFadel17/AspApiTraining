@@ -4,8 +4,8 @@ namespace ExamsApi.Application.Interfaces.HeadingQuestions
 {
     public interface IHeadingQuestionService
     {
-        Task<HeadingQuestionResponseDto> CreateHeadingQuestionAsync(CreateHeadingQuestionDto dto);
-        Task<HeadingQuestionResponseDto> UpdateHeadingQuestionAsync(int id, UpdateHeadingQuestionDto dto);
-        Task<bool> DeleteHeadingQuestionAsync(int id);
+        Task<HeadingQuestionResponseDto> CreateAsync(CreateHeadingQuestionDto dto);
+        Task<HeadingQuestionResponseDto> UpdateAsync(int id, UpdateHeadingQuestionDto dto);
+        Task<bool> DeleteAsync(int id);
     }
 }

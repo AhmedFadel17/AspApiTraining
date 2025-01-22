@@ -24,7 +24,7 @@ namespace ExamsApi.Application.Services.Auth
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<UserDto> RegisterUserAsync(RegisterDto registerDto)
+        public async Task<UserDto> RegisterAsync(RegisterDto registerDto)
         {
             var existingUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == registerDto.Email || u.Username == registerDto.Username);
@@ -58,7 +58,7 @@ namespace ExamsApi.Application.Services.Auth
             };
         }
 
-        public async Task<AuthResponseDto> LoginUserAsync(LoginDto loginDto)
+        public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
         {
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == loginDto.Email);

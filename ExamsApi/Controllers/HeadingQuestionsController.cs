@@ -20,7 +20,7 @@ namespace ExamsApi.WebUi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateHeadingQuestionDto headingQuestionDto)
         {
-            var headingQuestion = await _headingQuestionService.CreateHeadingQuestionAsync(headingQuestionDto);
+            var headingQuestion = await _headingQuestionService.CreateAsync(headingQuestionDto);
             return Ok(headingQuestion);
         }
 
@@ -28,7 +28,7 @@ namespace ExamsApi.WebUi.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Update(int id, UpdateHeadingQuestionDto headingQuestionDto)
         {
-            var headingQuestion = await _headingQuestionService.UpdateHeadingQuestionAsync(id, headingQuestionDto);
+            var headingQuestion = await _headingQuestionService.UpdateAsync(id, headingQuestionDto);
             return Ok(headingQuestion);
         }
 
@@ -36,7 +36,7 @@ namespace ExamsApi.WebUi.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var isDeleted = await _headingQuestionService.DeleteHeadingQuestionAsync(id);
+            var isDeleted = await _headingQuestionService.DeleteAsync(id);
             return Ok(new { message = "Heading Question deleted" });
         }
     }

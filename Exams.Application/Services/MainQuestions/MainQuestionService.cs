@@ -16,14 +16,14 @@ namespace ExamsApi.Application.Services.MainQuestions
             _mapper = mapper;
         }
 
-        public async Task<MainQuestionResponseDto> CreateMainQuestionAsync(CreateMainQuestionDto dto)
+        public async Task<MainQuestionResponseDto> CreateAsync(CreateMainQuestionDto dto)
         {
             var mainQuestion = _mapper.Map<MainQuestion>(dto);
             _context.MainQuestions.Add(mainQuestion);
             await _context.SaveChangesAsync();
             return _mapper.Map<MainQuestionResponseDto>(mainQuestion);
         }
-        public async Task<MainQuestionResponseDto> UpdateMainQuestionAsync(int id, UpdateMainQuestionDto mainQuestionDto)
+        public async Task<MainQuestionResponseDto> UpdateAsync(int id, UpdateMainQuestionDto mainQuestionDto)
         {
             var mainQuestion = await _context.MainQuestions.FindAsync(id);
             if (mainQuestion == null) throw new KeyNotFoundException("Main Question not found");
@@ -34,7 +34,7 @@ namespace ExamsApi.Application.Services.MainQuestions
             await _context.SaveChangesAsync();
             return _mapper.Map<MainQuestionResponseDto>(mainQuestion);
         }
-        public async Task<bool> DeleteMainQuestionAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var mainQuestion = await _context.MainQuestions.FindAsync(id);
             if (mainQuestion == null) throw new KeyNotFoundException("Main Question not found");

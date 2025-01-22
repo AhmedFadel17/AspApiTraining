@@ -15,27 +15,27 @@ namespace ExamsApi.Application.Services.Exams
             _context = context;
             _mapper = mapper;
         }
-        public async Task<ExamResponseDto> GetExamAsync(int id)
+        public async Task<ExamResponseDto> GetAsync(int id)
         {
             var exam = await _context.Exams.FindAsync(id);
             if (exam == null) throw new KeyNotFoundException("Exam Not Found");
             return _mapper.Map<ExamResponseDto>(exam);
         }
 
-        public async Task<IEnumerable<ExamResponseDto>> GetAllExamAsync()
+        public async Task<IEnumerable<ExamResponseDto>> GetAllAsync()
         {
             var exams = await _context.Exams.ToListAsync();
             return _mapper.Map<IEnumerable<ExamResponseDto>>(exams);
         }
 
-        public async Task<ExamResponseDto> CreateExamAsync(CreateExamDto dto)
+        public async Task<ExamResponseDto> CreateAsync(CreateExamDto dto)
         {
             var exam = _mapper.Map<Exam>(dto);
             _context.Exams.Add(exam);
             await _context.SaveChangesAsync();
             return _mapper.Map<ExamResponseDto>(exam);
         }
-        public async Task<ExamResponseDto> UpdateExamAsync(int id, UpdateExamDto examDto)
+        public async Task<ExamResponseDto> UpdateAsync(int id, UpdateExamDto examDto)
         {
             var exam = await _context.Exams.FindAsync(id);
             if (exam == null) throw new KeyNotFoundException("Exam not found");
@@ -48,7 +48,7 @@ namespace ExamsApi.Application.Services.Exams
             await _context.SaveChangesAsync();
             return _mapper.Map<ExamResponseDto>(exam);
         }
-        public async Task<bool> DeleteExamAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var exam = await _context.Exams.FindAsync(id);
             if (exam == null) throw new KeyNotFoundException("Exam not found");

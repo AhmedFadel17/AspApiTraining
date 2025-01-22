@@ -4,7 +4,7 @@ namespace ExamsApi.Application.Interfaces.Auth
 {
     public interface IUserService
     {
-        Task<UserDto> RegisterUserAsync(RegisterDto registerDto);
-        Task<AuthResponseDto> LoginUserAsync(LoginDto loginDto);
+        Task<UserDto> RegisterAsync(RegisterDto registerDto);
+        Task<AuthResponseDto> LoginAsync(LoginDto loginDto);
     }
 }

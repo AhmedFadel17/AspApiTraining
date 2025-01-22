@@ -18,14 +18,14 @@ namespace ExamsApi.WebUi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginDto loginDto)
         {
-            var authResponse = await _userService.LoginUserAsync(loginDto);
+            var authResponse = await _userService.LoginAsync(loginDto);
             return Ok(authResponse);
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
-            var user = await _userService.RegisterUserAsync(registerDto);
+            var user = await _userService.RegisterAsync(registerDto);
             return Ok(user);
         }
     }

@@ -16,20 +16,20 @@ namespace ExamsApi.Application.Services.ExamModels
             _context = context;
             _mapper = mapper;
         }
-        public async Task<ExamModelResponseDto> GetExamModelAsync(int id)
+        public async Task<ExamModelResponseDto> GetAsync(int id)
         {
             var exam = await _context.ExamModels.FindAsync(id);
             if (exam == null) throw new KeyNotFoundException("Exam Model Not Found");
             return _mapper.Map<ExamModelResponseDto>(exam);
         }
 
-        public async Task<IEnumerable<ExamModelResponseDto>> GetAllExamModelAsync()
+        public async Task<IEnumerable<ExamModelResponseDto>> GetAllAsync()
         {
             var exams = await _context.ExamModels.ToListAsync();
             return _mapper.Map<IEnumerable<ExamModelResponseDto>>(exams);
         }
 
-        public async Task<ExamModelResponseDto> CreateExamModelAsync(CreateExamModelDto dto)
+        public async Task<ExamModelResponseDto> CreateAsync(CreateExamModelDto dto)
         {
             var exam = await _context.Exams.FindAsync(dto.ExamId);
             if (exam == null) throw new KeyNotFoundException("Exam not found");
@@ -38,7 +38,7 @@ namespace ExamsApi.Application.Services.ExamModels
             await _context.SaveChangesAsync();
             return _mapper.Map<ExamModelResponseDto>(examModel);
         }
-        public async Task<ExamModelResponseDto> UpdateExamModelAsync(int id, UpdateExamModelDto dto)
+        public async Task<ExamModelResponseDto> UpdateAsync(int id, UpdateExamModelDto dto)
         {
             var examModel = await _context.ExamModels.FindAsync(id);
             if (examModel == null) throw new KeyNotFoundException("Exam Model not found");
@@ -46,7 +46,7 @@ namespace ExamsApi.Application.Services.ExamModels
             await _context.SaveChangesAsync();
             return _mapper.Map<ExamModelResponseDto>(examModel);
         }
-        public async Task<bool> DeleteExamModelAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var examModel = await _context.ExamModels.FindAsync(id);
             if (examModel == null) throw new KeyNotFoundException("Exam Model not found");
