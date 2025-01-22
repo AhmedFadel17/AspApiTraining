@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ExamsApi.Application.DTOs.Questions.Paragraph
 {
-    public class CreateParagraphDto : ICreateQuestionDto
+    public record CreateParagraphDto : ICreateQuestionDto
     {
         [Required]
         public int MainQuestionId { get; set; }

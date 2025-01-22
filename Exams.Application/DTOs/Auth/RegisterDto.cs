@@ -1,6 +1,6 @@
 ﻿namespace ExamsApi.Application.DTOs.Auth
 {
-    public class RegisterDto
+    public record RegisterDto
     {
         public string Username { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;

@@ -1,6 +1,6 @@
 ﻿namespace ExamsApi.Application.DTOs.Errors
 {
-    public class ErrorResponseDto
+    public record ErrorResponseDto
     {
         public required string Error { get; set; }
         public int StatusCode { get; set; }

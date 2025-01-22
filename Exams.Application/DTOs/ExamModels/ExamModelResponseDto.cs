@@ -2,7 +2,7 @@
 
 namespace ExamsApi.Application.DTOs.ExamModels
 {
-    public class ExamModelResponseDto
+    public record ExamModelResponseDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

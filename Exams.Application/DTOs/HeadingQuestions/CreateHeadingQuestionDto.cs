@@ -2,7 +2,7 @@
 
 namespace ExamsApi.Application.DTOs.HeadingQuestions
 {
-    public class CreateHeadingQuestionDto
+    public record CreateHeadingQuestionDto
     {
         [Required, MaxLength(255)]
         public required string Title { get; set; }

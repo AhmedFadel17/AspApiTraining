@@ -2,7 +2,7 @@
 
 namespace ExamsApi.Application.DTOs.HeadingQuestions
 {
-    public class UpdateHeadingQuestionDto
+    public record UpdateHeadingQuestionDto
     {
         [MaxLength(255)]
         public string? Title { get; set; }

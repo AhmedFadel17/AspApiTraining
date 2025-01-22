@@ -3,7 +3,7 @@ using ExamsApi.Application.DTOs;
 
 namespace ExamsApi.Application.DTOs.Questions.Paragraph
 {
-    public class ParagraphResponseDto
+    public record ParagraphResponseDto
     {
         public int Id { get; set; }
         public int MainQuestionId { get; set; }

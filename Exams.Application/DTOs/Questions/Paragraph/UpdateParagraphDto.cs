@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ExamsApi.Application.DTOs.Questions.Paragraph
 {
-    public class UpdateParagraphDto : IUpdateQuestionDto
+    public record UpdateParagraphDto : IUpdateQuestionDto
     {
         [Range(0, 1000)]
         public double? Marks { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace ExamsApi.Application.DTOs.HeadingQuestions
 {
-    public class HeadingQuestionResponseDto
+    public record HeadingQuestionResponseDto
     {
         public int Id { get; set; }
         public string Title { get; set; }

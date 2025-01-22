@@ -2,7 +2,7 @@
 using ExamsApi.Application.DTOs;
 namespace ExamsApi.Application.DTOs.Questions.SingleChoice
 {
-    public class SingleChoiceResponseDto : IQuestionResponseDto
+    public record SingleChoiceResponseDto : IQuestionResponseDto
     {
         public int Id { get; set; }
         public int MainQuestionId { get; set; }

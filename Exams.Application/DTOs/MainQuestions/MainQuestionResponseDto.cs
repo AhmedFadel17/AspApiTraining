@@ -1,6 +1,6 @@
 ﻿namespace ExamsApi.Application.DTOs.MainQuestions
 {
-    public class MainQuestionResponseDto
+    public record MainQuestionResponseDto
     {
         public int Id { get; set; }
         public string Title { get; set; }

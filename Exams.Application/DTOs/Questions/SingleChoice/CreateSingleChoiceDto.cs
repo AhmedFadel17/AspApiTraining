@@ -2,7 +2,7 @@
 
 namespace ExamsApi.Application.DTOs.Questions.SingleChoice
 {
-    public class CreateSingleChoiceDto : ICreateQuestionDto
+    public record CreateSingleChoiceDto : ICreateQuestionDto
     {
         [Required]
         public int MainQuestionId { get; set; }

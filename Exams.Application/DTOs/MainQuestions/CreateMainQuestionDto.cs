@@ -2,7 +2,7 @@
 
 namespace ExamsApi.Application.DTOs.MainQuestions
 {
-    public class CreateMainQuestionDto
+    public record CreateMainQuestionDto
     {
         [Required, MaxLength(255)]
         public required string Title { get; set; }

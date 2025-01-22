@@ -2,7 +2,7 @@
 
 namespace ExamsApi.Application.DTOs.ExamModels
 {
-    public class CreateExamModelDto
+    public record CreateExamModelDto
     {
         [Required, MaxLength(255)]
         public required string Name { get; set; }

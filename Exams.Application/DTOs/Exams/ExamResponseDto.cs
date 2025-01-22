@@ -1,6 +1,6 @@
 ﻿namespace ExamsApi.Application.DTOs.Exams
 {
-    public class ExamResponseDto
+    public record ExamResponseDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

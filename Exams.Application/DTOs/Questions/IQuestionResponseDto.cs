@@ -2,7 +2,7 @@
 
 namespace ExamsApi.Application.DTOs.Questions
 {
-    public interface IQuestionResponseDto
+    public record IQuestionResponseDto
     {
         public int Id { get; set; }
         public int MainQuestionId { get; set; }

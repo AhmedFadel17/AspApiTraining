@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ExamsApi.Application.DTOs.Questions.SingleChoice
 {
-    public class UpdateSingleChoiceDto : IUpdateQuestionDto
+    public record UpdateSingleChoiceDto : IUpdateQuestionDto
     {
         [Range(0, 1000)]
         public double? Marks { get; set; }
