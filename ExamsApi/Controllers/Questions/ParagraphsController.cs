@@ -1,18 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ExamsApi.DTOs.Questions.Paragraph;
-using ExamsApi.Services.Question.Paragraph;
 using Microsoft.AspNetCore.Authorization;
+using ExamsApi.Application.DTOs.Questions.Paragraph;
+using ExamsApi.Application.Interfaces.Questions;
+using ExamsApi.Application.Services.Questions;
 
-namespace ExamsApi.Controllers.Questions
+namespace ExamsApi.WebUi.Controllers.Questions
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ParagraphsController : ControllerBase
     {
-        private readonly IParagraphService _paragraphService;
+        private readonly IQuestionService _paragraphService;
 
-        public ParagraphsController(IParagraphService paragraphService)
+        public ParagraphsController(ParagraphService paragraphService)
         {
             _paragraphService = paragraphService;
         }
@@ -20,7 +21,7 @@ namespace ExamsApi.Controllers.Questions
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CreateParagraphDto paragraphDto)
         {
-            var question = await _paragraphService.CreateParagraphAsync(paragraphDto);
+            var question = await _paragraphService.CreateQuestionAsync(paragraphDto);
             return Ok(question);
         }
 
@@ -28,7 +29,7 @@ namespace ExamsApi.Controllers.Questions
         [Route("{id:int}")]
         public async Task<IActionResult> UpdateAsync(int id, UpdateParagraphDto paragraphDto)
         {
-            var question = await _paragraphService.UpdateParagraphAsync(id, paragraphDto);
+            var question = await _paragraphService.UpdateQuestionAsync(id, paragraphDto);
             return Ok(question);
         }
 
@@ -36,7 +37,7 @@ namespace ExamsApi.Controllers.Questions
         [Route("{id:int}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            var isDeleted = await _paragraphService.DeleteParagraphAsync(id);
+            var isDeleted = await _paragraphService.DeleteQuestionAsync(id);
             return Ok(new { message = "Question deleted" });
         }
     }

@@ -1,9 +1,9 @@
-﻿using ExamsApi.DTOs.Errors;
+﻿using ExamsApi.Application.DTOs.Errors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Linq;
 
-namespace ExamsApi.Filters
+namespace ExamsApi.WebUi.Filters
 {
     public class ValidationFilter : IActionFilter
     {

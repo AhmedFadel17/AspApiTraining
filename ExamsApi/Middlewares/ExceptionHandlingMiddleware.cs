@@ -1,7 +1,7 @@
-﻿using ExamsApi.DTOs.Errors;
+﻿using ExamsApi.Application.DTOs.Errors;
 using System.ComponentModel.DataAnnotations;
 
-namespace ExamsApi.Middlewares
+namespace ExamsApi.WebUi.Middlewares
 {
     public class ExceptionHandlingMiddleware
     {

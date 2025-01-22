@@ -1,18 +1,19 @@
-﻿using ExamsApi.DTOs.Questions.SingleChoice;
-using ExamsApi.Services.Question.SingleChoice;
+﻿using ExamsApi.Application.DTOs.Questions.SingleChoice;
+using ExamsApi.Application.Interfaces.Questions;
+using ExamsApi.Application.Services.Questions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ExamsApi.Controllers.Questions
+namespace ExamsApi.WebUi.Controllers.Questions
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SingleChoicesController : ControllerBase
     {
-        private readonly ISingleChoiceService _singleChoiceService;
+        private readonly IQuestionService _singleChoiceService;
 
-        public SingleChoicesController(ISingleChoiceService singleChoiceService)
+        public SingleChoicesController(SingleChoiceService singleChoiceService)
         {
             _singleChoiceService = singleChoiceService;
         }
@@ -20,7 +21,7 @@ namespace ExamsApi.Controllers.Questions
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CreateSingleChoiceDto singleChoiceDto)
         {
-            var question = await _singleChoiceService.CreateSingleChoiceAsync(singleChoiceDto);
+            var question = await _singleChoiceService.CreateQuestionAsync(singleChoiceDto);
             return Ok(question);
         }
 
@@ -28,7 +29,7 @@ namespace ExamsApi.Controllers.Questions
         [Route("{id:int}")]
         public async Task<IActionResult> UpdateAsync(int id, UpdateSingleChoiceDto singleChoiceDto)
         {
-            var question = await _singleChoiceService.UpdateSingleChoiceAsync(id, singleChoiceDto);
+            var question = await _singleChoiceService.UpdateQuestionAsync(id, singleChoiceDto);
             return Ok(question);
         }
 
@@ -36,7 +37,7 @@ namespace ExamsApi.Controllers.Questions
         [Route("{id:int}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            var isDeleted = await _singleChoiceService.DeleteSingleChoiceAsync(id);
+            var isDeleted = await _singleChoiceService.DeleteQuestionAsync(id);
             return Ok(new { message = "Question deleted" });
         }
     }

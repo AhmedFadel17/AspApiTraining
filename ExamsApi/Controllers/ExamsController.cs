@@ -1,11 +1,11 @@
-﻿using ExamsApi.DTOs.Exams;
+﻿using ExamsApi.Application.DTOs.Exams;
 using Microsoft.AspNetCore.Mvc;
-using ExamsApi.Services.Exams;
+using ExamsApi.Application.Interfaces.Exams;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 
-namespace ExamsApi.Controllers
+namespace ExamsApi.WebUi.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]

@@ -1,11 +1,8 @@
-﻿using ExamsApi.DTOs.Auth;
-using ExamsApi.Helpers;
-using ExamsApi.Services.Auth;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using ExamsApi.Application.Interfaces.Auth;
+using ExamsApi.Application.DTOs.Auth;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ExamsApi.Controllers
+namespace ExamsApi.WebUi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

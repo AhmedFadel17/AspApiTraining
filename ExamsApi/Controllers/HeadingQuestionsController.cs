@@ -1,10 +1,9 @@
-﻿using ExamsApi.Data;
-using ExamsApi.DTOs.HeadingQuestions;
-using ExamsApi.Services.HeadingQuestions;
+﻿using ExamsApi.Application.DTOs.HeadingQuestions;
+using ExamsApi.Application.Interfaces.HeadingQuestions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ExamsApi.Controllers
+namespace ExamsApi.WebUi.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]

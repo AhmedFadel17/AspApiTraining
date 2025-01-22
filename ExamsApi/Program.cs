@@ -1,21 +1,14 @@
-using ExamsApi.Data;
-using ExamsApi.Filters;
-using ExamsApi.Middlewares;
-using ExamsApi.Services.Exams;
-using ExamsApi.Services.ExamModels;
-using ExamsApi.Services.HeadingQuestions;
-using ExamsApi.Services.MainQuestions;
-using ExamsApi.Services.Question.Paragraph;
-using ExamsApi.Services.Question.SingleChoice;
-using ExamsApi.Services.Questions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using ExamsApi.Services.Auth;
-using ExamsApi.Services.Hashers;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using ExamsApi.Application;
+using ExamsApi.Domain;
+using ExamsApi.DataAccess;
+using ExamsApi.WebUi.Middlewares;
+using ExamsApi.WebUi.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,14 +16,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IExamService, ExamService>();
-builder.Services.AddScoped<IExamModelService, ExamModelService>();
-builder.Services.AddScoped<IHeadingQuestionService, HeadingQuestionService>();
-builder.Services.AddScoped<IMainQuestionService, MainQuestionService>();
-builder.Services.AddScoped<IQuestionService, SingleChoiceService>();
-builder.Services.AddScoped<IQuestionService, ParagraphService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddDomainServices();
+await builder.Services.AddInfrastructureServices(builder.Configuration);
+await builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -59,8 +47,7 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Secret"]))
     };
 });
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
