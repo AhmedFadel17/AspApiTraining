@@ -18,7 +18,7 @@ namespace ExamsApi.Application.Services.HeadingQuestions
 
         public async Task<HeadingQuestionResponseDto> CreateAsync(CreateHeadingQuestionDto dto)
         {
-            var examModel = await _context.HeadingQuestions.FindAsync(dto.ExamModelId);
+            var examModel = await _context.ExamModels.FindAsync(dto.ExamModelId);
             if (examModel == null) throw new KeyNotFoundException("Exam Model is not found");
             var headingQuestion = _mapper.Map<HeadingQuestion>(dto);
             _context.HeadingQuestions.Add(headingQuestion);

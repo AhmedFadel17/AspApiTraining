@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ExamsApi.WebUi.Controllers.Questions
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SingleChoicesController : ControllerBase
     {
-        private readonly IQuestionService _singleChoiceService;
+        private readonly ISingleChoiceService _singleChoiceService;
 
-        public SingleChoicesController(SingleChoiceService singleChoiceService)
+        public SingleChoicesController(ISingleChoiceService singleChoiceService)
         {
             _singleChoiceService = singleChoiceService;
         }

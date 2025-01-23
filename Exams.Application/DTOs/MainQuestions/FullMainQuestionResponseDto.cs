@@ -1,4 +1,5 @@
-﻿using ExamsApi.Domain.Models;
+﻿using ExamsApi.Application.DTOs.Questions;
+using ExamsApi.Domain.Models;
 
 namespace ExamsApi.Application.DTOs.Exams
 {
@@ -10,6 +11,5 @@ namespace ExamsApi.Application.DTOs.Exams
         public double TotalMarks { get; set; }
         public int DisplayOrder { get; set; }
         public string Description { get; set; }
-        public List<Question> Questions { get; set; }
     }
 }

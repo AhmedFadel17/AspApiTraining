@@ -19,8 +19,8 @@ namespace ExamsApi.DataAccess
             services.AddScoped<IExamModelRepository, ExamModelRepository>();
             services.AddScoped<IHeadingQuestionRepository, HeadingQuestionRepository>();
             services.AddScoped<IMainQuestionRepository, MainQuestionRepository>();
-            services.AddScoped<IQuestionRepository, SingleChoiceRepository>();
-            services.AddScoped<IQuestionRepository, ParagraphRepository>();
+            services.AddScoped<ISingleChoicesRepository, SingleChoiceRepository>();
+            services.AddScoped<IParagraphRepository, ParagraphRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             return Task.FromResult(services);

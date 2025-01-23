@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ExamsApi.WebUi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ExamModelsController : ControllerBase

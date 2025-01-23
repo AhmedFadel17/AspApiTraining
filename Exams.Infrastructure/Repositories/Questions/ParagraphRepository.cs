@@ -4,7 +4,7 @@ using ExamsApi.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 namespace ExamsApi.DataAccess.Repositories.Questions
 {
-    public class ParagraphRepository : IQuestionRepository
+    public class ParagraphRepository : IParagraphRepository
     {
         private readonly ApplicationDbContext _context;
         public ParagraphRepository(ApplicationDbContext context)
@@ -12,30 +12,30 @@ namespace ExamsApi.DataAccess.Repositories.Questions
             _context = context;
         }
 
-        public async Task<Question> GetAsync(int id)
+        public async Task<Paragraph> GetAsync(int id)
         {
             var question = await _context.ParagraphQuestions.FindAsync(id);
             return question;
         }
 
-        public async Task<IEnumerable<Question>> GetAllAsync()
+        public async Task<IEnumerable<Paragraph>> GetAllAsync()
         {
             var questions = await _context.ParagraphQuestions.ToListAsync();
             return questions;
         }
-        public async Task CreateAsync(Question question)
+        public async Task CreateAsync(Paragraph question)
         {
-            _context.ParagraphQuestions.Add(question as Paragraph);
+            _context.ParagraphQuestions.Add(question);
             await _context.SaveChangesAsync();
         }
-        public async Task UpdateAsync(Question question)
+        public async Task UpdateAsync(Paragraph question)
         {
-            _context.ParagraphQuestions.Update(question as Paragraph);
+            _context.ParagraphQuestions.Update(question);
             await _context.SaveChangesAsync();
         }
-        public async Task DeleteAsync(Question question)
+        public async Task DeleteAsync(Paragraph question)
         {
-            _context.ParagraphQuestions.Remove(question as Paragraph);
+            _context.ParagraphQuestions.Remove(question);
             await _context.SaveChangesAsync();
         }
     }

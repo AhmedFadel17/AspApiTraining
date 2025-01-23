@@ -6,14 +6,14 @@ using ExamsApi.Application.Services.Questions;
 
 namespace ExamsApi.WebUi.Controllers.Questions
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ParagraphsController : ControllerBase
     {
-        private readonly IQuestionService _paragraphService;
+        private readonly IParagraphService _paragraphService;
 
-        public ParagraphsController(ParagraphService paragraphService)
+        public ParagraphsController(IParagraphService paragraphService)
         {
             _paragraphService = paragraphService;
         }

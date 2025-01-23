@@ -7,21 +7,15 @@ using Microsoft.AspNetCore.Http;
 
 namespace ExamsApi.WebUi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ExamsController : ControllerBase
     {
         private readonly IExamService _examService;
-        private readonly int _userId;
-        public ExamsController(IExamService examService, IHttpContextAccessor httpContextAccessor)
+        public ExamsController(IExamService examService)
         {
             _examService = examService;
-            var userIdClaim = httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out _userId))
-            {
-                throw new UnauthorizedAccessException("User is not authenticated.");
-            }
         }
 
         [HttpGet]
@@ -50,7 +44,6 @@ namespace ExamsApi.WebUi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateExamDto examDto)
         {
-            examDto.UserId = _userId;
             var exam = await _examService.CreateAsync(examDto);
             return Ok(exam);
         }

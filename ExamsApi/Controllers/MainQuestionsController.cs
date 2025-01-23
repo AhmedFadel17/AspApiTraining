@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ExamsApi.WebUi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MainQuestionsController : ControllerBase

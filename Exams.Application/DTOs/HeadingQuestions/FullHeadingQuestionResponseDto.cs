@@ -9,6 +9,6 @@ namespace ExamsApi.Application.DTOs.Exams
         public int ExamModelId { get; set; }
         public double TotalMarks { get; set; }
         public int DisplayOrder { get; set; }
-        public List<MainQuestion> MainQuestions { get; set; }
+        public List<FullMainQuestionResponseDto> MainQuestions { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace ExamsApi.Application.DTOs.Exams
         public int Id { get; set; }
         public string Name { get; set; }
         public int ExamId { get; set; }
-        public List<HeadingQuestion> HeadingQuestions { get; set; }
+        public List<FullHeadingQuestionResponseDto> HeadingQuestions { get; set; }
     }
 }

@@ -11,6 +11,6 @@ namespace ExamsApi.Application.DTOs.Exams
         public string Subject { get; set; }
         public int Time { get; set; }
         public double TotalMarks { get; set; }
-        public List<ExamModel> ExamModels { get; set; }
+        public List<FullExamModelResponseDto> ExamModels { get; set; }
     }
 }

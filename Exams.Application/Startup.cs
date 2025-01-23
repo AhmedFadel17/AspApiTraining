@@ -25,8 +25,8 @@ namespace ExamsApi.Application
             services.AddScoped<IExamModelService, ExamModelService>();
             services.AddScoped<IHeadingQuestionService, HeadingQuestionService>();
             services.AddScoped<IMainQuestionService, MainQuestionService>();
-            services.AddScoped<IQuestionService, SingleChoiceService>();
-            services.AddScoped<IQuestionService, ParagraphService>();
+            services.AddScoped<ISingleChoiceService, SingleChoiceService>();
+            services.AddScoped<IParagraphService, ParagraphService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             return Task.FromResult(services);
