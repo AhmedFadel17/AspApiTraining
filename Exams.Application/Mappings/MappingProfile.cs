@@ -15,16 +15,19 @@ namespace ExamsApi.Application.Mappings
         public MappingProfile()
         {
             CreateMap<Exam, ExamResponseDto>();
+            CreateMap<Exam, FullExamResponseDto>();
             CreateMap<CreateExamDto, Exam>();
             CreateMap<UpdateExamDto, Exam>()
                 .ForAllMembers(field => field.Condition((from, to, fromMember) => fromMember != null));
 
             CreateMap<ExamModel, ExamModelResponseDto>();
+            CreateMap<ExamModel, FullExamModelResponseDto>();
             CreateMap<CreateExamModelDto, ExamModel>();
             CreateMap<UpdateExamModelDto, ExamModel>()
                 .ForAllMembers(field => field.Condition((from, to, fromMember) => fromMember != null));
 
             CreateMap<HeadingQuestion, HeadingQuestionResponseDto>();
+            CreateMap<HeadingQuestion, FullHeadingQuestionResponseDto>();
             CreateMap<CreateHeadingQuestionDto, HeadingQuestion>();
             CreateMap<UpdateHeadingQuestionDto, HeadingQuestion>()
                 .ForAllMembers(field => field.Condition((from, to, fromMember) => fromMember != null));

@@ -32,6 +32,14 @@ namespace ExamsApi.WebUi.Controllers
         }
 
         [HttpGet]
+        [Route("{id:int}/questions")]
+        public async Task<IActionResult> GetFull(int id)
+        {
+            var exams = await _examService.GetFullAsync(id);
+            return Ok(exams);
+        }
+
+        [HttpGet]
         [Route("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {

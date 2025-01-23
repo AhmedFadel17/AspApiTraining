@@ -1,6 +1,8 @@
-﻿namespace ExamsApi.Application.DTOs.Exams
+﻿using ExamsApi.Domain.Models;
+
+namespace ExamsApi.Application.DTOs.Exams
 {
-    public record ExamResponseDto
+    public record FullExamResponseDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -9,6 +11,6 @@
         public string Subject { get; set; }
         public int Time { get; set; }
         public double TotalMarks { get; set; }
-
+        public List<ExamModel> ExamModels { get; set; }
     }
 }
