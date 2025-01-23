@@ -42,7 +42,7 @@ namespace ExamsApi.Application.Services.ExamModels
         {
             var examModel = await _context.ExamModels.FindAsync(id);
             if (examModel == null) throw new KeyNotFoundException("Exam Model not found");
-            examModel.Name = dto.Name;
+            _mapper.Map(dto, examModel);
             await _context.SaveChangesAsync();
             return _mapper.Map<ExamModelResponseDto>(examModel);
         }

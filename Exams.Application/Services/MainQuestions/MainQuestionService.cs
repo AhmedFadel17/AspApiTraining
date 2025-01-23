@@ -27,10 +27,7 @@ namespace ExamsApi.Application.Services.MainQuestions
         {
             var mainQuestion = await _context.MainQuestions.FindAsync(id);
             if (mainQuestion == null) throw new KeyNotFoundException("Main Question not found");
-            if (mainQuestionDto.Title != null) mainQuestion.Title = mainQuestionDto.Title;
-            if (mainQuestionDto.TotalMarks.HasValue) mainQuestion.TotalMarks = mainQuestionDto.TotalMarks.Value;
-            if (mainQuestionDto.DisplayOrder.HasValue) mainQuestion.DisplayOrder = mainQuestionDto.DisplayOrder.Value;
-            if (mainQuestionDto.Description != null) mainQuestion.Description = mainQuestionDto.Description;
+            _mapper.Map(mainQuestionDto, mainQuestion);
             await _context.SaveChangesAsync();
             return _mapper.Map<MainQuestionResponseDto>(mainQuestion);
         }

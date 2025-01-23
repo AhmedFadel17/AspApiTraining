@@ -29,9 +29,7 @@ namespace ExamsApi.Application.Services.HeadingQuestions
         {
             var headingQuestion = await _context.HeadingQuestions.FindAsync(id);
             if (headingQuestion == null) throw new KeyNotFoundException("Heading Question is not found");
-            if (dto.Title != null) headingQuestion.Title = dto.Title;
-            if (dto.TotalMarks.HasValue) headingQuestion.TotalMarks = dto.TotalMarks.Value;
-            if (dto.DisplayOrder.HasValue) headingQuestion.DisplayOrder = dto.DisplayOrder.Value;
+            _mapper.Map(dto, headingQuestion);
             await _context.SaveChangesAsync();
             return _mapper.Map<HeadingQuestionResponseDto>(headingQuestion);
         }

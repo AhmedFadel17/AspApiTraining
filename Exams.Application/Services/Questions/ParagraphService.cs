@@ -4,6 +4,7 @@ using ExamsApi.Application.Interfaces.Questions;
 using ExamsApi.DataAccess.Data;
 using ExamsApi.Application.DTOs.Questions;
 using ExamsApi.Domain.Models.Questions;
+using ExamsApi.Domain.Models;
 namespace ExamsApi.Application.Services.Questions
 {
     public class ParagraphService : IQuestionService
@@ -29,10 +30,7 @@ namespace ExamsApi.Application.Services.Questions
             var question = await _context.ParagraphQuestions.FindAsync(id);
             if (question == null) throw new KeyNotFoundException("Question not found");
             var paragraphDto = dto as UpdateParagraphDto;
-            if (paragraphDto.Marks.HasValue) question.Marks = paragraphDto.Marks.Value;
-            if (paragraphDto.MinWords.HasValue) question.MinWords = paragraphDto.MinWords.Value;
-            if (paragraphDto.Title != null) question.Title = paragraphDto.Title;
-            if (paragraphDto.GuidingWords != null) question.GuidingWords = paragraphDto.GuidingWords;
+            _mapper.Map(paragraphDto, question);
             await _context.SaveChangesAsync();
             return _mapper.Map<IQuestionResponseDto>(question);
         }

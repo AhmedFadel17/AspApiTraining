@@ -39,12 +39,7 @@ namespace ExamsApi.Application.Services.Exams
         {
             var exam = await _context.Exams.FindAsync(id);
             if (exam == null) throw new KeyNotFoundException("Exam not found");
-            if (examDto.Name != null) exam.Name = examDto.Name;
-            if (examDto.Description != null) exam.Description = examDto.Description;
-            if (examDto.Grade.HasValue) exam.Grade = examDto.Grade.Value;
-            if (examDto.Subject != null) exam.Subject = examDto.Subject;
-            if (examDto.Time.HasValue) exam.Time = examDto.Time.Value;
-            if (examDto.TotalMarks.HasValue) exam.TotalMarks = examDto.TotalMarks.Value;
+            _mapper.Map(examDto, exam);
             await _context.SaveChangesAsync();
             return _mapper.Map<ExamResponseDto>(exam);
         }

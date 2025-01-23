@@ -16,27 +16,33 @@ namespace ExamsApi.Application.Mappings
         {
             CreateMap<Exam, ExamResponseDto>();
             CreateMap<CreateExamDto, Exam>();
-            CreateMap<UpdateExamDto, Exam>();
+            CreateMap<UpdateExamDto, Exam>()
+                .ForAllMembers(field => field.Condition((from, to, fromMember) => fromMember != null));
 
             CreateMap<ExamModel, ExamModelResponseDto>();
             CreateMap<CreateExamModelDto, ExamModel>();
-            CreateMap<UpdateExamModelDto, ExamModel>();
+            CreateMap<UpdateExamModelDto, ExamModel>()
+                .ForAllMembers(field => field.Condition((from, to, fromMember) => fromMember != null));
 
             CreateMap<HeadingQuestion, HeadingQuestionResponseDto>();
             CreateMap<CreateHeadingQuestionDto, HeadingQuestion>();
-            CreateMap<UpdateHeadingQuestionDto, HeadingQuestion>();
+            CreateMap<UpdateHeadingQuestionDto, HeadingQuestion>()
+                .ForAllMembers(field => field.Condition((from, to, fromMember) => fromMember != null));
 
             CreateMap<MainQuestion, MainQuestionResponseDto>();
             CreateMap<CreateMainQuestionDto, MainQuestion>();
-            CreateMap<UpdateMainQuestionDto, MainQuestion>();
+            CreateMap<UpdateMainQuestionDto, MainQuestion>()
+                .ForAllMembers(field => field.Condition((from, to, fromMember) => fromMember != null));
 
             CreateMap<Paragraph, ParagraphResponseDto>();
             CreateMap<CreateParagraphDto, Paragraph>();
-            CreateMap<UpdateParagraphDto, Paragraph>();
+            CreateMap<UpdateParagraphDto, Paragraph>()
+                .ForAllMembers(field => field.Condition((from, to, fromMember) => fromMember != null));
 
             CreateMap<SingleChoice, SingleChoiceResponseDto>();
             CreateMap<CreateSingleChoiceDto, SingleChoice>();
-            CreateMap<UpdateSingleChoiceDto, SingleChoice>();
+            CreateMap<UpdateSingleChoiceDto, SingleChoice>()
+                .ForAllMembers(field => field.Condition((from, to, fromMember) => fromMember != null));
         }
         
     }
