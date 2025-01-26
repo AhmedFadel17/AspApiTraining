@@ -1,5 +1,7 @@
 ﻿using CatalogServiceApi.Application.DTOs.Errors;
 using CatalogServiceApi.WebUi.Validators;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace CatalogServiceApi.WebUi.Middlewares
 {
@@ -31,6 +33,20 @@ namespace CatalogServiceApi.WebUi.Middlewares
                 await HandleAuthAsync(context, errorMessage);
                 return;
             }
+            var authorizeAttributes = context.GetEndpoint()?.Metadata
+                    .OfType<AuthorizeAttribute>()
+                    .FirstOrDefault();
+
+            if (authorizeAttributes != null && authorizeAttributes.Roles != null)
+            {
+                var requiredRoles = authorizeAttributes.Roles.Split(',');
+
+                if (!HasRequiredRole(userClaims, requiredRoles))
+                {
+                    await HandleAuthAsync(context, "You do not have the required role");
+                    return;
+                }
+            }
 
             context.User = userClaims;
             await _next(context);
@@ -50,6 +66,18 @@ namespace CatalogServiceApi.WebUi.Middlewares
             };
 
             return context.Response.WriteAsJsonAsync(response);
+        }
+
+        private bool HasRequiredRole(ClaimsPrincipal userClaims, string[] requiredRoles)
+        {
+            foreach (var role in requiredRoles)
+            {
+                if (userClaims.IsInRole(role))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
