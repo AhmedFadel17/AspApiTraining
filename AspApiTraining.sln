@@ -5,13 +5,19 @@ VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamsApi.WebUi", "ExamsApi\ExamsApi.WebUi.csproj", "{86309EC2-C387-4E8B-9E40-0A7AAA685936}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogServiceApi", "CatalogServiceApi\CatalogServiceApi.csproj", "{B8BF98BA-12DC-480D-9F71-29825D639A18}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogServiceApi.WebUi", "CatalogServiceApi\CatalogServiceApi.WebUi.csproj", "{B8BF98BA-12DC-480D-9F71-29825D639A18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamsApi.Domain", "Exams.Domain\ExamsApi.Domain.csproj", "{4FCB8ADF-5746-4B78-8E78-2C0750267AF0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamsApi.DataAccess", "Exams.Infrastructure\ExamsApi.DataAccess.csproj", "{4F3534F1-EFA1-44C0-9D42-CD07C7CC5C67}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamsApi.Application", "Exams.Application\ExamsApi.Application.csproj", "{962A0195-FE5C-4E0F-AAE1-BD5547DD4C90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogServiceApi.DataAccess", "CatalogServiceApi.DataAccess\CatalogServiceApi.DataAccess.csproj", "{28B19586-7806-42A6-A210-96F25615C9F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogServiceApi.Application", "CatalogServiceApi.Application\CatalogServiceApi.Application.csproj", "{A56E9687-610F-4123-8C24-4DB95BC0AAED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogServiceApi.Domain", "CatalogServiceApi.Domain\CatalogServiceApi.Domain.csproj", "{DE04A8C3-7AFB-4117-BE23-F110A3D4E3A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +45,18 @@ Global
 		{962A0195-FE5C-4E0F-AAE1-BD5547DD4C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{962A0195-FE5C-4E0F-AAE1-BD5547DD4C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{962A0195-FE5C-4E0F-AAE1-BD5547DD4C90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28B19586-7806-42A6-A210-96F25615C9F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28B19586-7806-42A6-A210-96F25615C9F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28B19586-7806-42A6-A210-96F25615C9F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28B19586-7806-42A6-A210-96F25615C9F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A56E9687-610F-4123-8C24-4DB95BC0AAED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A56E9687-610F-4123-8C24-4DB95BC0AAED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A56E9687-610F-4123-8C24-4DB95BC0AAED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A56E9687-610F-4123-8C24-4DB95BC0AAED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE04A8C3-7AFB-4117-BE23-F110A3D4E3A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE04A8C3-7AFB-4117-BE23-F110A3D4E3A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE04A8C3-7AFB-4117-BE23-F110A3D4E3A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE04A8C3-7AFB-4117-BE23-F110A3D4E3A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

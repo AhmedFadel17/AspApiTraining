@@ -1,5 +1,7 @@
-using CatalogServiceAPI.Data;
-using Microsoft.EntityFrameworkCore;
+using CatalogServiceApi.Application;
+using CatalogServiceApi.DataAccess;
+using CatalogServiceApi.Domain;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +11,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+builder.Services.AddDomainServices();
+await builder.Services.AddDataAccessServices(builder.Configuration);
+await builder.Services.AddApplicationServices(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

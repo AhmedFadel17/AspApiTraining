@@ -1,9 +1,6 @@
-﻿using CatalogServiceAPI.Data;
-using CatalogServiceAPI.DTOs.Categories;
-using CatalogServiceAPI.Entities;
-using Microsoft.AspNetCore.Http;
+﻿using CatalogServiceApi.Application.DTOs.Categories;
+using CatalogServiceApi.Application.Services.Categories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CatalogServiceAPI.Controllers
 {
@@ -11,56 +8,38 @@ namespace CatalogServiceAPI.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly ApplicationDbContext _dbContext;
-        public CategoriesController(ApplicationDbContext dbContext)
+        private readonly CategoryService _service;
+        public CategoriesController(CategoryService service)
         {
-            _dbContext = dbContext;
+            _service=service;
         }
 
         [HttpGet]
         public IActionResult All()
         {
-            List<Category> categories = _dbContext.Categories.ToList();
+            var categories = _service.GetAllAsync();
             return Ok(categories);
         }
 
         [HttpGet]
         [Route("{id:int}")]
         public IActionResult GetById(int id) {
-            Category? category = _dbContext.Categories.Find(id);
-            if (category is null) {
-                return NotFound(new { message = "Category Not Found" });
-            }
+            var category = _service.GetByIdAsync(id);
             return Ok(category);
         }
 
         [HttpPost]
-        public IActionResult Create(CreateCategoryDto categoryDto) {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            Category? category=new Category { 
-                Name= categoryDto.Name,
-                Description= categoryDto.Description,
-            };
-            _dbContext.Categories.Add(category);
-            _dbContext.SaveChanges();
+        public IActionResult Create(CreateCategoryDto categoryDto) 
+        {
+            var category=_service.CreateAsync(categoryDto);
             return Ok(category);
         }
 
         [HttpPut]
         [Route("{id:int}")]
-        public IActionResult Update(int id,UpdateCategoryDto categoryDto) {
-
-            Category? category = _dbContext.Categories.Find(id);
-            if (category is null)
-            {
-                return NotFound(new { message = "Category Not Found" });
-            }
-            category.Name = categoryDto.Name ?? category.Name;
-            category.Description = categoryDto.Description ?? category.Description;
-            _dbContext.SaveChanges();
+        public IActionResult Update(int id,UpdateCategoryDto categoryDto) 
+        {
+            var category = _service.UpdateAsync(id, categoryDto);
             return Ok(category);
         }
 
@@ -68,13 +47,7 @@ namespace CatalogServiceAPI.Controllers
         [Route("{id:int}")]
         public IActionResult Delete(int id)
         {
-            Category? category = _dbContext.Categories.Find(id);
-            if (category is null)
-            {
-                return NotFound(new { message = "Category Not Found" });
-            }
-            _dbContext.Categories.Remove(category);
-            _dbContext.SaveChanges();
+            var category = _service.DeleteAsync(id);
             return Ok(new { message = "Category Deleted!" });
         }
     }
