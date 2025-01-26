@@ -1,9 +1,12 @@
 ﻿using CatalogServiceApi.Application.DTOs.Products;
 using CatalogServiceApi.Application.Services.Products;
+using CatalogServiceApi.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogServiceAPI.Controllers
 {
+    [Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)}")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
@@ -15,6 +18,7 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)},{nameof(UserRole.Customer)}")]
         public IActionResult All()
         {
             var products = _service.GetAllAsync();
@@ -22,6 +26,7 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)},{nameof(UserRole.Customer)}")]
         [Route("{id:int}")]
         public IActionResult GetById(int id)
         {

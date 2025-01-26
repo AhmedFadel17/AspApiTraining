@@ -4,8 +4,7 @@ namespace CatalogServiceApi.DataAccess.Repostories.Auth
 {
     public interface IAuthRepository
     {
-        Task RegisterAsync(User user);
-        Task<User>? GetUserAsync(string email);
-        string GenerateJwtToken(User user);
+        Task<User> GetUserByEmailAsync(string email);
+        Task<User> GetUserByUsernameAsync(string username);
     }
 }
