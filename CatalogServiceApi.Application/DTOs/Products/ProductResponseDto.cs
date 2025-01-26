@@ -1,7 +1,7 @@
 ﻿
 namespace CatalogServiceApi.Application.DTOs.Products
 {
-    public record ProducResponseDto
+    public record ProductResponseDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

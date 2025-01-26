@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CatalogServiceApi.DataAccess.Repostories.Categories
 {
-    public class CategoriesRepository : BaseRepository<Category> , ICategoriesRepository
+    public class CategoryRepository : BaseRepository<Category> , ICategoryRepository
     {
-        public CategoriesRepository(ApplicationDbContext context) : base(context) { }
+        public CategoryRepository(ApplicationDbContext context) : base(context) { }
 
         public IQueryable<Category> GetAllCategoriesWithProductsAsync()
         {

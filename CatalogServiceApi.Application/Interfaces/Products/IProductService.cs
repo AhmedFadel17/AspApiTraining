@@ -4,11 +4,11 @@ namespace CatalogServiceApi.Application.Interfaces.Products
 {
     internal interface IProductService
     {
-        Task<ProducResponseDto> GetByIdAsync(int id);
-        Task<ProducResponseDto> GetByNameAsync(string name);
-        Task<IEnumerable<ProducResponseDto>> GetAllAsync();
-        Task<ProducResponseDto> CreateAsync(CreateProductDto dto);
-        Task<ProducResponseDto> UpdateAsync(int id, UpdateProductDto dto);
+        Task<ProductResponseDto> GetByIdAsync(int id);
+        Task<ProductResponseDto> GetByNameAsync(string name);
+        Task<IEnumerable<ProductResponseDto>> GetAllAsync();
+        Task<ProductResponseDto> CreateAsync(CreateProductDto dto);
+        Task<ProductResponseDto> UpdateAsync(int id, UpdateProductDto dto);
         Task<bool> DeleteAsync(int id);
     }
 }

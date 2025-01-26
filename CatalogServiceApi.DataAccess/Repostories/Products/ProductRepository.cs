@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CatalogServiceApi.DataAccess.Repostories.Products
 {
-    public class ProductsRepository : BaseRepository<Product>, IProductsRepository
+    public class ProductRepository : BaseRepository<Product>, IProductRepository
     {
-        public ProductsRepository(ApplicationDbContext context) : base(context){}
+        public ProductRepository(ApplicationDbContext context) : base(context){}
 
         public async Task<Product> GetByNameAsync(string name)
         {

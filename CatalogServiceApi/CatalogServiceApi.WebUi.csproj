@@ -15,4 +15,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CatalogServiceApi.Application\CatalogServiceApi.Application.csproj" />
+    <ProjectReference Include="..\CatalogServiceApi.DataAccess\CatalogServiceApi.DataAccess.csproj" />
+    <ProjectReference Include="..\CatalogServiceApi.Domain\CatalogServiceApi.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
