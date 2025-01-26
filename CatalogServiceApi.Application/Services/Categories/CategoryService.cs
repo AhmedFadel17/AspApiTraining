@@ -9,9 +9,9 @@ namespace CatalogServiceApi.Application.Services.Categories
 {
     public class CategoryService : ICategoryServices
     {
-        private readonly CategoryRepository _repository;
+        private readonly ICategoryRepository _repository;
         private readonly IMapper _mapper;
-        public CategoryService(CategoryRepository repository,IMapper mapper)
+        public CategoryService(ICategoryRepository repository,IMapper mapper)
         {
             _mapper = mapper;
             _repository = repository;

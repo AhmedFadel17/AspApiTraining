@@ -19,36 +19,45 @@ namespace CatalogServiceApi.WebUi.Middlewares
         public async Task Invoke(HttpContext context)
         {
 
-            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            if (string.IsNullOrEmpty(token))
+            var endpoint = context.GetEndpoint();
+            if (endpoint != null)
             {
-                await HandleAuthAsync(context, "Token is missing");
-                return;
-            }
-            var validator = new JwtTokenValidator(_configuration);
-            var (isValid, errorMessage, userClaims) = validator.ValidateToken(token);
-
-            if (!isValid)
-            {
-                await HandleAuthAsync(context, errorMessage);
-                return;
-            }
-            var authorizeAttributes = context.GetEndpoint()?.Metadata
-                    .OfType<AuthorizeAttribute>()
-                    .FirstOrDefault();
-
-            if (authorizeAttributes != null && authorizeAttributes.Roles != null)
-            {
-                var requiredRoles = authorizeAttributes.Roles.Split(',');
-
-                if (!HasRequiredRole(userClaims, requiredRoles))
+                var authorizeAttribute = endpoint.Metadata.GetMetadata<AuthorizeAttribute>();
+                if (authorizeAttribute != null)
                 {
-                    await HandleAuthAsync(context, "You do not have the required role");
-                    return;
+                    var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                    if (string.IsNullOrEmpty(token))
+                    {
+                        await HandleAuthAsync(context, "Token is missing");
+                        return;
+                    }
+                    var validator = new JwtTokenValidator(_configuration);
+                    var (isValid, errorMessage, userClaims) = validator.ValidateToken(token);
+
+                    if (!isValid)
+                    {
+                        await HandleAuthAsync(context, errorMessage);
+                        return;
+                    }
+                    var authorizeAttributes = context.GetEndpoint()?.Metadata
+                            .OfType<AuthorizeAttribute>()
+                            .FirstOrDefault();
+
+                    if (authorizeAttributes != null && authorizeAttributes.Roles != null)
+                    {
+                        var requiredRoles = authorizeAttributes.Roles.Split(',');
+
+                        if (!HasRequiredRole(userClaims, requiredRoles))
+                        {
+                            await HandleAuthAsync(context, "You do not have the required role");
+                            return;
+                        }
+                    }
+
+                    context.User = userClaims;
                 }
             }
-
-            context.User = userClaims;
+            
             await _next(context);
 
         }

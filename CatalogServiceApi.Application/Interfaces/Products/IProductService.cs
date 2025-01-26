@@ -2,7 +2,7 @@
 
 namespace CatalogServiceApi.Application.Interfaces.Products
 {
-    internal interface IProductService
+    public interface IProductService
     {
         Task<ProductResponseDto> GetByIdAsync(int id);
         Task<ProductResponseDto> GetByNameAsync(string name);

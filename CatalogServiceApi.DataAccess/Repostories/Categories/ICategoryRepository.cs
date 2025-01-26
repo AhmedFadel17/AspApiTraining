@@ -2,7 +2,7 @@
 
 namespace CatalogServiceApi.DataAccess.Repostories.Categories
 {
-    public interface ICategoryRepository
+    public interface ICategoryRepository : IBaseRepository<Category>
     {
         IQueryable<Category> GetAllCategoriesWithProductsAsync();
     }

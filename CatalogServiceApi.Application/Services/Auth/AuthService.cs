@@ -14,11 +14,11 @@ namespace CatalogServiceApi.Application.Services.Auth
 {
     public class AuthService : IAuthService
     {
-        private readonly AuthRepository _repo;
+        private readonly IAuthRepository _repo;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
-        public AuthService(AuthRepository repo,PasswordHasher passwordHasher,IMapper mapper,IConfiguration configuration)
+        public AuthService(IAuthRepository repo,IPasswordHasher passwordHasher,IMapper mapper,IConfiguration configuration)
         {
             _repo=repo;
             _passwordHasher=passwordHasher;

@@ -9,9 +9,9 @@ namespace CatalogServiceApi.Application.Services.Products
 {
     public class ProductService : IProductService
     {
-        private readonly ProductRepository _repository;
+        private readonly IProductRepository _repository;
         private readonly IMapper _mapper;
-        public ProductService(ProductRepository repository,IMapper mapper)
+        public ProductService(IProductRepository repository,IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;

@@ -1,5 +1,5 @@
 ﻿using CatalogServiceApi.Application.DTOs.Products;
-using CatalogServiceApi.Application.Services.Products;
+using CatalogServiceApi.Application.Interfaces.Products;
 using CatalogServiceApi.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,8 +11,8 @@ namespace CatalogServiceAPI.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ProductService _service;
-        public ProductsController(ProductService service)
+        private readonly IProductService _service;
+        public ProductsController(IProductService service)
         {
             _service = service;
         }

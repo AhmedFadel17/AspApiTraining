@@ -2,7 +2,7 @@
 
 namespace CatalogServiceApi.DataAccess.Repostories.Products
 {
-    public interface IProductRepository
+    public interface IProductRepository : IBaseRepository<Product>
     {
         Task<Product> GetByNameAsync(string name);
     }

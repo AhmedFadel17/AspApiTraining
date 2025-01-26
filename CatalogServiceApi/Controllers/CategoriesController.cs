@@ -1,5 +1,5 @@
 ﻿using CatalogServiceApi.Application.DTOs.Categories;
-using CatalogServiceApi.Application.Services.Categories;
+using CatalogServiceApi.Application.Interfaces.Categories;
 using CatalogServiceApi.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,8 +11,8 @@ namespace CatalogServiceAPI.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly CategoryService _service;
-        public CategoriesController(CategoryService service)
+        private readonly ICategoryServices _service;
+        public CategoriesController(ICategoryServices service)
         {
             _service=service;
         }

@@ -1,5 +1,5 @@
 ﻿using CatalogServiceApi.Application.DTOs.Auth;
-using CatalogServiceApi.Application.Services.Auth;
+using CatalogServiceApi.Application.Interfaces.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogServiceApi.WebUi.Controllers
@@ -8,9 +8,9 @@ namespace CatalogServiceApi.WebUi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
 
-        public AuthController(AuthService authService)
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
         }

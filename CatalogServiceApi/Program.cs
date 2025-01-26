@@ -18,7 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDomainServices();
 await builder.Services.AddDataAccessServices(builder.Configuration);
-await builder.Services.AddApplicationServices(builder.Configuration);
+await builder.Services.AddApplicationServices();
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
