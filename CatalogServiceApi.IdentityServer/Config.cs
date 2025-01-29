@@ -3,6 +3,12 @@ using Duende.IdentityServer.Models;
 
 namespace CatalogServiceApi.IdentityServer
 {
+    public enum UserRole
+    {
+        Customer,
+        Manager,
+        Store
+    }
     public static class Config
     {
         
@@ -16,7 +22,9 @@ namespace CatalogServiceApi.IdentityServer
 
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
-            { new ApiScope("api1", "api2") };
+            { new ApiScope("scope1", "scope1"),
+            new ApiScope("scope2", "scope2"),
+            };
 
         public static IEnumerable<Client> Clients =>
             new List<Client>
@@ -29,17 +37,17 @@ namespace CatalogServiceApi.IdentityServer
                     { 
                         new Secret("78195A38-7267-7267-8F2E-8F4EB3FECF34".Sha256()) 
                     },
-                    AllowedScopes = {  "openid", "profile", "api1", "roles" } 
+                    AllowedScopes = {  "openid", "profile", "api1", "roles", "scope1", "scope2" } 
                 },
                 new Client
                 { 
                     ClientId = "client2",
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     ClientSecrets = 
                     { 
                         new Secret("78195A38-7268-7268-8F2E-8F4EB3FECF34".Sha256()) 
                     },
-                    AllowedScopes = {  "openid", "profile", "api2", "roles" } 
+                    AllowedScopes = {  "openid", "profile", "api2", "roles", "scope1", "scope2" } 
                 },
             };
 
