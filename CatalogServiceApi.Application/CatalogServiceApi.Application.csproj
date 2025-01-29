@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CatalogServiceApi.DataAccess\CatalogServiceApi.DataAccess.csproj" />
+    <ProjectReference Include="..\CatalogServiceApi.IdentityServer\CatalogServiceApi.IdentityServer.csproj" />
   </ItemGroup>
 
 </Project>

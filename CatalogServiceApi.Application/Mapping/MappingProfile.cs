@@ -3,6 +3,7 @@ using CatalogServiceApi.Application.DTOs.Auth;
 using CatalogServiceApi.Application.DTOs.Categories;
 using CatalogServiceApi.Application.DTOs.Products;
 using CatalogServiceApi.Domain.Models;
+using CatalogServiceApi.IdentityServer.Data;
 
 namespace CatalogServiceApi.Application.Mapping
 {
@@ -10,9 +11,9 @@ namespace CatalogServiceApi.Application.Mapping
     {
         public MappingProfile() 
         {
-            CreateMap<User, UserDto>();
-            CreateMap<RegisterDto, User>();
-            CreateMap<(string Token, User User), AuthResponseDto>()
+            CreateMap<ApplicationUser, UserDto>();
+            CreateMap<RegisterDto, ApplicationUser>();
+            CreateMap<(string Token, ApplicationUser User), AuthResponseDto>()
                 .ForMember(dest => dest.Token, opt => opt.MapFrom(src => src.Token))
                 .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User));
 

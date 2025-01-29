@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogServiceAPI.Controllers
 {
-    [Authorize(Roles = nameof(UserRole.Manager))]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
@@ -18,7 +17,7 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)},{nameof(UserRole.Customer)}")]
+        [Authorize(Roles = nameof(UserRole.Manager))]
         public IActionResult All()
         {
             var categories = _service.GetAllAsync();
@@ -26,7 +25,7 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)},{nameof(UserRole.Customer)}")]
+        [Authorize(Roles = nameof(UserRole.Store))]
         [Route("{id:int}")]
         public IActionResult GetById(int id) {
             var category = _service.GetByIdAsync(id);
@@ -34,6 +33,7 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = nameof(UserRole.Customer))]
         public IActionResult Create(CreateCategoryDto categoryDto) 
         {
             var category=_service.CreateAsync(categoryDto);

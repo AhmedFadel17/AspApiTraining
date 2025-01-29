@@ -1,12 +1,12 @@
 using CatalogServiceApi.Application;
 using CatalogServiceApi.DataAccess;
 using CatalogServiceApi.Domain;
+using CatalogServiceApi.IdentityServer.Data;
 using CatalogServiceApi.WebUi.Middlewares;
-using CatalogServiceApi.WebUi.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,25 +19,20 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDomainServices();
 await builder.Services.AddDataAccessServices(builder.Configuration);
 await builder.Services.AddApplicationServices();
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-    options.TokenValidationParameters = new TokenValidationParameters
+var identityUrl = builder.Configuration.GetValue<string>("IdentityUrl");
+var clientId = builder.Configuration.GetValue<string>("ClientId");
+
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer",options =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Secret"]))
-    };
-});
+        options.Authority = identityUrl;
+        options.Audience = clientId;
+        //options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = false
+        };
+    });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -50,7 +45,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
-app.UseMiddleware<JwtMiddleware>(builder.Configuration);
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseRouting();
