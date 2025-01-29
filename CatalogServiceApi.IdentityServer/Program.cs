@@ -12,13 +12,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<ApplicationDbContextInitialiser>();
 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
-builder.Services
-            .AddDefaultIdentity<ApplicationUser>()
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<AppDbContext>();
 
 var cl = new Microsoft.AspNetCore.ApiAuthorization.IdentityServer.ClientCollection();
 cl.AddRange(Config.Clients.ToArray());
@@ -27,23 +25,20 @@ scopes.AddRange(Config.ApiScopes.ToArray());
 var identityResources = new Microsoft.AspNetCore.ApiAuthorization.IdentityServer.IdentityResourceCollection();
 identityResources.AddRange(Config.IdentityResources.ToArray());
 builder.Services.AddIdentityServer(options =>
-{
-    options.Events.RaiseErrorEvents = true;
-    options.Events.RaiseInformationEvents = true;
-    options.Events.RaiseFailureEvents = true;
-    options.Events.RaiseSuccessEvents = true;
+        {
+            options.Events.RaiseErrorEvents = true;
+            options.Events.RaiseInformationEvents = true;
+            options.Events.RaiseFailureEvents = true;
+            options.Events.RaiseSuccessEvents = true;
 
-    // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
-    options.EmitStaticAudienceClaim = true;
-})
+            // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
+            options.EmitStaticAudienceClaim = true;
+        })
      .AddInMemoryIdentityResources(Config.IdentityResources)
      .AddInMemoryApiScopes(Config.ApiScopes)
+     .AddAspNetIdentity<IdentityUser>()
     .AddInMemoryClients(Config.Clients)
-    .AddApiAuthorization<ApplicationUser, AppDbContext>(op => {
-        op.Clients = cl;
-        op.ApiScopes = scopes;
-        op.IdentityResources = identityResources;
-    }).AddProfileService<ProfileService>();
+    .AddProfileService<ProfileService>();
 
 var app = builder.Build();
 
@@ -54,9 +49,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     using (var scope = app.Services.CreateScope())
     {
-        var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
-        await initialiser.InitialiseAsync();
-        await initialiser.SeedAsync();
+        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        dbContext.Database.Migrate();
     }
 }
 
