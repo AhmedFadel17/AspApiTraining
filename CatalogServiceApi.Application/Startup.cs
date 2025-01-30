@@ -10,9 +10,9 @@ namespace CatalogServiceApi.Application
     {
         public static Task<IServiceCollection> AddApplicationServices(this IServiceCollection services)
         {
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ICategoryServices, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             return Task.FromResult(services);
         }
     }

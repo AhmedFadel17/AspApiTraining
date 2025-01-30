@@ -1,4 +1,4 @@
-using CatalogServiceApi.Application;
+﻿using CatalogServiceApi.Application;
 using CatalogServiceApi.DataAccess;
 using CatalogServiceApi.Domain;
 using CatalogServiceApi.WebUi.Middlewares;
@@ -19,15 +19,20 @@ var identityUrl = builder.Configuration.GetValue<string>("IdentityUrl");
 var clientId = builder.Configuration.GetValue<string>("ClientId");
 
 builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer("Bearer",options =>
+    .AddJwtBearer("Bearer", options =>
     {
         options.Authority = identityUrl;
-        options.Audience = "client2";
-        //options.RequireHttpsMetadata = false;
         options.TokenValidationParameters = new TokenValidationParameters
         {
+            ValidateIssuer = true,
+            ValidIssuer = identityUrl,
             ValidateAudience = false,
-            RoleClaimType="role"
+            ValidAudience = "client2",
+            ValidateLifetime = true,
+
+            RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+            NameClaimType = "name"
+
         };
     });
 var app = builder.Build();

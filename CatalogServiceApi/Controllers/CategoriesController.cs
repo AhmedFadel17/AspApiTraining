@@ -17,10 +17,12 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = nameof(UserRole.Manager))]
-        public IActionResult All()
+        [Authorize(Roles ="Manager")]
+        public async Task<IActionResult> All()
         {
-            var categories = _service.GetAllAsync();
+            //var claims = User.Claims.Select(c => new { c.Type, c.Value });
+            //return Ok(claims);
+            var categories = await _service.GetAllAsync();
             return Ok(categories);
         }
 

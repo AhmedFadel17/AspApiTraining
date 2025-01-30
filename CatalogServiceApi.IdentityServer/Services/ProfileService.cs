@@ -37,7 +37,7 @@ namespace CatalogServiceApi.IdentityServer.Services
                 var roles = await _userManager.GetRolesAsync(user);
                 foreach (var roleName in roles)
                 {
-                    claims.Add(new Claim(JwtClaimTypes.Role, roleName));
+                    claims.Add(new Claim("role", roleName));
                     if (_roleManager.SupportsRoleClaims)
                     {
                         IdentityRole role = await _roleManager.FindByNameAsync(roleName);
