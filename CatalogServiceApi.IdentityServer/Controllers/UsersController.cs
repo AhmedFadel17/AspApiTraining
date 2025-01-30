@@ -1,64 +1,44 @@
 ﻿using CatalogServiceApi.IdentityServer.Data;
-using Duende.IdentityModel;
-using Microsoft.AspNetCore.Http;
+using CatalogServiceApi.IdentityServer.DTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace CatalogServiceApi.IdentityServer.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        public UsersController(AppDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        private readonly UserManager<IdentityUser> _userManager;
+        public UsersController(UserManager<IdentityUser> userManager)
         {
-            _context = context;
             _userManager = userManager;
-            _roleManager = roleManager;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(ApplicationUser model)
+        [HttpPost("register")]
+        public async Task<IActionResult> Create([FromBody] RegisterDto model)
         {
-            await TrySeedAsync(model);
-            return Ok();
-        }
-
-        public async Task TrySeedAsync(ApplicationUser administrator)
-        {
-            // Default roles
-            var administratorRole = new IdentityRole("manager");
-            var memberRole = new IdentityRole("store");
-            var customerRole = new IdentityRole("customer");
-
-
-            if (_roleManager.Roles.All(r => r.Name != administratorRole.Name))
+            if (!ModelState.IsValid)
             {
-                await _roleManager.CreateAsync(administratorRole);
-                await _roleManager.CreateAsync(customerRole);
-
-                await _roleManager.CreateAsync(memberRole);
+                return BadRequest(ModelState);
             }
 
-            if (_userManager.Users.All(u => u.UserName != administrator.UserName))
+            var user = new ApplicationUser
             {
-                await _userManager.CreateAsync(administrator, "Administrator1!");
-                await _userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
-                await _userManager.AddToRolesAsync(administrator, new[] { customerRole.Name });
-                await _userManager.AddToRolesAsync(administrator, new[] { memberRole.Name });
+                UserName = model.Username,
+                Email = model.Email,
+            };
 
+            var result = await _userManager.CreateAsync(user, model.Password);
 
-
-                await _userManager.AddClaimsAsync(administrator, new Claim[] {
-                    new Claim(JwtClaimTypes.Name, "Bob Smith"),
-                    new Claim(JwtClaimTypes.GivenName,""),
-                    new Claim("location", "somewhere")
-                });
+            if (result.Succeeded)
+            {
+                return Ok(new { Message = "User registered successfully" });
             }
+
+            return BadRequest(result.Errors);
         }
+
+       
     }
 }

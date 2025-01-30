@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using CatalogServiceApi.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
-using CatalogServiceApi.DataAccess.Repostories.Auth;
 using CatalogServiceApi.DataAccess.Repostories.Categories;
 using CatalogServiceApi.DataAccess.Repostories.Products;
 using CatalogServiceApi.DataAccess.Repostories;
@@ -14,7 +13,6 @@ namespace CatalogServiceApi.DataAccess
         public static Task<IServiceCollection> AddDataAccessServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
 
