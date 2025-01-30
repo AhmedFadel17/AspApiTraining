@@ -2,6 +2,7 @@
 using CatalogServiceApi.IdentityServer.DTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CatalogServiceApi.IdentityServer.Controllers
 {
@@ -33,6 +34,8 @@ namespace CatalogServiceApi.IdentityServer.Controllers
 
             if (result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user, UserRole.Manager.ToString());
+                await _userManager.AddClaimAsync(user, new Claim("role", UserRole.Manager.ToString()));
                 return Ok(new { Message = "User registered successfully" });
             }
 

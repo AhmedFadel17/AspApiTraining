@@ -1,11 +1,7 @@
 using CatalogServiceApi.Application;
 using CatalogServiceApi.DataAccess;
 using CatalogServiceApi.Domain;
-using CatalogServiceApi.IdentityServer.Data;
 using CatalogServiceApi.WebUi.Middlewares;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,11 +22,12 @@ builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer",options =>
     {
         options.Authority = identityUrl;
-        options.Audience = clientId;
+        options.Audience = "client2";
         //options.RequireHttpsMetadata = false;
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateAudience = false
+            ValidateAudience = false,
+            RoleClaimType="role"
         };
     });
 var app = builder.Build();
