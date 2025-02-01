@@ -17,15 +17,17 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles ="Manager")]
+        [Authorize(Roles ="Manager")]
         public async Task<IActionResult> All()
         {
+            //var claims = User.Claims.Select(c => new { c.Type, c.Value });
+            //return Ok(claims);
             var categories = await _service.GetAllAsync();
             return Ok(categories);
         }
 
         [HttpGet]
-        //[Authorize(Roles = nameof(UserRole.Store))]
+        [Authorize(Roles = nameof(UserRole.Store))]
         [Route("{id:int}")]
         public IActionResult GetById(int id) {
             var category = _service.GetByIdAsync(id);
@@ -33,7 +35,7 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = nameof(UserRole.Customer))]
+        [Authorize(Roles = nameof(UserRole.Customer))]
         public IActionResult Create(CreateCategoryDto categoryDto) 
         {
             var category=_service.CreateAsync(categoryDto);

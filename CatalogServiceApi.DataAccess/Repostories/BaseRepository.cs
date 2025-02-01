@@ -1,51 +1,47 @@
 ﻿using CatalogServiceApi.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Driver;
 
 namespace CatalogServiceApi.DataAccess.Repostories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
+        private readonly ApplicationDbContext _context;
+        public readonly DbSet<T> _dbSet;
 
-        protected readonly IMongoCollection<T> _collection;
-        public BaseRepository(IMongoDatabase database, string collectionName)
+        public BaseRepository(ApplicationDbContext context)
         {
-            _collection = database.GetCollection<T>(collectionName);
-
+            _context = context;
+            _dbSet = _context.Set<T>();
         }
         public async Task<T> CreateAsync(T entity)
         {
-            await _collection.InsertOneAsync(entity);
+            await _dbSet.AddAsync(entity);
             return entity;
         }
 
         public IQueryable<T> GetAll()
         {
-            return _collection.AsQueryable();
+            return _dbSet.AsQueryable();
         }
 
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _collection.Find(Builders<T>.Filter.Eq("_id", id)).FirstOrDefaultAsync();
+            return await _dbSet.FindAsync(id);
         }
 
         public void Remove(T entity)
         {
-            //_collection.DeleteOneAsync(x => x.Id == entity.Id);
+            _dbSet.Remove(entity);
         }
 
         public void Update(T entity)
         {
-            //_collection.ReplaceOneAsync(Builders<T>.Filter.Eq(e => e.Id, entity.Id), entity);
-
+            _dbSet.Update(entity);
         }
 
         public async Task SaveChangesAsync()
         {
-            
+            await _context.SaveChangesAsync();
         }
-
-        
     }
-    
 }
