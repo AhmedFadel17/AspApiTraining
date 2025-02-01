@@ -22,17 +22,10 @@ builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
         options.Authority = identityUrl;
+        options.Audience = "client2";
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = true,
-            ValidIssuer = identityUrl,
             ValidateAudience = false,
-            ValidAudience = "client2",
-            ValidateLifetime = true,
-
-            RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-            NameClaimType = "name"
-
         };
     });
 var app = builder.Build();

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CatalogServiceApi.Application.DTOs.Auth;
 using CatalogServiceApi.Application.DTOs.Categories;
 using CatalogServiceApi.Application.DTOs.Products;
 using CatalogServiceApi.Domain.Models;
