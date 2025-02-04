@@ -1,6 +1,7 @@
 ﻿using CatalogServiceApi.Application;
 using CatalogServiceApi.DataAccess;
 using CatalogServiceApi.Domain;
+using CatalogServiceApi.MongoDbAccess;
 using CatalogServiceApi.WebUi.Middlewares;
 using Microsoft.IdentityModel.Tokens;
 
@@ -13,7 +14,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDomainServices();
-await builder.Services.AddDataAccessServices(builder.Configuration);
+//await builder.Services.AddDataAccessServices(builder.Configuration);
+await builder.Services.AddMongoDataAccessServices(builder.Configuration);
+
 await builder.Services.AddApplicationServices();
 var identityUrl = builder.Configuration.GetValue<string>("IdentityUrl");
 var clientId = builder.Configuration.GetValue<string>("ClientId");

@@ -17,7 +17,7 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles ="Manager")]
+        //[Authorize(Roles ="Manager")]
         public async Task<IActionResult> All()
         {
             //var claims = User.Claims.Select(c => new { c.Type, c.Value });
@@ -27,34 +27,34 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = nameof(UserRole.Store))]
+        //[Authorize(Roles = nameof(UserRole.Store))]
         [Route("{id:int}")]
-        public IActionResult GetById(int id) {
-            var category = _service.GetByIdAsync(id);
+        public async Task<IActionResult> GetById(int id) {
+            var category =await _service.GetByIdAsync(id);
             return Ok(category);
         }
 
         [HttpPost]
-        [Authorize(Roles = nameof(UserRole.Customer))]
-        public IActionResult Create(CreateCategoryDto categoryDto) 
+        //[Authorize(Roles = nameof(UserRole.Customer))]
+        public async Task<IActionResult> Create(CreateCategoryDto categoryDto) 
         {
-            var category=_service.CreateAsync(categoryDto);
+            var category=await _service.CreateAsync(categoryDto);
             return Ok(category);
         }
 
         [HttpPut]
         [Route("{id:int}")]
-        public IActionResult Update(int id,UpdateCategoryDto categoryDto) 
+        public async Task<IActionResult> Update(int id,UpdateCategoryDto categoryDto) 
         {
-            var category = _service.UpdateAsync(id, categoryDto);
+            var category = await _service.UpdateAsync(id, categoryDto);
             return Ok(category);
         }
 
         [HttpDelete]
         [Route("{id:int}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var category = _service.DeleteAsync(id);
+            var category = await _service.DeleteAsync(id);
             return Ok(new { message = "Category Deleted!" });
         }
     }

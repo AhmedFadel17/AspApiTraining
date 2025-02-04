@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using CatalogServiceApi.Application.DTOs.Products;
 using CatalogServiceApi.Application.Interfaces.Products;
-using CatalogServiceApi.DataAccess.Repostories.Products;
-using CatalogServiceApi.Domain.Models;
+using CatalogServiceApi.MongoDbAccess.Repostories.Products;
+using CatalogServiceApi.Domain.MongoModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace CatalogServiceApi.Application.Services.Products
+namespace CatalogServiceApi.Application.MongoServices.Products
 {
     public class ProductService : IProductService
     {
@@ -17,6 +17,13 @@ namespace CatalogServiceApi.Application.Services.Products
             _mapper = mapper;
         }
 
+        public async Task<IEnumerable<ProductResponseDto>> GetByPriceAsync(decimal minFrom, decimal maxFrom, decimal minTo, decimal maxTo)
+        {
+            var product = await _repository.GetByPriceAsync(minFrom, maxFrom, minTo, maxTo);
+            if (product == null) throw new KeyNotFoundException("Product Not Found");
+            return _mapper.Map< IEnumerable<ProductResponseDto>>(product);
+        }
+
         public async Task<ProductResponseDto> CreateAsync(CreateProductDto dto)
         {
             var product = _mapper.Map<Product>(dto);
@@ -26,23 +33,21 @@ namespace CatalogServiceApi.Application.Services.Products
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var product = await _repository.GetByIdAsync(id);
+            var product = await _repository.GetByIdAsync(id.ToString());
             if (product == null) throw new KeyNotFoundException("Product Not Found");
-            _repository.Remove(product);
-            await _repository.SaveChangesAsync();
+            await _repository.RemoveAsync(id.ToString());
             return true;
         }
 
         public async Task<IEnumerable<ProductResponseDto>> GetAllAsync()
         {
-            var productsQuery= _repository.GetAll();
-            var products = await productsQuery.ToListAsync();
+            var products=await _repository.GetAll();
             return _mapper.Map<IEnumerable<ProductResponseDto>>(products);
         }
 
         public async Task<ProductResponseDto> GetByIdAsync(int id)
         {
-            var product= await _repository.GetByIdAsync(id);
+            var product= await _repository.GetByIdAsync(id.ToString());
             if (product == null) throw new KeyNotFoundException("Product Not Found");
             return _mapper.Map<ProductResponseDto>(product);
         }
@@ -54,19 +59,15 @@ namespace CatalogServiceApi.Application.Services.Products
             return _mapper.Map<ProductResponseDto>(product);
         }
 
-        public Task<IEnumerable<ProductResponseDto>> GetByPriceAsync(decimal minFrom, decimal maxFrom, decimal minTo, decimal maxTo)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<ProductResponseDto> UpdateAsync(int id, UpdateProductDto dto)
         {
-            var product = await _repository.GetByIdAsync(id);
+            var product = await _repository.GetByIdAsync(id.ToString());
             if (product == null) throw new KeyNotFoundException("Product Not Found");
             var updatedProduct = _mapper.Map<Product>(dto);
-            _repository.Update(updatedProduct);
-            await _repository.SaveChangesAsync();
+            await _repository.UpdateAsync(id.ToString(), updatedProduct);
             return _mapper.Map<ProductResponseDto>(updatedProduct);
         }
+
+        
     }
 }

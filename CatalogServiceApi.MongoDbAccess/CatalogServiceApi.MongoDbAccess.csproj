@@ -7,15 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.0" />
+    <PackageReference Include="MongoDB.Driver" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CatalogServiceApi.DataAccess\CatalogServiceApi.DataAccess.csproj" />
-    <ProjectReference Include="..\CatalogServiceApi.MongoDbAccess\CatalogServiceApi.MongoDbAccess.csproj" />
+    <ProjectReference Include="..\CatalogServiceApi.Domain\CatalogServiceApi.Domain.csproj" />
   </ItemGroup>
 
 </Project>

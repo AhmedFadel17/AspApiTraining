@@ -20,6 +20,7 @@
     <ProjectReference Include="..\CatalogServiceApi.Application\CatalogServiceApi.Application.csproj" />
     <ProjectReference Include="..\CatalogServiceApi.DataAccess\CatalogServiceApi.DataAccess.csproj" />
     <ProjectReference Include="..\CatalogServiceApi.Domain\CatalogServiceApi.Domain.csproj" />
+    <ProjectReference Include="..\CatalogServiceApi.MongoDbAccess\CatalogServiceApi.MongoDbAccess.csproj" />
   </ItemGroup>
 
 </Project>

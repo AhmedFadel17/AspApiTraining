@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogServiceAPI.Controllers
 {
-    [Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)}")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
@@ -18,42 +17,47 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)},{nameof(UserRole.Customer)}")]
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            var products = _service.GetAllAsync();
+            var products = await _service.GetAllAsync();
             return Ok(products);
         }
 
         [HttpGet]
-        [Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)},{nameof(UserRole.Customer)}")]
         [Route("{id:int}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var product = _service.GetByIdAsync(id);
+            var product = await _service.GetByIdAsync(id);
+            return Ok(product);
+        }
+
+        [HttpGet("by-price-range")]
+        public async Task<IActionResult> GetByPrice([FromQuery] decimal minFrom, [FromQuery] decimal maxFrom, [FromQuery] decimal minTo, [FromQuery] decimal maxTo)
+        {
+            var product = await _service.GetByPriceAsync(minFrom,maxFrom,minTo,maxTo);
             return Ok(product);
         }
 
         [HttpPost]
-        public IActionResult Create(CreateProductDto productDto)
+        public async Task<IActionResult> Create(CreateProductDto productDto)
         {
-            var product = _service.CreateAsync(productDto);
+            var product = await _service.CreateAsync(productDto);
             return Ok(product);
         }
 
         [HttpPut]
         [Route("{id:int}")]
-        public IActionResult Update(int id, UpdateProductDto productDto)
+        public async Task<IActionResult> Update(int id, UpdateProductDto productDto)
         {
-            var product = _service.UpdateAsync(id, productDto);
+            var product = await _service.UpdateAsync(id, productDto);
             return Ok(product);
         }
 
         [HttpDelete]
         [Route("{id:int}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var product = _service.DeleteAsync(id);
+            var product = await _service.DeleteAsync(id);
             return Ok(new { message="Product Deleted!"});
         }
     }
