@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogServiceApi.IdentityS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogServiceApi.MongoDbAccess", "CatalogServiceApi.MongoDbAccess\CatalogServiceApi.MongoDbAccess.csproj", "{9942F99C-7F3E-44B5-B596-7931B9F13148}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{04040A8A-C919-4CBD-B775-9C52A6769F84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatelogServiceAPI.Test", "CatelogServiceAPI.Test\CatelogServiceAPI.Test.csproj", "{AC4AF6ED-3ECE-4BA2-B5FF-E549C25C1D51}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,8 +73,15 @@ Global
 		{9942F99C-7F3E-44B5-B596-7931B9F13148}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9942F99C-7F3E-44B5-B596-7931B9F13148}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9942F99C-7F3E-44B5-B596-7931B9F13148}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC4AF6ED-3ECE-4BA2-B5FF-E549C25C1D51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC4AF6ED-3ECE-4BA2-B5FF-E549C25C1D51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC4AF6ED-3ECE-4BA2-B5FF-E549C25C1D51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC4AF6ED-3ECE-4BA2-B5FF-E549C25C1D51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AC4AF6ED-3ECE-4BA2-B5FF-E549C25C1D51} = {04040A8A-C919-4CBD-B775-9C52A6769F84}
 	EndGlobalSection
 EndGlobal
