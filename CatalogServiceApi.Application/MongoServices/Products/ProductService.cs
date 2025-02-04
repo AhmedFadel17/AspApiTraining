@@ -5,6 +5,7 @@ using CatalogServiceApi.MongoDbAccess.Repostories.Products;
 using CatalogServiceApi.Domain.MongoModels;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace CatalogServiceApi.Application.MongoServices.Products
 {
     public class ProductService : IProductService
@@ -22,6 +23,13 @@ namespace CatalogServiceApi.Application.MongoServices.Products
             var product = await _repository.GetByPriceAsync(minFrom, maxFrom, minTo, maxTo);
             if (product == null) throw new KeyNotFoundException("Product Not Found");
             return _mapper.Map< IEnumerable<ProductResponseDto>>(product);
+        }
+        public async Task<IEnumerable<ProductResponseDto>> CreateWithBatchedKeysAsync(List<CreateProductDto> dto)
+        {
+            var products = _mapper.Map<IEnumerable<Product>>(dto);
+            var partitionKeys = products.Select(p => p.CategoryId.ToString()).ToList();
+            await _repository.AddBatchAsync(products,partitionKeys);
+            return _mapper.Map<IEnumerable<ProductResponseDto>>(products);
         }
 
         public async Task<ProductResponseDto> CreateAsync(CreateProductDto dto)

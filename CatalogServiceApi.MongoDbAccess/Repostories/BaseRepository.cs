@@ -38,5 +38,15 @@ namespace CatalogServiceApi.MongoDbAccess.Repostories
         {
             await _collection.DeleteOneAsync(x => x.Id == id);
         }
+
+        public async ValueTask AddBatchAsync(IEnumerable<T> entities, IEnumerable<string> partitionKeys)
+        {
+            var partitionedEntities = entities.Zip(partitionKeys, (entity, key) => new { Entity = entity, PartitionKey = key });
+
+            foreach (var group in partitionedEntities.GroupBy(x => x.PartitionKey))
+            {
+                await _collection.InsertManyAsync(group.Select(x => x.Entity));
+            }
+        }
     }
 }

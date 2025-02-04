@@ -9,5 +9,6 @@ namespace CatalogServiceApi.MongoDbAccess.Repostories
         Task<T> CreateAsync(T entity);
         Task UpdateAsync(string id, T entity);
         Task RemoveAsync(string id);
+        ValueTask AddBatchAsync(IEnumerable<T> entities, IEnumerable<string> partitionKeys);
     }
 }

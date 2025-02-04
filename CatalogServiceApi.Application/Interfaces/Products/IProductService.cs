@@ -9,6 +9,7 @@ namespace CatalogServiceApi.Application.Interfaces.Products
         Task<IEnumerable<ProductResponseDto>> GetByPriceAsync(decimal minFrom, decimal maxFrom, decimal minTo, decimal maxTo);
         Task<IEnumerable<ProductResponseDto>> GetAllAsync();
         Task<ProductResponseDto> CreateAsync(CreateProductDto dto);
+        Task<IEnumerable<ProductResponseDto>> CreateWithBatchedKeysAsync(List<CreateProductDto> dto);
         Task<ProductResponseDto> UpdateAsync(int id, UpdateProductDto dto);
         Task<bool> DeleteAsync(int id);
     }

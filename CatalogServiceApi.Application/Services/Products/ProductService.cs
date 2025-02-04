@@ -24,6 +24,11 @@ namespace CatalogServiceApi.Application.Services.Products
             return _mapper.Map<ProductResponseDto>(createdProduct);
         }
 
+        public Task<IEnumerable<ProductResponseDto>> CreateWithBatchedKeysAsync(List<CreateProductDto> dto)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> DeleteAsync(int id)
         {
             var product = await _repository.GetByIdAsync(id);

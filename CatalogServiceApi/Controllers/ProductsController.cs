@@ -38,6 +38,13 @@ namespace CatalogServiceAPI.Controllers
             return Ok(product);
         }
 
+        [HttpPost("create-many")]
+        public async Task<IActionResult> CreateMany([FromBody] List<CreateProductDto> productDtos)
+        {
+            var products = await _service.CreateWithBatchedKeysAsync(productDtos);
+            return Ok(products);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductDto productDto)
         {
