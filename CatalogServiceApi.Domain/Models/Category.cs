@@ -1,7 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace CatalogServiceApi.Domain.Models
 {
+    [ExcludeFromCodeCoverage]
     public class Category
     {
         public int Id { get; set; }
