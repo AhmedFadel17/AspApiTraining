@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using AutoFixture.AutoMoq;
 using AutoFixture.Xunit2;
+using CatalogServiceApi.Test.AutoFixture;
 
 namespace CatelogServiceAPI.Test.AutoFixture;
 
@@ -18,7 +19,8 @@ public sealed class AutoMoqDataAttribute : AutoDataAttribute
     {
         Fixture fixture = new Fixture();
         fixture.Customize(new CompositeCustomization(
-           new ProductCustomization()          
+           new ProductCustomization()   ,
+           new MapperCustomization()
            ));
 
         return fixture.Customize(new AutoMoqCustomization { ConfigureMembers = true });

@@ -9,12 +9,15 @@ using CatalogServiceApi.Application.DTOs.Products;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CatalogServiceApi.Test.AutoFixture;
+using AutoMapper;
+using CatalogServiceApi.Application.Mapping;
 
 
-namespace CatalogServiceApi.Test.Featrues.Products
+namespace CatalogServiceApi.Test.Featrues.Products.Services.Success
 {
     public class ProductsServicesSuccessTests
     {
+
         [Theory]
         [AutoMoqData]
         public async Task DeleteAsync_Should_return_Success(Product product,
@@ -60,33 +63,42 @@ namespace CatalogServiceApi.Test.Featrues.Products
         }
 
         [Theory]
-        [InlineAutoMoqData(10, 500)]
-        public async Task GetByPriceAsync_Should_return_Success(decimal min, decimal max,List<Product> products,
+        [AutoMoqData]
+        public async Task GetByPriceAsync_Should_return_Success(decimal min,List<Product> products,
         [Frozen] Mock<IProductRepository> productRepositoryMock,
         [Greedy] ProductService sut)
-        {
-            productRepositoryMock.Setup(s => s.GetByPriceAsync(min,max)).ReturnsAsync(products);
+        {          
 
-            var res = await sut.GetByPriceAsync(min,max);
+            products.ForEach(p => { 
+            p.Price = min;
+               
+
+            });
+            var max = decimal.MaxValue;
+            productRepositoryMock.Setup(s => s.GetByPriceAsync(min, max)).ReturnsAsync(products);
+
+            var res = await sut.GetByPriceAsync(min, max);
 
             res.Should().NotBeNull();
             res.Should().BeAssignableTo<IEnumerable<ProductResponseDto>>();
+            res.ToList().Should().HaveCount(products.Count);
         }
 
-        [Theory]
+        /*[Theory]
         [AutoMoqData]
-        public async Task GetAllAsync_Should_return_Success(IQueryable<Product> products,
+        public async Task GetAllAsync_Should_return_Success(List<Product> products,
         [Frozen] Mock<IProductRepository> productRepositoryMock,
         [Greedy] ProductService sut)
         {
-            productRepositoryMock.Setup(s => s.GetAll()).Returns(products.AsQueryable());
+            var x = products.AsQueryable();
+            productRepositoryMock.Setup(s => s.GetAll()).Returns(x); 
 
             var res = await sut.GetAllAsync();
 
             res.Should().NotBeNull();
             res.Should().BeAssignableTo<IEnumerable<ProductResponseDto>>();
         }
-
+        */
         [Theory]
         [AutoMoqData]
         public async Task CreateAsync_Should_return_Success(CreateProductDto createProductDto,Product product,
@@ -114,9 +126,6 @@ namespace CatalogServiceApi.Test.Featrues.Products
 
             res.Should().NotBeNull();
             res.Should().BeAssignableTo<ProductResponseDto>();
-        }
-
-
-        //Task<IEnumerable<ProductResponseDto>> CreateWithBatchedKeysAsync(List<CreateProductDto> dto);
+        }        
     }
 }

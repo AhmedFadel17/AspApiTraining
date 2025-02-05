@@ -2,6 +2,7 @@
 using CatalogServiceApi.Application.DTOs.Products;
 using CatalogServiceApi.Domain.Models;
 using CatelogServiceAPI.Test.Featrues.Products;
+using CatelogServiceAPI.Test.Featrues.Products.Services.Failure;
 using System;
 using System.Collections.Generic;
 using System.Linq;

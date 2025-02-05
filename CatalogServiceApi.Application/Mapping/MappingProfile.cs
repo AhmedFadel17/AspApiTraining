@@ -6,7 +6,7 @@ using CatalogServiceApi.Domain.Models;
 
 namespace CatalogServiceApi.Application.Mapping
 {
-    internal class MappingProfile : Profile
+    public class MappingProfile : Profile
     {
         public MappingProfile() 
         {

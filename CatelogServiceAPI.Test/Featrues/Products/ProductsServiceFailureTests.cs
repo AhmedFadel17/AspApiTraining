@@ -11,7 +11,7 @@ using AutoFixture;
 using System.Runtime.InteropServices;
 using CatalogServiceApi.Test.AutoFixture;
 
-namespace CatelogServiceAPI.Test.Featrues.Products
+namespace CatelogServiceAPI.Test.Featrues.Products.Services.Failure
 {
     public class ProductsServiceFailureTests
     {
