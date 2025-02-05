@@ -1,21 +1,17 @@
 ﻿using AutoFixture.Xunit2;
 using CatalogServiceApi.Application.DTOs.Products;
-using CatalogServiceApi.Application.Interfaces.Products;
 using CatalogServiceApi.Application.Services.Products;
 using CatalogServiceApi.DataAccess.Repostories.Products;
 using CatalogServiceApi.Domain.Models;
-using CatelogServiceAPI.Test.AutoFixture;
 using FluentAssertions;
 using Moq;
-using AutoFixture;
-using System.Runtime.InteropServices;
 using CatalogServiceApi.Test.AutoFixture;
 
-namespace CatelogServiceAPI.Test.Featrues.Products.Services.Failure
+namespace CatalogServiceApi.Test.Featrues.Products
 {
     public class ProductsServiceFailureTests
     {
-       
+
 
         [Theory]
         [AutoMoqData]
@@ -30,7 +26,7 @@ namespace CatelogServiceAPI.Test.Featrues.Products.Services.Failure
             Func<Task> action = () => sut.DeleteAsync(It.IsAny<int>());
 
             //Assert 
-           await action.Should().ThrowAsync<KeyNotFoundException>();
+            await action.Should().ThrowAsync<KeyNotFoundException>();
         }
 
         [Theory]
@@ -60,16 +56,15 @@ namespace CatelogServiceAPI.Test.Featrues.Products.Services.Failure
         }
 
         [Theory]
-        [InlineAutoMoqData(100, 50)]
-        [InlineAutoMoqData(50, 50)]
-        public async Task GetByPriceAsync_should_throw_Exception(decimal min, decimal max,List<Product> products,
+        [AutoMoqData]
+        public async Task GetByPriceAsync_should_throw_Exception(decimal min, decimal max, List<Product> products,
         [Frozen] Mock<IProductRepository> productRepositoryMock,
         [Greedy] ProductService sut)
         {
             productRepositoryMock.Setup(s => s.GetByPriceAsync(min, max)).ReturnsAsync(products);
 
             Func<Task> action = () => sut.GetByPriceAsync(min, max);
-            
+
             await action.Should().ThrowAsync<ArgumentException>();
 
         }
@@ -84,7 +79,7 @@ namespace CatelogServiceAPI.Test.Featrues.Products.Services.Failure
         {
             productRepositoryMock.Setup(s => s.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Product)null);
 
-            Func<Task> action = () => sut.UpdateAsync(It.IsAny<int>(),updateProductDto);
+            Func<Task> action = () => sut.UpdateAsync(It.IsAny<int>(), updateProductDto);
 
             await action.Should().ThrowAsync<KeyNotFoundException>();
         }

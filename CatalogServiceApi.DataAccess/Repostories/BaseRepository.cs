@@ -19,9 +19,9 @@ namespace CatalogServiceApi.DataAccess.Repostories
             return entity;
         }
 
-        public IQueryable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
-            return _dbSet.AsQueryable();
+            return await _dbSet.ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(int id)

@@ -20,8 +20,6 @@ namespace CatalogServiceAPI.Controllers
         //[Authorize(Roles ="Manager")]
         public async Task<IActionResult> All()
         {
-            //var claims = User.Claims.Select(c => new { c.Type, c.Value });
-            //return Ok(claims);
             var categories = await _service.GetAllAsync();
             return Ok(categories);
         }

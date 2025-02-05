@@ -1,9 +1,9 @@
 ﻿using AutoFixture;
 using AutoFixture.AutoMoq;
 using AutoFixture.Xunit2;
-using CatalogServiceApi.Test.AutoFixture;
+using CatalogServiceAPI.Test.AutoFixture;
 
-namespace CatelogServiceAPI.Test.AutoFixture;
+namespace CatalogServiceApi.Test.AutoFixture;
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
 public sealed class AutoMoqDataAttribute : AutoDataAttribute
@@ -19,7 +19,7 @@ public sealed class AutoMoqDataAttribute : AutoDataAttribute
     {
         Fixture fixture = new Fixture();
         fixture.Customize(new CompositeCustomization(
-           new ProductCustomization()   ,
+           new ProductCustomization(),
            new MapperCustomization()
            ));
 

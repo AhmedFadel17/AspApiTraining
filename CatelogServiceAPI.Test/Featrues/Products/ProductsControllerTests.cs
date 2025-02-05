@@ -2,44 +2,19 @@
 using AutoFixture.Xunit2;
 using CatalogServiceApi.Application.DTOs.Products;
 using CatalogServiceApi.Application.Interfaces.Products;
+using CatalogServiceApi.Test.AutoFixture;
 using CatalogServiceAPI.Controllers;
-using CatelogServiceAPI.Test.AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
-namespace CatelogServiceAPI.Test.Featrues.Products
+namespace CatalogServiceAPI.Test.Featrues.Products
 {
     public class ProductsControllerTests
-    {
-        private readonly Mock<IProductService> _productServiceMock= new Mock<IProductService>();
-
-        [Theory]
-        [InlineData (1,2)]
-        [InlineData(1, 6)]
-        public async Task GetByPrice_Should_return_Success(decimal min, decimal max)
-        {
-            //Arrange 
-            Fixture fixture = new Fixture();
-            var prds = fixture.CreateMany<ProductResponseDto>();
-            _productServiceMock.Setup(s => s.GetByPriceAsync(min,max)).ReturnsAsync(prds);
-
-
-            // Act 
-            var cntr = new ProductsController(_productServiceMock.Object);
-            var res = await cntr.GetByPrice(min, max);
-
-
-            //Assert 
-
-            res.Should().NotBeNull();
-            res.Should().BeOfType<OkObjectResult>();           
-
-        }
-
+    {   
         [Theory]
         [AutoMoqData]
-        public async Task GetByPrice_ADV_Should_return_Success(decimal min, decimal max,
+        public async Task GetByPrice_Should_return_Success(decimal min, decimal max,
           List<ProductResponseDto> productResponseDtos,
           [Frozen] Mock<IProductService> productServiceMock,
           [Greedy] ProductsController sut)

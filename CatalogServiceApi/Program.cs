@@ -1,7 +1,6 @@
 ﻿using CatalogServiceApi.Application;
 using CatalogServiceApi.DataAccess;
 using CatalogServiceApi.Domain;
-using CatalogServiceApi.MongoDbAccess;
 using CatalogServiceApi.WebUi.Middlewares;
 using Microsoft.IdentityModel.Tokens;
 

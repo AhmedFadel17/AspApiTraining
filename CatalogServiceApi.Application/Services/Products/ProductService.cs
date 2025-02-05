@@ -24,11 +24,6 @@ namespace CatalogServiceApi.Application.Services.Products
             return _mapper.Map<ProductResponseDto>(createdProduct);
         }
 
-        public Task<IEnumerable<ProductResponseDto>> CreateWithBatchedKeysAsync(List<CreateProductDto> dto)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<bool> DeleteAsync(int id)
         {
             var product = await _repository.GetByIdAsync(id);
@@ -38,11 +33,10 @@ namespace CatalogServiceApi.Application.Services.Products
             return true;
         }
 
-        public async Task<IEnumerable<ProductResponseDto>> GetAllAsync()
+        public async Task<List<ProductResponseDto>> GetAllAsync()
         {
-            var productsQuery= _repository.GetAll();
-            var products = await productsQuery.ToListAsync();
-            return _mapper.Map<IEnumerable<ProductResponseDto>>(products);
+            var products = await _repository.GetAll();
+            return _mapper.Map<List<ProductResponseDto>>(products);
         }
 
         public async Task<ProductResponseDto> GetByIdAsync(int id)
@@ -59,12 +53,12 @@ namespace CatalogServiceApi.Application.Services.Products
             return _mapper.Map<ProductResponseDto>(product);
         }
 
-        public async Task<IEnumerable<ProductResponseDto>> GetByPriceAsync(decimal min, decimal max)
+        public async Task<List<ProductResponseDto>> GetByPriceAsync(decimal min, decimal max)
         {
             if (max <= min) throw new ArgumentException("Max must be greater than min");
             var products = (await _repository.GetByPriceAsync(min,max)).ToList();
          
-            return _mapper.Map<IEnumerable<ProductResponseDto>>(products);
+            return _mapper.Map<List<ProductResponseDto>>(products);
         }
 
         public async Task<ProductResponseDto> UpdateAsync(int id, UpdateProductDto dto)

@@ -1,7 +1,7 @@
 ﻿using AutoFixture.Xunit2;
 using CatalogServiceApi.Application.Services.Products;
 using CatalogServiceApi.DataAccess.Repostories.Products;
-using CatelogServiceAPI.Test.AutoFixture;
+using CatalogServiceAPI.Test.AutoFixture;
 using Moq;
 using CatalogServiceApi.Domain.Models;
 using FluentAssertions;
@@ -13,7 +13,7 @@ using AutoMapper;
 using CatalogServiceApi.Application.Mapping;
 
 
-namespace CatalogServiceApi.Test.Featrues.Products.Services.Success
+namespace CatalogServiceApi.Test.Featrues.Products
 {
     public class ProductsServicesSuccessTests
     {
@@ -39,7 +39,7 @@ namespace CatalogServiceApi.Test.Featrues.Products.Services.Success
         public async Task GetByIdAsync_Should_return_Success(Product product,
         [Frozen] Mock<IProductRepository> productRepositoryMock,
         [Greedy] ProductService sut)
-        {        
+        {
             productRepositoryMock.Setup(s => s.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(product);
 
             var res = await sut.GetByIdAsync(It.IsAny<int>());
@@ -64,14 +64,15 @@ namespace CatalogServiceApi.Test.Featrues.Products.Services.Success
 
         [Theory]
         [AutoMoqData]
-        public async Task GetByPriceAsync_Should_return_Success(decimal min,List<Product> products,
+        public async Task GetByPriceAsync_Should_return_Success(decimal min, List<Product> products,
         [Frozen] Mock<IProductRepository> productRepositoryMock,
         [Greedy] ProductService sut)
-        {          
+        {
 
-            products.ForEach(p => { 
-            p.Price = min;
-               
+            products.ForEach(p =>
+            {
+                p.Price = min;
+
 
             });
             var max = decimal.MaxValue;
@@ -101,7 +102,7 @@ namespace CatalogServiceApi.Test.Featrues.Products.Services.Success
         */
         [Theory]
         [AutoMoqData]
-        public async Task CreateAsync_Should_return_Success(CreateProductDto createProductDto,Product product,
+        public async Task CreateAsync_Should_return_Success(CreateProductDto createProductDto, Product product,
         [Frozen] Mock<IProductRepository> productRepositoryMock,
         [Greedy] ProductService sut)
         {
@@ -126,6 +127,6 @@ namespace CatalogServiceApi.Test.Featrues.Products.Services.Success
 
             res.Should().NotBeNull();
             res.Should().BeAssignableTo<ProductResponseDto>();
-        }        
+        }
     }
 }

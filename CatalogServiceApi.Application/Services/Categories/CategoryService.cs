@@ -33,11 +33,10 @@ namespace CatalogServiceApi.Application.Services.Categories
             return true;
         }
 
-        public async Task<IEnumerable<CategotyResponseDto>> GetAllAsync()
+        public async Task<List<CategotyResponseDto>> GetAllAsync()
         {
-            var categoriesQuery = _repository.GetAll();
-            var categories = await categoriesQuery.ToListAsync();
-            return _mapper.Map<IEnumerable<CategotyResponseDto>>(categories);
+            var categories = await _repository.GetAll();
+            return _mapper.Map<List<CategotyResponseDto>>(categories);
         }
 
         public async Task<CategotyResponseDto> GetByIdAsync(int id)

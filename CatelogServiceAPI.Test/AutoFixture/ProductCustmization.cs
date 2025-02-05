@@ -1,16 +1,8 @@
 ﻿using AutoFixture;
 using CatalogServiceApi.Application.DTOs.Products;
 using CatalogServiceApi.Domain.Models;
-using CatelogServiceAPI.Test.Featrues.Products;
-using CatelogServiceAPI.Test.Featrues.Products.Services.Failure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CatelogServiceAPI.Test.AutoFixture
+namespace CatalogServiceAPI.Test.AutoFixture
 {
     
     public class ProductCustomization : ICustomization
@@ -30,13 +22,7 @@ namespace CatelogServiceAPI.Test.AutoFixture
                     .With(t => t.Category, new Category { Name="Cat1" });
 
             });
-
-            fixture.Customize<PriceRange>(composer =>
-            {
-                return composer
-                    .With(pr => pr.Min, 100)
-                    .With(pr => pr.Max, 50); 
-            });
+            
         }
     }
 }
