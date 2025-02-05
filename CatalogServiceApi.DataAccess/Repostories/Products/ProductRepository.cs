@@ -13,5 +13,9 @@ namespace CatalogServiceApi.DataAccess.Repostories.Products
             return await _dbSet.FirstOrDefaultAsync(e => EF.Property<string>(e, "Name") == name);
         }
 
+        public async Task<IEnumerable<Product>> GetByPriceAsync(decimal min,decimal max)
+        {
+            return await _dbSet.Where(e => e.Price>=min && e.Price <=max).ToListAsync();
+        }
     }
 }

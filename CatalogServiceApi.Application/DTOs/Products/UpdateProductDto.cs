@@ -1,5 +1,4 @@
-﻿using CatalogServiceApi.Domain.MongoModels;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CatalogServiceApi.Application.DTOs.Products
 {
@@ -14,7 +13,7 @@ namespace CatalogServiceApi.Application.DTOs.Products
         public required string Description { get; set; }
 
         [Required(ErrorMessage = "Price is required")]
-        public required List<Price> Prices { get; set; }
+        public required decimal Price { get; set; }
 
         [Required(ErrorMessage = "Category Id is required")]
         public required string CategoryId { get; set; }

@@ -1,7 +1,5 @@
 ﻿using CatalogServiceApi.Application.DTOs.Products;
 using CatalogServiceApi.Application.Interfaces.Products;
-using CatalogServiceApi.Domain.Enums;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogServiceAPI.Controllers
@@ -32,9 +30,9 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpGet("by-price-range")]
-        public async Task<IActionResult> GetByPrice([FromQuery] decimal minFrom, [FromQuery] decimal maxFrom, [FromQuery] decimal minTo, [FromQuery] decimal maxTo)
+        public async Task<IActionResult> GetByPrice([FromQuery] decimal min, [FromQuery] decimal max)
         {
-            var product = await _service.GetByPriceAsync(minFrom,maxFrom,minTo,maxTo);
+            var product = await _service.GetByPriceAsync(min,max);
             return Ok(product);
         }
 

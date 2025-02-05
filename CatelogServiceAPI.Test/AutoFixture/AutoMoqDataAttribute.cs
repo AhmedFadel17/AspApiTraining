@@ -5,10 +5,10 @@ using AutoFixture.Xunit2;
 namespace CatelogServiceAPI.Test.AutoFixture;
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-public sealed class AutoMockDataAttribute : AutoDataAttribute
+public sealed class AutoMoqDataAttribute : AutoDataAttribute
 {
 
-    public AutoMockDataAttribute(params string[] values)
+    public AutoMoqDataAttribute(params string[] values)
         : base(() => CreateFixture(values))
     {
 

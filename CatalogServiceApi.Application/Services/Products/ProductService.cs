@@ -59,9 +59,11 @@ namespace CatalogServiceApi.Application.Services.Products
             return _mapper.Map<ProductResponseDto>(product);
         }
 
-        public Task<IEnumerable<ProductResponseDto>> GetByPriceAsync(decimal minFrom, decimal maxFrom, decimal minTo, decimal maxTo)
+        public async Task<IEnumerable<ProductResponseDto>> GetByPriceAsync(decimal min, decimal max)
         {
-            throw new NotImplementedException();
+            if (max <= min) throw new ArgumentException("Max must be greater than min");
+            var products = await _repository.GetByPriceAsync(min,max);
+            return _mapper.Map<IEnumerable<ProductResponseDto>>(products);
         }
 
         public async Task<ProductResponseDto> UpdateAsync(int id, UpdateProductDto dto)
