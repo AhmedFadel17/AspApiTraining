@@ -15,7 +15,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDomainServices();
 await builder.Services.AddDataAccessServices(builder.Configuration);
-//await builder.Services.AddMongoDataAccessServices(builder.Configuration);
 
 await builder.Services.AddApplicationServices();
 var identityUrl = builder.Configuration.GetValue<string>("IdentityUrl");
