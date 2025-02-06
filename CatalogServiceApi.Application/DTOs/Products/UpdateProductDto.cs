@@ -16,6 +16,6 @@ namespace CatalogServiceApi.Application.DTOs.Products
         public required decimal Price { get; set; }
 
         [Required(ErrorMessage = "Category Id is required")]
-        public required string CategoryId { get; set; }
+        public required int CategoryId { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using FluentAssertions;
 using Moq;
 using CatalogServiceApi.Test.AutoFixture;
 
-namespace CatalogServiceApi.Test.Featrues.Products
+namespace CatalogServiceApi.Test.Featrues.Products.Services
 {
     public class ProductsServiceFailureTests
     {

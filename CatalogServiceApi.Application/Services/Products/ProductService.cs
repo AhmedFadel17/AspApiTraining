@@ -35,7 +35,7 @@ namespace CatalogServiceApi.Application.Services.Products
 
         public async Task<List<ProductResponseDto>> GetAllAsync()
         {
-            var products = await _repository.GetAll();
+            var products = await _repository.GetAllAsync();
             return _mapper.Map<List<ProductResponseDto>>(products);
         }
 

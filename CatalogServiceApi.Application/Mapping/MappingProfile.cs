@@ -12,7 +12,7 @@ namespace CatalogServiceApi.Application.Mapping
         {
             CreateMap<CreateCategoryDto, Category>();
             CreateMap<UpdateCategoryDto, Category>();
-            CreateMap<Category, CategotyResponseDto>();
+            CreateMap<Category, CategoryResponseDto>();
 
             CreateMap<CreateProductDto, Product>();
             CreateMap<UpdateProductDto, Product>();

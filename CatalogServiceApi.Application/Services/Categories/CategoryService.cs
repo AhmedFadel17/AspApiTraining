@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CatalogServiceApi.Application.Services.Categories
 {
-    public class CategoryService : ICategoryServices
+    public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _repository;
         private readonly IMapper _mapper;
@@ -17,11 +17,11 @@ namespace CatalogServiceApi.Application.Services.Categories
             _repository = repository;
         }
 
-        public async Task<CategotyResponseDto> CreateAsync(CreateCategoryDto dto)
+        public async Task<CategoryResponseDto> CreateAsync(CreateCategoryDto dto)
         {
             var category = _mapper.Map<Category>(dto);
             var createdCategory = await _repository.CreateAsync(category);
-            return _mapper.Map<CategotyResponseDto>(createdCategory);
+            return _mapper.Map<CategoryResponseDto>(createdCategory);
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -33,27 +33,27 @@ namespace CatalogServiceApi.Application.Services.Categories
             return true;
         }
 
-        public async Task<List<CategotyResponseDto>> GetAllAsync()
+        public async Task<List<CategoryResponseDto>> GetAllAsync()
         {
-            var categories = await _repository.GetAll();
-            return _mapper.Map<List<CategotyResponseDto>>(categories);
+            var categories = await _repository.GetAllAsync();
+            return _mapper.Map<List<CategoryResponseDto>>(categories);
         }
 
-        public async Task<CategotyResponseDto> GetByIdAsync(int id)
+        public async Task<CategoryResponseDto> GetByIdAsync(int id)
         {
             var category = await _repository.GetByIdAsync(id);
             if (category == null) throw new KeyNotFoundException("Category Not Found");
-            return _mapper.Map<CategotyResponseDto>(category);
+            return _mapper.Map<CategoryResponseDto>(category);
         }
 
-        public async Task<CategotyResponseDto> UpdateAsync(int id, UpdateCategoryDto dto)
+        public async Task<CategoryResponseDto> UpdateAsync(int id, UpdateCategoryDto dto)
         {
             var category = await _repository.GetByIdAsync(id);
             if (category == null) throw new KeyNotFoundException("Category Not Found");
             var updatedCategory = _mapper.Map<Category>(dto);
             _repository.Update(updatedCategory);
             await _repository.SaveChangesAsync();
-            return _mapper.Map<CategotyResponseDto>(updatedCategory);
+            return _mapper.Map<CategoryResponseDto>(updatedCategory);
         }
     }
 }
