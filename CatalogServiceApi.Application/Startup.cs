@@ -14,7 +14,7 @@ namespace CatalogServiceApi.Application
          
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddScoped<ICategoryServices, CategoryService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
 
             return Task.FromResult(services);

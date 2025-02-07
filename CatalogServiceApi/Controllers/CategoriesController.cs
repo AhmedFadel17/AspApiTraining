@@ -10,8 +10,8 @@ namespace CatalogServiceAPI.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly ICategoryServices _service;
-        public CategoriesController(ICategoryServices service)
+        private readonly ICategoryService _service;
+        public CategoriesController(ICategoryService service)
         {
             _service=service;
         }

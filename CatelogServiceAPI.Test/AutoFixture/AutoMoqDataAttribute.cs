@@ -20,7 +20,9 @@ public sealed class AutoMoqDataAttribute : AutoDataAttribute
         Fixture fixture = new Fixture();
         fixture.Customize(new CompositeCustomization(
            new ProductCustomization(),
-           new MapperCustomization()
+           new CategotyCustomization(),
+           new MapperCustomization(),
+           new DbCustomization()
            ));
 
         return fixture.Customize(new AutoMoqCustomization { ConfigureMembers = true });

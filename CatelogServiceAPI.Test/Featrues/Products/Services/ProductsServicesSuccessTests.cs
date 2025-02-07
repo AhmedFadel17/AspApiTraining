@@ -13,7 +13,7 @@ using AutoMapper;
 using CatalogServiceApi.Application.Mapping;
 
 
-namespace CatalogServiceApi.Test.Featrues.Products
+namespace CatalogServiceApi.Test.Featrues.Products.Services
 {
     public class ProductsServicesSuccessTests
     {
@@ -72,8 +72,6 @@ namespace CatalogServiceApi.Test.Featrues.Products
             products.ForEach(p =>
             {
                 p.Price = min;
-
-
             });
             var max = decimal.MaxValue;
             productRepositoryMock.Setup(s => s.GetByPriceAsync(min, max)).ReturnsAsync(products);
@@ -85,21 +83,20 @@ namespace CatalogServiceApi.Test.Featrues.Products
             res.ToList().Should().HaveCount(products.Count);
         }
 
-        /*[Theory]
+        [Theory]
         [AutoMoqData]
         public async Task GetAllAsync_Should_return_Success(List<Product> products,
         [Frozen] Mock<IProductRepository> productRepositoryMock,
         [Greedy] ProductService sut)
         {
-            var x = products.AsQueryable();
-            productRepositoryMock.Setup(s => s.GetAll()).Returns(x); 
+            productRepositoryMock.Setup(s => s.GetAllAsync()).ReturnsAsync(products); 
 
             var res = await sut.GetAllAsync();
 
             res.Should().NotBeNull();
             res.Should().BeAssignableTo<IEnumerable<ProductResponseDto>>();
         }
-        */
+        
         [Theory]
         [AutoMoqData]
         public async Task CreateAsync_Should_return_Success(CreateProductDto createProductDto, Product product,

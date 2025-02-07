@@ -8,10 +8,10 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
-namespace CatalogServiceAPI.Test.Featrues.Products
+namespace CatalogServiceApi.Test.Featrues.Products.Controllers
 {
     public class ProductsControllerTests
-    {   
+    {
         [Theory]
         [AutoMoqData]
         public async Task GetByPrice_Should_return_Success(decimal min, decimal max,
@@ -40,7 +40,7 @@ namespace CatalogServiceAPI.Test.Featrues.Products
         {
             productServiceMock.Setup(s => s.GetAllAsync()).ReturnsAsync(productResponseDtos);
 
-            var res= await sut.All();
+            var res = await sut.All();
 
             res.Should().NotBeNull();
             res.Should().BeOfType<OkObjectResult>();
@@ -54,7 +54,7 @@ namespace CatalogServiceAPI.Test.Featrues.Products
         {
             productServiceMock.Setup(s => s.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(productResponseDto);
 
-            var res=await sut.GetById(It.IsAny<int>());
+            var res = await sut.GetById(It.IsAny<int>());
 
             res.Should().NotBeNull();
             res.Should().BeOfType<OkObjectResult>();
@@ -69,7 +69,7 @@ namespace CatalogServiceAPI.Test.Featrues.Products
         {
             productServiceMock.Setup(s => s.CreateAsync(productDto)).ReturnsAsync(productResponseDto);
 
-            var res= await sut.Create(productDto);
+            var res = await sut.Create(productDto);
 
             res.Should().NotBeNull();
             res.Should().BeOfType<OkObjectResult>();
@@ -84,7 +84,7 @@ namespace CatalogServiceAPI.Test.Featrues.Products
         {
             productServiceMock.Setup(s => s.UpdateAsync(It.IsAny<int>(), productDto)).ReturnsAsync(productResponseDto);
 
-            var res= await sut.Update(It.IsAny<int>(), productDto);
+            var res = await sut.Update(It.IsAny<int>(), productDto);
 
             res.Should().NotBeNull();
             res.Should().BeOfType<OkObjectResult>();
