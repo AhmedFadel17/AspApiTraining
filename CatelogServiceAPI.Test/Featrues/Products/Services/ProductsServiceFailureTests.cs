@@ -61,9 +61,9 @@ namespace CatalogServiceApi.Test.Featrues.Products.Services
         [Frozen] Mock<IProductRepository> productRepositoryMock,
         [Greedy] ProductService sut)
         {
-            productRepositoryMock.Setup(s => s.GetByPriceAsync(min, max)).ReturnsAsync(products);
+            productRepositoryMock.Setup(s => s.GetByPriceAsync(min, min-1)).ReturnsAsync(products);
 
-            Func<Task> action = () => sut.GetByPriceAsync(min, max);
+            Func<Task> action = () => sut.GetByPriceAsync(min, min-1);
 
             await action.Should().ThrowAsync<ArgumentException>();
 
