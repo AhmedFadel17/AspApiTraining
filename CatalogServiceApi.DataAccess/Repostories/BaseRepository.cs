@@ -16,6 +16,7 @@ namespace CatalogServiceApi.DataAccess.Repostories
         public async Task<T> CreateAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
+            await _context.SaveChangesAsync();
             return entity;
         }
 

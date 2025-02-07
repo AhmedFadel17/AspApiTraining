@@ -17,6 +17,7 @@ namespace CatalogServiceApi.DataAccess
             services.AddScoped<IProductRepository, ProductRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("TestDb"));
             return Task.FromResult(services);
         }
     }

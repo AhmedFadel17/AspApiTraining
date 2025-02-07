@@ -6,7 +6,7 @@ namespace CatalogServiceApi.Application.DTOs.Products
     {
         [Required(ErrorMessage = "Name is required")]
         [StringLength(255, ErrorMessage = "Name cannot exceed 255 characters")]
-        public required int Name { get; set; }
+        public required string Name { get; set; }
 
         [Required(ErrorMessage = "Description is required")]
         [StringLength(255, ErrorMessage = "Description cannot exceed 255 characters")]
