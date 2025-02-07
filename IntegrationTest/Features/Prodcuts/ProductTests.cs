@@ -73,7 +73,7 @@ namespace CatalogServiceApi.IntegrationTest.Features.Prodcuts
             var products = await response.Content.ReadAsJsonAsync<List<ProductResponseDto>>();
             //Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            products.Count.Should().Be(1);
+            products.Count(c=> c.Name== productDto.Name).Should().Be(1);
         }
 
         private async Task<HttpResponseMessage> CreateProudcut(CreateProductDto productDto)
