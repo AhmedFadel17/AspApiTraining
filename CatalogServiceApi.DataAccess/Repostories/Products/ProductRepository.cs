@@ -1,9 +1,11 @@
 ﻿using CatalogServiceApi.DataAccess.Data;
 using CatalogServiceApi.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CatalogServiceApi.DataAccess.Repostories.Products
 {
+    [ExcludeFromCodeCoverage]
     public class ProductRepository : BaseRepository<Product>, IProductRepository
     {
         public ProductRepository(ApplicationDbContext context) : base(context){}

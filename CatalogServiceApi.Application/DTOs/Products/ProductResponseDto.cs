@@ -1,6 +1,9 @@
 ﻿
+using System.Diagnostics.CodeAnalysis;
+
 namespace CatalogServiceApi.Application.DTOs.Products
 {
+    [ExcludeFromCodeCoverage]
     public record ProductResponseDto
     {
         public int Id { get; set; }

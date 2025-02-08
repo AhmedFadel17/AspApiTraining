@@ -4,9 +4,11 @@ using CatalogServiceApi.Application.Services.Categories;
 using CatalogServiceApi.Application.Services.Products;
 
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CatalogServiceApi.Application
 {
+    [ExcludeFromCodeCoverage]
     public static class Startup
     {
         public static Task<IServiceCollection> AddApplicationServices(this IServiceCollection services)

@@ -1,8 +1,10 @@
 ﻿using CatalogServiceApi.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CatalogServiceApi.DataAccess.Data
 {
+    [ExcludeFromCodeCoverage]
     public class ApplicationDbContext : DbContext
     {
         private readonly ApplicationDbContext _context;

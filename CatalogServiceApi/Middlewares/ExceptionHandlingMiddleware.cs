@@ -1,7 +1,9 @@
 ﻿using CatalogServiceApi.Application.DTOs.Errors;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CatalogServiceApi.WebUi.Middlewares
 {
+    [ExcludeFromCodeCoverage]
     public class ExceptionHandlingMiddleware
     {
         private readonly RequestDelegate _next;

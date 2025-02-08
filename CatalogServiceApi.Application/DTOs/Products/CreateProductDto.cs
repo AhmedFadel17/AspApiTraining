@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CatalogServiceApi.Application.DTOs.Products
 {
+    [ExcludeFromCodeCoverage]
     public record CreateProductDto
     {
         [Required(ErrorMessage = "Name is required")]

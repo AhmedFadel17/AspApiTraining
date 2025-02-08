@@ -1,10 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System.Diagnostics.CodeAnalysis;
 
 #nullable disable
 
 namespace CatalogServiceAPI.Migrations
 {
     /// <inheritdoc />
+    /// 
+    [ExcludeFromCodeCoverage]
+
     public partial class initialMigration : Migration
     {
         /// <inheritdoc />

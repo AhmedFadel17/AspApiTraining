@@ -42,7 +42,7 @@ namespace CatalogServiceApi.Test.Featrues.Products.Services
         {
             productRepositoryMock.Setup(s => s.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(product);
 
-            var res = await sut.GetByIdAsync(It.IsAny<int>());
+            var res = await sut.GetByIdAsync(product.Id);
 
             res.Should().NotBeNull();
             res.Should().BeAssignableTo<ProductResponseDto>();
@@ -56,7 +56,7 @@ namespace CatalogServiceApi.Test.Featrues.Products.Services
         {
             productRepositoryMock.Setup(s => s.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(product);
 
-            var res = await sut.GetByIdAsync(It.IsAny<int>());
+            var res = await sut.GetByNameAsync(product.Name);
 
             res.Should().NotBeNull();
             res.Should().BeAssignableTo<ProductResponseDto>();

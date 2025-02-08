@@ -5,9 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using CatalogServiceApi.DataAccess.Repostories.Categories;
 using CatalogServiceApi.DataAccess.Repostories.Products;
 using CatalogServiceApi.DataAccess.Repostories;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CatalogServiceApi.DataAccess
 {
+    [ExcludeFromCodeCoverage]
     public static class Startup
     {
         public static Task<IServiceCollection> AddDataAccessServices(this IServiceCollection services, IConfiguration configuration)

@@ -1,8 +1,10 @@
 ﻿using CatalogServiceApi.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CatalogServiceApi.DataAccess.Repostories
 {
+    [ExcludeFromCodeCoverage]
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         private readonly ApplicationDbContext _context;

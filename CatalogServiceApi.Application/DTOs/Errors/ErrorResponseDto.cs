@@ -1,5 +1,8 @@
-﻿namespace CatalogServiceApi.Application.DTOs.Errors
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace CatalogServiceApi.Application.DTOs.Errors
 {
+    [ExcludeFromCodeCoverage]
     public record ErrorResponseDto
     {
         public required string Error { get; set; }

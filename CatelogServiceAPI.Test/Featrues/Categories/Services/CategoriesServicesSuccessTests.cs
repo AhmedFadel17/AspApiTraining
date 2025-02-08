@@ -6,6 +6,9 @@ using FluentAssertions;
 using CatalogServiceApi.Application.DTOs.Categories;
 using CatalogServiceApi.Test.AutoFixture;
 using CatalogServiceApi.DataAccess.Repostories.Categories;
+using CatalogServiceApi.Application.DTOs.Products;
+using CatalogServiceApi.Application.Services.Products;
+using CatalogServiceApi.DataAccess.Repostories.Products;
 
 namespace CatalogServiceApi.Test.Features.Categories.Services
 {
@@ -23,6 +26,20 @@ namespace CatalogServiceApi.Test.Features.Categories.Services
             var res = await sut.DeleteAsync(It.IsAny<int>());
 
             res.Should().BeTrue();
+        }
+
+        [Theory]
+        [AutoMoqData]
+        public async Task GetAllAsync_Should_return_Success(List<Category> categories,
+        [Frozen] Mock<ICategoryRepository> categoryRepositoryMock,
+        [Greedy] CategoryService sut)
+        {
+            categoryRepositoryMock.Setup(s => s.GetAllAsync()).ReturnsAsync(categories);
+
+            var res = await sut.GetAllAsync();
+
+            res.Should().NotBeNull();
+            res.Should().BeAssignableTo<IEnumerable<CategoryResponseDto>>();
         }
 
         [Theory]
