@@ -6,6 +6,7 @@ using CatalogServiceApi.IntegrationTest.Extensions;
 using CatalogServiceApi.IntegrationTest.Services;
 using FluentAssertions;
 using IntegrationTest;
+using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http.Headers;
 
 namespace CatalogServiceApi.IntegrationTest.Features.Products
@@ -13,15 +14,16 @@ namespace CatalogServiceApi.IntegrationTest.Features.Products
     public class ProductFailureTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
 
         public ProductFailureTests(CustomWebApplicationFactory<Program> factory)
         {
             _client = factory.CreateClient();
-            _authService = new AuthService();
+            using var scope = factory.Services.CreateScope();
+            _authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
         }
 
-       
+
         [Theory]
         [AutoMoqData]
         public async Task GetById_Should_Return_NotFound_When_Product_Does_Not_Exist(CreateProductDto productDto)

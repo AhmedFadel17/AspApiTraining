@@ -1,13 +1,19 @@
 ﻿using CatalogServiceApi.Application;
 using CatalogServiceApi.DataAccess;
 using CatalogServiceApi.Domain;
+using CatalogServiceApi.Domain.Settings;
+using CatalogServiceApi.WebUi.Configurations;
 using CatalogServiceApi.WebUi.Middlewares;
 using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics.CodeAnalysis;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Configuration
+    .AddJsonFile("appsettings.json", false, true)
+    .AddUserSecrets<Program>()
+    .AddEnvironmentVariables()
+    .Build();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -17,19 +23,18 @@ builder.Services.AddDomainServices();
 await builder.Services.AddDataAccessServices(builder.Configuration);
 
 await builder.Services.AddApplicationServices();
-var identityUrl = builder.Configuration.GetValue<string>("IdentityUrl");
-var clientId = builder.Configuration.GetValue<string>("ClientId");
-
+var identitySettings = builder.Configuration.GetJsonSection<IdentitySetting>("IdentitySettings");
+builder.Services.AddSingleton<IdentitySetting>(identitySettings);
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
-        options.Authority = identityUrl;
+        options.Authority = identitySettings.Url;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = identityUrl,
+            ValidIssuer = identitySettings.Url,
             ValidateAudience = false,
-            ValidAudience = "client2",
+            ValidAudience = identitySettings.ClientId,
             ValidateLifetime = true,
 
             RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",

@@ -8,19 +8,21 @@ using CatalogServiceApi.IntegrationTest.Extensions;
 using CatalogServiceApi.IntegrationTest.Services;
 using FluentAssertions;
 using IntegrationTest;
+using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http.Headers;
 
 namespace CatalogServiceApi.IntegrationTest.Features.Categories
 {
-    public class ProductsSuccessTests : IClassFixture<CustomWebApplicationFactory<Program>>
+    public class CategoriesSuccessTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
 
-        public ProductsSuccessTests(CustomWebApplicationFactory<Program> factory)
+        public CategoriesSuccessTests(CustomWebApplicationFactory<Program> factory)
         {
             _client = factory.CreateClient();
-            _authService = new AuthService();
+            using var scope = factory.Services.CreateScope();
+            _authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
         }
 
         [Theory]

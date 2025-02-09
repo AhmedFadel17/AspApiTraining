@@ -1,59 +1,59 @@
-﻿using CatalogServiceApi.Application.DTOs.Products;
-using CatalogServiceApi.Domain.Enums;
+﻿using CatalogServiceApi.Domain.Enums;
+using CatalogServiceApi.Domain.Settings;
 using CatalogServiceApi.IntegrationTest.Extensions;
-using FluentAssertions;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Microsoft.Extensions.Caching.Memory;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace CatalogServiceApi.IntegrationTest.Services
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
         private readonly HttpClient _client;
-        private readonly string _identityServerUrl;
+        private readonly IdentitySetting _settings;
+        private readonly IMemoryCache _cache;
 
-        // Static constructor to load configuration once
-        public AuthService()
+        public AuthService(IdentitySetting identitySetting, IMemoryCache memoryCache)
         {
-            //_identityServerUrl = configuration.GetValue<string>("IdentityUrl");
-            _identityServerUrl = "https://localhost:7092";
-            _client =new HttpClient();
+            _settings = identitySetting;
+            _client = new HttpClient();
+            _cache = memoryCache;
         }
 
-        private static readonly Dictionary<UserRole, (string username, string password)> TestUsers =
-            new()
-            {
-                { UserRole.Manager, ("ahmedfadel", "Ahmed2_") },
-                { UserRole.Customer, ("test_customer_2", "Customer33_") },
-                { UserRole.Store, ("test_store_3", "Store2_") }
-            };
+
+
+        // I memory cache
         public async Task<string> GetTokenAsync(UserRole role)
         {
-            if (!TestUsers.TryGetValue(role, out var user))
+            string cacheKey = $"AuthToken_{role}";
+
+            if (_cache.TryGetValue(cacheKey, out string cachedToken))
+            {
+                return cachedToken;
+            }
+            var user = _settings.TestUsers.FirstOrDefault(u => u.Role == role.ToString());
+
+            if (user == null)
                 throw new ArgumentException("Invalid role provided", nameof(role));
 
-            var request = new HttpRequestMessage(HttpMethod.Post, $"{_identityServerUrl}/connect/token")
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{_settings.Url}/connect/token")
             {
                 Content = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
-                    {"client_id","client2" },
-                    { "grant_type", "password" },
-                    { "username", user.username },
-                    { "client_secret", "78195A38-7268-7268-8F2E-8F4EB3FECF34" },
-                    {"password",user.password },
-                    { "scope", "scope1" }
+                    {"client_id",_settings.ClientId },
+                    { "grant_type", _settings.GrantType },
+                    { "username", user.Username },
+                    { "client_secret", _settings.ClientSecret },
+                    {"password",user.Password },
+                    { "scope", _settings.Scope }
                 })
             };
 
             var response = await _client.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var result = await response.Content.ReadAsJsonAsync<TokenResponse>();
-            return result.access_token;
+            string token = result.access_token;
+            _cache.Set(cacheKey, token, TimeSpan.FromHours(1));
+            return token;
         }
     }
 

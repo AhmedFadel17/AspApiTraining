@@ -1,6 +1,7 @@
 ﻿using CatalogServiceApi.Application.DTOs.Products;
 using CatalogServiceApi.IntegrationTest.AutoFixture;
 using CatalogServiceApi.IntegrationTest.Extensions;
+using CatalogServiceApi.IntegrationTest.Services;
 using FluentAssertions;
 using IntegrationTest;
 
