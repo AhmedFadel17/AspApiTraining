@@ -24,6 +24,11 @@ namespace CatalogServiceApi.IdentityServer.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (!Enum.IsDefined(typeof(UserRole), model.Role))
+            {
+                return BadRequest(new { Message = "Invalid role provided" });
+            }
+
             var user = new ApplicationUser
             {
                 UserName = model.Username,
@@ -34,8 +39,9 @@ namespace CatalogServiceApi.IdentityServer.Controllers
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, UserRole.Manager.ToString());
-                await _userManager.AddClaimAsync(user, new Claim("role", UserRole.Manager.ToString()));
+                string roleName = model.Role.ToString();
+                await _userManager.AddToRoleAsync(user, roleName);
+                await _userManager.AddClaimAsync(user, new Claim("role", roleName));
                 return Ok(new { Message = "User registered successfully" });
             }
 

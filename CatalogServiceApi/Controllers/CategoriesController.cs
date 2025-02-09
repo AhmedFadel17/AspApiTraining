@@ -17,7 +17,6 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles ="Manager")]
         public async Task<IActionResult> All()
         {
             var categories = await _service.GetAllAsync();
@@ -25,7 +24,6 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = nameof(UserRole.Store))]
         [Route("{id:int}")]
         public async Task<IActionResult> GetById(int id) {
             var category =await _service.GetByIdAsync(id);
@@ -33,7 +31,7 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = nameof(UserRole.Customer))]
+        [Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)}")]
         public async Task<IActionResult> Create(CreateCategoryDto categoryDto) 
         {
             var category=await _service.CreateAsync(categoryDto);
@@ -42,6 +40,7 @@ namespace CatalogServiceAPI.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
+        [Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)}")]
         public async Task<IActionResult> Update(int id,UpdateCategoryDto categoryDto) 
         {
             var category = await _service.UpdateAsync(id, categoryDto);
@@ -50,6 +49,7 @@ namespace CatalogServiceAPI.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize(Roles = nameof(UserRole.Manager))]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _service.DeleteAsync(id);

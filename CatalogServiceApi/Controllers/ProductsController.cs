@@ -1,5 +1,7 @@
 ﻿using CatalogServiceApi.Application.DTOs.Products;
 using CatalogServiceApi.Application.Interfaces.Products;
+using CatalogServiceApi.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogServiceAPI.Controllers
@@ -29,7 +31,15 @@ namespace CatalogServiceAPI.Controllers
             return Ok(product);
         }
 
+        [HttpGet("by-name/{name}")]
+        public async Task<IActionResult> GetByName(string name)
+        {
+            var product = await _service.GetByNameAsync(name);
+            return Ok(product);
+        }
+
         [HttpGet("by-price-range")]
+        [Authorize(Roles = nameof(UserRole.Manager))]
         public async Task<IActionResult> GetByPrice([FromQuery] decimal min, [FromQuery] decimal max)
         {
             var product = await _service.GetByPriceAsync(min,max);
@@ -37,6 +47,7 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)}")]
         public async Task<IActionResult> Create(CreateProductDto productDto)
         {
             var product = await _service.CreateAsync(productDto);
@@ -45,6 +56,7 @@ namespace CatalogServiceAPI.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
+        [Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)}")]
         public async Task<IActionResult> Update(int id, UpdateProductDto productDto)
         {
             var product = await _service.UpdateAsync(id, productDto);
@@ -53,6 +65,7 @@ namespace CatalogServiceAPI.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize(Roles = nameof(UserRole.Manager))]
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _service.DeleteAsync(id);

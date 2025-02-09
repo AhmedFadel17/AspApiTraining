@@ -62,6 +62,20 @@ namespace CatalogServiceApi.Test.Featrues.Products.Controllers
 
         [Theory]
         [AutoMoqData]
+        public async Task GetByName_return_success(ProductResponseDto productResponseDto,
+            [Frozen] Mock<IProductService> productServiceMock,
+            [Greedy] ProductsController sut)
+        {
+            productServiceMock.Setup(s => s.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(productResponseDto);
+
+            var res = await sut.GetByName(It.IsAny<string>());
+
+            res.Should().NotBeNull();
+            res.Should().BeOfType<OkObjectResult>();
+        }
+
+        [Theory]
+        [AutoMoqData]
         public async Task Create_return_success(CreateProductDto productDto,
             ProductResponseDto productResponseDto,
             [Frozen] Mock<IProductService> productServiceMock,
