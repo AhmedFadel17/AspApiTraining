@@ -10,6 +10,7 @@ namespace CatalogServiceApi.DataAccess.Data
         private readonly ApplicationDbContext _context;
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductAttachment> ProductAttachments { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }

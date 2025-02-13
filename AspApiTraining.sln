@@ -21,6 +21,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{AE7699CE-5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogServiceApi.IntegrationTest", "IntegrationTest\CatalogServiceApi.IntegrationTest.csproj", "{AB0CDFD0-8746-4859-BBAF-D4D0E3261D0A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalApi", "ExternalApi", "{802EF955-3F43-4844-8AF8-B77D751F6F90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalAPi", "ExternalAPi\ExternalAPi.csproj", "{78AE4FB6-17C3-46BC-B1B3-EA742354C300}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,10 @@ Global
 		{AB0CDFD0-8746-4859-BBAF-D4D0E3261D0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB0CDFD0-8746-4859-BBAF-D4D0E3261D0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB0CDFD0-8746-4859-BBAF-D4D0E3261D0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78AE4FB6-17C3-46BC-B1B3-EA742354C300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78AE4FB6-17C3-46BC-B1B3-EA742354C300}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78AE4FB6-17C3-46BC-B1B3-EA742354C300}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78AE4FB6-17C3-46BC-B1B3-EA742354C300}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,5 +76,6 @@ Global
 		{AC4AF6ED-3ECE-4BA2-B5FF-E549C25C1D51} = {AE7699CE-50F3-42B7-B92A-4468506103E6}
 		{AE7699CE-50F3-42B7-B92A-4468506103E6} = {2DAFD438-5BA3-4A62-B0B6-92395A06D904}
 		{AB0CDFD0-8746-4859-BBAF-D4D0E3261D0A} = {AE7699CE-50F3-42B7-B92A-4468506103E6}
+		{78AE4FB6-17C3-46BC-B1B3-EA742354C300} = {802EF955-3F43-4844-8AF8-B77D751F6F90}
 	EndGlobalSection
 EndGlobal

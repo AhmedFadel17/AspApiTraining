@@ -4,6 +4,7 @@ using CatalogServiceApi.Domain;
 using CatalogServiceApi.Domain.Settings;
 using CatalogServiceApi.WebUi.Configurations;
 using CatalogServiceApi.WebUi.Middlewares;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics.CodeAnalysis;
 
@@ -21,10 +22,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDomainServices();
 await builder.Services.AddDataAccessServices(builder.Configuration);
+builder.Services.AddSingleton<ExternalServiceSetting>(builder.Configuration.GetJsonSection<ExternalServiceSetting>("ExternalServiceSettings"));
 
 await builder.Services.AddApplicationServices();
+//builder.Services.AddSingleton<ExternalServiceSetting>(builder.Configuration.GetJsonSection<ExternalServiceSetting>("ExternalServiceSettings"));
+
 var identitySettings = builder.Configuration.GetJsonSection<IdentitySetting>("IdentitySettings");
 builder.Services.AddSingleton<IdentitySetting>(identitySettings);
+
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {

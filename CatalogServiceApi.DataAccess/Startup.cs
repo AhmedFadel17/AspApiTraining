@@ -6,6 +6,7 @@ using CatalogServiceApi.DataAccess.Repostories.Categories;
 using CatalogServiceApi.DataAccess.Repostories.Products;
 using CatalogServiceApi.DataAccess.Repostories;
 using System.Diagnostics.CodeAnalysis;
+using CatalogServiceApi.DataAccess.Repostories.ProductAttachments;
 
 namespace CatalogServiceApi.DataAccess
 {
@@ -17,6 +18,7 @@ namespace CatalogServiceApi.DataAccess
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductAttachmentsRepository, ProductAttachmentsRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             //services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("TestDb"));
