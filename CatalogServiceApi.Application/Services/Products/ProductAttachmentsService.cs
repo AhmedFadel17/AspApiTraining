@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using CatalogServiceApi.Application.Cache;
 using CatalogServiceApi.Application.DTOs.ProductAttachments;
+using CatalogServiceApi.Application.DTOs.Products;
 using CatalogServiceApi.Application.Extensions;
 using CatalogServiceApi.Application.Interfaces.Products;
+using CatalogServiceApi.Application.Providers;
 using CatalogServiceApi.DataAccess.Repostories.ProductAttachments;
 using CatalogServiceApi.Domain.Enums;
 using CatalogServiceApi.Domain.Models;
@@ -15,28 +17,15 @@ namespace CatalogServiceApi.Application.Services.Products
 {
     public class ProductAttachmentsService : IProductAttachmentsService
     {
-        private readonly HttpClient _client;
-        private readonly ExternalServiceSetting _settings;
-        private readonly AsyncRetryPolicy<HttpResponseMessage> _retryPolicy;
+        private readonly IExternalServiceProvider _provider;
         private readonly IProductAttachmentsRepository _repository;
         private readonly IMapper _mapper;
-        private readonly ICustomCache _customCache;
 
-        public ProductAttachmentsService(ExternalServiceSetting externalService,  IProductAttachmentsRepository repository,IMapper mapper,ICustomCache customCache)
+        public ProductAttachmentsService(IExternalServiceProvider provider,  IProductAttachmentsRepository repository,IMapper mapper)
         {
-            _client = new HttpClient();
-            _settings = externalService;
+            _provider=provider;
             _mapper= mapper;
             _repository = repository;
-            _customCache = customCache;
-
-            // Polly Retry Policy (Exponential Backoff)
-            _retryPolicy = HttpPolicyExtensions
-                .HandleTransientHttpError()
-                .WaitAndRetryAsync(_settings.RetriesCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
-                    (outcome, timespan, retryCount, context) =>
-                    {
-                    });
         }
 
         public async Task<ProductAttachmentsResponseDto> GetProductAttachments(int productId)
@@ -52,7 +41,7 @@ namespace CatalogServiceApi.Application.Services.Products
 
             foreach (var type in attachmentTypes)
             {
-                tasks.Add(FetchAttachmentAsync(productId, type));
+                tasks.Add(_provider.FetchAttachmentAsync(productId, type));
             }
 
             var results = await Task.WhenAll(tasks);
@@ -66,34 +55,22 @@ namespace CatalogServiceApi.Application.Services.Products
             return _mapper.Map<ProductAttachmentsResponseDto>(createdAttachment);
         }
 
-        private async Task<ProductAttachmentDto> FetchAttachmentAsync(int productId, AttachmentsType type)
+        public async Task<ProductAttachmentsResponseDto> CreateAsync(CreateProductAttachmentsDto dto)
         {
-            string url = $"{_settings.Url}/api/Attachments/{productId}/{type.ToString()}";
-            var cachedObject = _customCache.Get<ProductAttachmentDto>(url);
-            if (cachedObject != null) return cachedObject;
-            var response = await _retryPolicy.ExecuteAsync(async () =>
-            {
-                var request = new HttpRequestMessage(HttpMethod.Get, url);
-                var response = await _client.SendAsync(request);
-                return response;
-                
-            });
-            if (!response.IsSuccessStatusCode)
-            {
-                string errorMessage = await response.Content.ReadAsStringAsync();
-                throw new HttpRequestException($"Failed to fetch attachment: {response.StatusCode} - {errorMessage}");
-            }
-
-            ProductAttachmentDto data = type switch
-            {
-                AttachmentsType.Brand => await response.Content.ReadAsJsonAsync<ProductBrandAttachmentsDto>(),
-                AttachmentsType.Discount => await response.Content.ReadAsJsonAsync<ProductDiscountAttachmentsDto>(),
-                AttachmentsType.Media => await response.Content.ReadAsJsonAsync<ProductMediaAttachmentsDto>(),
-                _ => throw new InvalidOperationException("Unknown attachment type")
-            };
-            _customCache.Set<ProductAttachmentDto>(url, data, TimeSpan.FromSeconds(_settings.CacheInSeconds));
-            return data;
-
+            var product = _mapper.Map<ProductAttachment>(dto);
+            var createdProduct = await _repository.CreateAsync(product);
+            return _mapper.Map<ProductAttachmentsResponseDto>(createdProduct);
         }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var productAtt = await _repository.GetByIdAsync(id);
+            if (productAtt == null) throw new KeyNotFoundException("Product Attachments Not Found");
+            _repository.Remove(productAtt);
+            await _repository.SaveChangesAsync();
+            return true;
+        }
+
+
     }
 }

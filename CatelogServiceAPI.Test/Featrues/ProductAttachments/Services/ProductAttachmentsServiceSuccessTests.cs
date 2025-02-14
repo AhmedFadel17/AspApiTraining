@@ -1,23 +1,15 @@
 ﻿using AutoFixture.Xunit2;
-using CatalogServiceApi.Application.Cache;
 using CatalogServiceApi.Application.DTOs.ProductAttachments;
 using CatalogServiceApi.Application.DTOs.Products;
+using CatalogServiceApi.Application.Providers;
 using CatalogServiceApi.Application.Services.Products;
 using CatalogServiceApi.DataAccess.Repostories.ProductAttachments;
-using CatalogServiceApi.DataAccess.Repostories.Products;
+using CatalogServiceApi.Domain.Enums;
 using CatalogServiceApi.Domain.Models;
 using CatalogServiceApi.Test.AutoFixture;
 using FluentAssertions;
 using Moq;
-using Moq.Protected;
-//using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+
 
 namespace CatalogServiceApi.Test.Featrues.ProductAttachments.Services
 {
@@ -27,47 +19,66 @@ namespace CatalogServiceApi.Test.Featrues.ProductAttachments.Services
         [Theory]
         [AutoMoqData]
         public async Task GetProductAttachments_Should_return_Success(
-            string url,
+            int productId,
             ProductAttachment productAttachment,
-            ProductMediaAttachmentsDto mediaDto,
-            ProductDiscountAttachmentsDto discountDto,
-            ProductBrandAttachmentsDto brandDto,
-            Mock<HttpMessageHandler> httpMessageHandlerMock,
-            [Frozen] Mock<IProductAttachmentsRepository> productAttRepositoryMock,
+            [Frozen] Mock<IExternalServiceProvider> providerMock,
+            [Frozen] Mock<IProductAttachmentsRepository> repositoryMock,
             [Greedy] ProductAttachmentsService sut)
         {
-            // Arrange
-            SetupHttpResponse(httpMessageHandlerMock, url, mediaDto);
-            SetupHttpResponse(httpMessageHandlerMock, url, discountDto);
-            SetupHttpResponse(httpMessageHandlerMock, url, brandDto);
 
-            // Mock Database Insertions
-            productAttRepositoryMock.Setup(s => s.CreateAsync(It.IsAny<ProductAttachment>()))
-                                    .ReturnsAsync(productAttachment);
+            // Arrange
+            var brandDto = new ProductBrandAttachmentsDto { AttachmentType = AttachmentsType.Brand };
+            var discountDto = new ProductDiscountAttachmentsDto { AttachmentType = AttachmentsType.Discount };
+            var mediaDto = new ProductMediaAttachmentsDto { AttachmentType = AttachmentsType.Media };
+
+            providerMock.Setup(p => p.FetchAttachmentAsync(productId, AttachmentsType.Brand))
+                .ReturnsAsync(brandDto);
+            providerMock.Setup(p => p.FetchAttachmentAsync(productId, AttachmentsType.Discount))
+                .ReturnsAsync(discountDto);
+            providerMock.Setup(p => p.FetchAttachmentAsync(productId, AttachmentsType.Media))
+                .ReturnsAsync(mediaDto);
+
+            repositoryMock.Setup(r => r.CreateAsync(productAttachment)).ReturnsAsync(productAttachment);
 
             // Act
-            var result = await sut.GetProductAttachments(productAttachment.ProductId);
+            var result = await sut.GetProductAttachments(productId);
 
             // Assert
             result.Should().NotBeNull();
+            providerMock.Verify(p => p.FetchAttachmentAsync(productId, AttachmentsType.Brand), Times.Once);
+            providerMock.Verify(p => p.FetchAttachmentAsync(productId, AttachmentsType.Discount), Times.Once);
+            providerMock.Verify(p => p.FetchAttachmentAsync(productId, AttachmentsType.Media), Times.Once);
             result.Should().BeAssignableTo<ProductAttachmentsResponseDto>();
         }
 
-        private void SetupHttpResponse<T>(Mock<HttpMessageHandler> httpMessageHandlerMock, string url, T responseDto)
+        [Theory]
+        [AutoMoqData]
+        public async Task CreateAsync_Should_return_Success(CreateProductAttachmentsDto createProductDto, ProductAttachment productAttachment,
+        [Frozen] Mock<IProductAttachmentsRepository> productRepositoryMock,
+        [Greedy] ProductAttachmentsService sut)
         {
-            var jsonResponse = JsonSerializer.Serialize(responseDto);
-            var mockResponse = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(jsonResponse)
-            };
+            productRepositoryMock.Setup(s => s.CreateAsync(productAttachment)).ReturnsAsync(productAttachment);
 
-            httpMessageHandlerMock.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.Is<HttpRequestMessage>(req => req.RequestUri.ToString() == url),
-                    ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(mockResponse);
+            var res = await sut.CreateAsync(createProductDto);
+
+            res.Should().NotBeNull();
+            res.Should().BeAssignableTo<ProductAttachmentsResponseDto>();
+        }
+
+        [Theory]
+        [AutoMoqData]
+        public async Task DeleteAsync_Should_return_Success(ProductAttachment productAttachment,
+        [Frozen] Mock<IProductAttachmentsRepository> productRepositoryMock,
+        [Greedy] ProductAttachmentsService sut)
+        {
+            //Arrange             
+            productRepositoryMock.Setup(s => s.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(productAttachment);
+
+            // Act            
+            var res = await sut.DeleteAsync(It.IsAny<int>());
+
+            //Assert 
+            res.Should().BeTrue();
         }
     }
 }

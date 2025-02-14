@@ -20,6 +20,7 @@ namespace CatalogServiceApi.Application.Mapping
             CreateMap<UpdateProductDto, Product>();
             CreateMap<Product, ProductResponseDto>();
 
+
             CreateMap<ProductBrandAttachmentsDto, ProductAttachment>()
             .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.BrandName))
             .ForMember(dest => dest.BrandDescription, opt => opt.MapFrom(src => src.BrandDescription))
@@ -38,7 +39,7 @@ namespace CatalogServiceApi.Application.Mapping
 
             // Custom mapping to merge all three DTOs into ProductAttachment
             CreateMap<(int productId,ProductBrandAttachmentsDto? brand, ProductDiscountAttachmentsDto? discount, ProductMediaAttachmentsDto? media), ProductAttachment>()
-                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.productId)) // Default to 0 if all are null
+                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.productId))
                 .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.brand != null ? src.brand.BrandName : null))
                 .ForMember(dest => dest.BrandDescription, opt => opt.MapFrom(src => src.brand != null ? src.brand.BrandDescription : null))
                 .ForMember(dest => dest.BrandPhone, opt => opt.MapFrom(src => src.brand != null ? src.brand.BrandPhone : null))
@@ -47,9 +48,9 @@ namespace CatalogServiceApi.Application.Mapping
                 .ForMember(dest => dest.ExpiryDate, opt => opt.MapFrom(src => src.discount.ExpiryDate))
                 .ForMember(dest => dest.MediaUrl, opt => opt.MapFrom(src => src.media != null ? src.media.MediaUrl : null))
                 .ForMember(dest => dest.MediaType, opt => opt.MapFrom(src => src.media != null ? src.media.MediaType : null));
-        
 
-        CreateMap<ProductAttachment, ProductAttachmentsResponseDto>();
+            CreateMap<CreateProductAttachmentsDto, ProductAttachment>();
+            CreateMap<ProductAttachment, ProductAttachmentsResponseDto>();
 
         }
     }

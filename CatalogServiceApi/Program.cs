@@ -1,4 +1,5 @@
 ﻿using CatalogServiceApi.Application;
+using CatalogServiceApi.Application.Providers;
 using CatalogServiceApi.DataAccess;
 using CatalogServiceApi.Domain;
 using CatalogServiceApi.Domain.Settings;
@@ -22,10 +23,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDomainServices();
 await builder.Services.AddDataAccessServices(builder.Configuration);
-builder.Services.AddSingleton<ExternalServiceSetting>(builder.Configuration.GetJsonSection<ExternalServiceSetting>("ExternalServiceSettings"));
+var externalSettings = builder.Configuration.GetJsonSection<ExternalServiceSetting>("ExternalServiceSettings");
+builder.Services.AddSingleton<ExternalServiceSetting>(externalSettings);
 
 await builder.Services.AddApplicationServices();
-//builder.Services.AddSingleton<ExternalServiceSetting>(builder.Configuration.GetJsonSection<ExternalServiceSetting>("ExternalServiceSettings"));
+builder.Services.AddHttpClient<IExternalServiceProvider, ExternalServiceProvider>()
+    .ConfigureHttpClient((service,client) => {
+        client.BaseAddress = new Uri(externalSettings.Url);
+
+    });
 
 var identitySettings = builder.Configuration.GetJsonSection<IdentitySetting>("IdentitySettings");
 builder.Services.AddSingleton<IdentitySetting>(identitySettings);

@@ -1,6 +1,7 @@
 ﻿using CatalogServiceApi.Application.Cache;
 using CatalogServiceApi.Application.Interfaces.Categories;
 using CatalogServiceApi.Application.Interfaces.Products;
+using CatalogServiceApi.Application.Providers;
 using CatalogServiceApi.Application.Services.Categories;
 using CatalogServiceApi.Application.Services.Products;
 using CatalogServiceApi.Domain.Settings;
@@ -23,7 +24,6 @@ namespace CatalogServiceApi.Application
             services.AddMemoryCache();
             services.AddScoped<IProductAttachmentsService, ProductAttachmentsService>();
             services.AddSingleton<ICustomCache, CustomCache>();
-
             return Task.FromResult(services);
         }
     }

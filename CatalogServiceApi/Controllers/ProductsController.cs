@@ -31,6 +31,7 @@ namespace CatalogServiceAPI.Controllers
             return Ok(product);
         }
 
+
         [HttpGet("by-name/{name}")]
         public async Task<IActionResult> GetByName(string name)
         {
