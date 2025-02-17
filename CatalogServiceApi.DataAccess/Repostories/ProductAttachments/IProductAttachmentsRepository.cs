@@ -9,5 +9,9 @@ namespace CatalogServiceApi.DataAccess.Repostories.ProductAttachments
 {
     public interface IProductAttachmentsRepository : IBaseRepository<ProductAttachment>
     {
+        Task<IEnumerable<ProductAttachment>> GetByBrandNameLinqAsync(string name);
+        Task<IEnumerable<ProductAttachment>> GetByBrandNameDLinqAsync(string name);
+        Task<IEnumerable<ProductAttachment>> GetByBrandNameDEAsync(string name);
+        Task<IEnumerable<ProductAttachment>> GetByBrandNameEMAsync(string name);
     }
 }

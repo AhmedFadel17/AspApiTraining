@@ -39,5 +39,13 @@ namespace CatalogServiceApi.WebUi.Controllers
             var product = await _service.CreateAsync(dto);
             return Ok(product);
         }
+
+        [HttpGet]
+        [Route("api/product/attachments")]
+        public async Task<IActionResult> GetByName([FromQuery] string name, [FromQuery] int type)
+        {
+            var attachments = await _service.GetAttachmentsByNameAsync(name,type);
+            return Ok(attachments);
+        }
     }
 }

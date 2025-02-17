@@ -7,6 +7,7 @@ namespace CatalogServiceApi.Application.Interfaces.Products
         Task<ProductAttachmentsResponseDto> GetProductAttachments(int id);
         Task<bool> DeleteAsync(int id);
         Task<ProductAttachmentsResponseDto> CreateAsync(CreateProductAttachmentsDto dto);
+        Task<List<ProductAttachmentsResponseDto>> GetAttachmentsByNameAsync(string name,int type);
 
     }
 }

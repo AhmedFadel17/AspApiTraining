@@ -30,7 +30,10 @@ await builder.Services.AddApplicationServices();
 builder.Services.AddHttpClient<IExternalServiceProvider, ExternalServiceProvider>()
     .ConfigureHttpClient((service,client) => {
         client.BaseAddress = new Uri(externalSettings.Url);
-
+    })
+    .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
     });
 
 var identitySettings = builder.Configuration.GetJsonSection<IdentitySetting>("IdentitySettings");

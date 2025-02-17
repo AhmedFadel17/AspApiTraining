@@ -71,6 +71,18 @@ namespace CatalogServiceApi.Application.Services.Products
             return true;
         }
 
+        public async Task<List<ProductAttachmentsResponseDto>> GetAttachmentsByNameAsync(string name,int type)
+        {
 
+            var attachments = type switch
+            {
+                0 => await _repository.GetByBrandNameLinqAsync(name),
+                1 => await _repository.GetByBrandNameDLinqAsync(name),
+                2 => await _repository.GetByBrandNameDEAsync(name),
+                3 => await _repository.GetByBrandNameEMAsync(name),
+                _ => throw new InvalidOperationException("Unknown type")
+            };
+            return _mapper.Map<List<ProductAttachmentsResponseDto>>(attachments);
+        }
     }
 }
