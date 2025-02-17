@@ -31,6 +31,13 @@ namespace CatalogServiceAPI.Controllers
             return Ok(product);
         }
 
+        //[HttpGet]
+        //[Route("{id:int}/a")]
+        //public async Task<IActionResult> GetByIdWithAttachments(int id, [FromQuery] bool withAttachments)
+        //{
+        //    var product = await _service.GetByIdAsync(id);
+        //    return Ok(product);
+        //}
 
         [HttpGet("by-name/{name}")]
         public async Task<IActionResult> GetByName(string name)
@@ -48,7 +55,7 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)}")]
+        //[Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)}")]
         public async Task<IActionResult> Create(CreateProductDto productDto)
         {
             var product = await _service.CreateAsync(productDto);

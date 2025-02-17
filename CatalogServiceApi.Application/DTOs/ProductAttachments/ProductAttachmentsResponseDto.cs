@@ -1,4 +1,5 @@
 ﻿using CatalogServiceApi.Domain.Enums;
+using CatalogServiceApi.Domain.Models;
 
 namespace CatalogServiceApi.Application.DTOs.ProductAttachments
 {
@@ -14,5 +15,6 @@ namespace CatalogServiceApi.Application.DTOs.ProductAttachments
         public DateTime? ExpiryDate { get; set; }
         public string? MediaUrl { get; set; }
         public string? MediaType { get; set; }
+        public Product? Product { get; set; }
     }
 }

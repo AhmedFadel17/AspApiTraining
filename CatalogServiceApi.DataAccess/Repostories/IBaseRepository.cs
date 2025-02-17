@@ -7,6 +7,8 @@
         Task<T> CreateAsync(T entity);
         void Update(T entity);
         void Remove(T entity);
+        void BulkRemove(IEnumerable<T> entityList);
+        void BulkUpdate(IEnumerable<T> entityList);
         Task SaveChangesAsync();
     }
 }

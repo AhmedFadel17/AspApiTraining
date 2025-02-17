@@ -3,6 +3,7 @@ using CatalogServiceApi.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Linq.Dynamic.Core;
+using CatalogServiceApi.DataAccess.Extensions;
 
 namespace CatalogServiceApi.DataAccess.Repostories.ProductAttachments
 {
@@ -45,14 +46,27 @@ namespace CatalogServiceApi.DataAccess.Repostories.ProductAttachments
         {
             return await _dbSet.FilterByBrandName(name).ToListAsync();
         }
-    }
 
-    // Extension method for filtering
-    public static class ProductAttachmentExtensions
-    {
-        public static IQueryable<ProductAttachment> FilterByBrandName(this IQueryable<ProductAttachment> query, string name)
+
+
+        public async Task<ProductAttachment> GetByIdWithProductAsync(int id)
         {
-            return query.Where(a => a.BrandName.Contains(name));
+            return await _dbSet
+                .Include(pa => pa.Product) 
+                .FirstOrDefaultAsync(pa => pa.Id == id);
+        }
+
+        public async Task<IEnumerable<ProductAttachment>> GetAllWithFiltersAsync
+            (string name, string productName, decimal minProductPrice, int minDiscount, string categoryName)
+        {
+            return await _dbSet.FilterByBrandName(name)
+                .FilterByProductName(productName)
+                .FilterByCategoryName(categoryName)
+                .FilterByMinProductPrice(minProductPrice)
+                .FilterByMinDiscountPercentage(minDiscount)
+                .Include(pa => pa.Product)
+                .ToListAsync();
         }
     }
+    
 }

@@ -7,6 +7,7 @@ using CatalogServiceApi.DataAccess.Repostories.Products;
 using CatalogServiceApi.DataAccess.Repostories;
 using System.Diagnostics.CodeAnalysis;
 using CatalogServiceApi.DataAccess.Repostories.ProductAttachments;
+using Microsoft.Extensions.Logging;
 
 namespace CatalogServiceApi.DataAccess
 {
@@ -20,8 +21,10 @@ namespace CatalogServiceApi.DataAccess
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductAttachmentsRepository, ProductAttachmentsRepository>();
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("TestDb"));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+                .EnableSensitiveDataLogging()
+                .LogTo(Console.WriteLine, LogLevel.Information)
+            );
             return Task.FromResult(services);
         }
     }

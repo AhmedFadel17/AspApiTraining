@@ -13,5 +13,7 @@ namespace CatalogServiceApi.DataAccess.Repostories.ProductAttachments
         Task<IEnumerable<ProductAttachment>> GetByBrandNameDLinqAsync(string name);
         Task<IEnumerable<ProductAttachment>> GetByBrandNameDEAsync(string name);
         Task<IEnumerable<ProductAttachment>> GetByBrandNameEMAsync(string name);
+        Task<IEnumerable<ProductAttachment>> GetAllWithFiltersAsync(string name,string productName,decimal minProductPrice,int minDiscount,string categoryName);
+        Task<ProductAttachment> GetByIdWithProductAsync(int id);
     }
 }

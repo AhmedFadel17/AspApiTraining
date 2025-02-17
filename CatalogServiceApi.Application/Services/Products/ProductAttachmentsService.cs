@@ -12,6 +12,7 @@ using CatalogServiceApi.Domain.Settings;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Retry;
+using System.Net.Mail;
 
 namespace CatalogServiceApi.Application.Services.Products
 {
@@ -83,6 +84,39 @@ namespace CatalogServiceApi.Application.Services.Products
                 _ => throw new InvalidOperationException("Unknown type")
             };
             return _mapper.Map<List<ProductAttachmentsResponseDto>>(attachments);
+        }
+
+        public async Task<ProductAttachmentsResponseDto> GetByIdAsync(int id)
+        {
+            var attachment = await _repository.GetByIdWithProductAsync(id);
+            if (attachment == null) throw new KeyNotFoundException("Attachment Not Found");
+            return _mapper.Map<ProductAttachmentsResponseDto>(attachment);
+        }
+
+        public async Task<List<ProductAttachmentsResponseDto>> GetAllWithFiltersAsync(string name, string productName, decimal minProductPrice, int minDiscount, string categoryName)
+        {
+            var attachments = await _repository.GetAllWithFiltersAsync(name,productName,minProductPrice,minDiscount,categoryName);
+            return _mapper.Map<List<ProductAttachmentsResponseDto>>(attachments);
+        }
+
+        public async Task<int> BulkDeleteByNameAsync(AttachmentsBulkDeleteDto dto)
+        {
+            var attachments = await _repository.GetByBrandNameLinqAsync(dto.Name);
+            _repository.BulkRemove(attachments);
+            await _repository.SaveChangesAsync();
+            return attachments.Count();
+        }
+
+        public async Task<int> BulkUpdateNameAsync(AttachmentsBulkUpdateDto dto)
+        {
+            var attachments = await _repository.GetByBrandNameLinqAsync(dto.Name);
+            foreach (var attachment in attachments)
+            {
+                attachment.BrandName = dto.NewName;
+            }
+            _repository.BulkUpdate(attachments);
+            await _repository.SaveChangesAsync();
+            return attachments.Count();
         }
     }
 }

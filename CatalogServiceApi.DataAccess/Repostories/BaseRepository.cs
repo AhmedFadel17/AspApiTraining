@@ -46,5 +46,16 @@ namespace CatalogServiceApi.DataAccess.Repostories
         {
             await _context.SaveChangesAsync();
         }
+
+        public void BulkRemove(IEnumerable<T> entityList)
+        {
+            _dbSet.RemoveRange(entityList);
+        }
+
+        public void BulkUpdate(IEnumerable<T> entityList)
+        {
+            _dbSet.UpdateRange(entityList);
+        }
+
     }
 }

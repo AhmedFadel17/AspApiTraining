@@ -1,4 +1,6 @@
 ﻿
+using System.Text.Json.Serialization;
+
 namespace CatalogServiceApi.Domain.Models
 {
     public record ProductAttachment
@@ -13,5 +15,7 @@ namespace CatalogServiceApi.Domain.Models
         public DateTime? ExpiryDate { get; set; }
         public string? MediaUrl { get; set; }
         public string? MediaType { get; set; }
+        [JsonIgnore]
+        public Product? Product { get; set; }
     }
 }

@@ -11,5 +11,7 @@ namespace CatalogServiceApi.Domain.Models
         public required int CategoryId { get; set; }
         [JsonIgnore]
         public Category? Category { get; set; }
+        [JsonIgnore]
+        public ProductAttachment? Attachment { get; set; }
     }
 }

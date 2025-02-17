@@ -31,7 +31,7 @@ namespace CatalogServiceAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)}")]
+        //[Authorize(Roles = $"{nameof(UserRole.Manager)},{nameof(UserRole.Store)}")]
         public async Task<IActionResult> Create(CreateCategoryDto categoryDto) 
         {
             var category=await _service.CreateAsync(categoryDto);
