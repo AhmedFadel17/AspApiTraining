@@ -1,6 +1,10 @@
-﻿using CatalogServiceApi.DataAccess.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Diagnostics.CodeAnalysis;
+using CatalogServiceApi.DataAccess.Data;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace CatalogServiceApi.DataAccess.Repostories
 {
@@ -50,7 +54,17 @@ namespace CatalogServiceApi.DataAccess.Repostories
         public void BulkRemove(IEnumerable<T> entityList)
         {
             _dbSet.RemoveRange(entityList);
+
         }
+        public async Task<int> BulkDeleteAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbSet.Where(predicate).ExecuteDeleteAsync();
+        }
+        public async Task<int> BulkUpdateAsync(Expression<Func<T, bool>> predicate, Expression<Func<SetPropertyCalls<T>, SetPropertyCalls<T>>> updateExpression)
+        {
+            return await _dbSet.Where(predicate).ExecuteUpdateAsync(updateExpression);
+        }
+
 
         public void BulkUpdate(IEnumerable<T> entityList)
         {

@@ -1,18 +1,14 @@
 ﻿using AutoMapper;
-using CatalogServiceApi.Application.Cache;
 using CatalogServiceApi.Application.DTOs.ProductAttachments;
-using CatalogServiceApi.Application.DTOs.Products;
-using CatalogServiceApi.Application.Extensions;
 using CatalogServiceApi.Application.Interfaces.Products;
 using CatalogServiceApi.Application.Providers;
 using CatalogServiceApi.DataAccess.Repostories.ProductAttachments;
 using CatalogServiceApi.Domain.Enums;
 using CatalogServiceApi.Domain.Models;
-using CatalogServiceApi.Domain.Settings;
-using Polly;
-using Polly.Extensions.Http;
-using Polly.Retry;
-using System.Net.Mail;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace CatalogServiceApi.Application.Services.Products
 {
@@ -101,22 +97,15 @@ namespace CatalogServiceApi.Application.Services.Products
 
         public async Task<int> BulkDeleteByNameAsync(AttachmentsBulkDeleteDto dto)
         {
-            var attachments = await _repository.GetByBrandNameLinqAsync(dto.Name);
-            _repository.BulkRemove(attachments);
-            await _repository.SaveChangesAsync();
-            return attachments.Count();
+            return await _repository.BulkDeleteAsync(x => x.BrandName.Contains(dto.Name));           
         }
 
         public async Task<int> BulkUpdateNameAsync(AttachmentsBulkUpdateDto dto)
         {
-            var attachments = await _repository.GetByBrandNameLinqAsync(dto.Name);
-            foreach (var attachment in attachments)
-            {
-                attachment.BrandName = dto.NewName;
-            }
-            _repository.BulkUpdate(attachments);
-            await _repository.SaveChangesAsync();
-            return attachments.Count();
+            return await _repository.BulkUpdateAsync(x => x.BrandName.Contains(dto.Name), attch => attch
+            .SetProperty(p => p.BrandName , dto.NewName)
+            .SetProperty(p => p.BrandDescription, "New desc by M.Fadel"));           
+           
         }
     }
 }
